@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0c0c" />
+  <meta name="description" content="Григорий Беляев — full-stack и ML-разработчик, студент Иннополиса. Проекты от ML и API до интерфейса и деплоя. Код, личный вклад и контакты." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:title" content="Григорий Беляев / Full-stack + ML" />
+  <meta property="og:description" content="От данных до работающего интерфейса. Избранные проекты, инженерные решения и вклад в командную разработку." />
+  <title>Григорий Беляев — Full-stack + ML / bluvvis</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="skills-3d.css" />
+  <script src="portfolio.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержанию</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <header class="topbar" id="top">
+    <a class="wordmark" href="#top" aria-label="bluvvis — наверх">bluvvis<span aria-hidden="true">✳</span></a>
+    <p class="top-note">портфолио разработчика / 2026</p>
+    <nav aria-label="Основная навигация">
+      <a href="#work">работы</a><a href="#skills">стек</a><a href="#about">обо мне</a><a href="#contact">связь</a>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero section-shell" aria-labelledby="hero-title">
+      <div class="hero-banner"><span>система должна отвечать</span><span>Иннополис · <time id="metaClock" aria-label="Время в Иннополисе">UTC+3</time></span></div>
+      <div class="hero-main">
+        <div class="hero-copy">
+          <p class="eyebrow hero-name">Григорий Беляев / bluvvis</p>
+          <h1 id="hero-title">FULL-STACK<br /><span class="hero-plus">+</span> <em>ML</em><span class="title-dot" aria-hidden="true">.</span></h1>
+          <p class="hero-usp">От данных —<br />до работающего продукта.</p>
+          <p class="hero-intro">Разрабатываю API, веб-интерфейсы и ML-пайплайны. Связываю их в систему, которую можно запустить, проверить и развивать.</p>
+          <div class="actions"><a class="button button-primary" href="#work">Посмотреть проекты <span aria-hidden="true">↓</span></a><a class="text-link" href="#contact">Связаться <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <figure class="hero-portrait">
+          <img src="assets/grigorii-belyaev.jpg" alt="Григорий Беляев" width="2321" height="2321" fetchpriority="high" />
+          <figcaption><span>Григорий Беляев</span><span>студент Иннополиса</span></figcaption>
+          <span class="portrait-mark" aria-hidden="true">GB / 01</span>
+        </figure>
+      </div>
+      <div class="hero-foot"><p><span class="status-dot" aria-hidden="true"></span> Рассматриваю предложения о работе</p><button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false" hidden>Анимации: вкл</button><a href="https://github.com/bluvvis" target="_blank" rel="noopener noreferrer">github / bluvvis <span aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <section class="work section-shell" id="work" aria-labelledby="work-title">
+      <div class="section-mark"><span>01 / работы</span><span>личные проекты + командный вклад</span></div>
+      <div class="section-heading"><h2 id="work-title">Идея. Код.<br /><em>Работающая система.</em></h2><p>От самостоятельной разработки продукта до конкретных изменений в командных репозиториях.</p></div>
+      <article class="feature project-anchor" id="neberi" data-project-name="NEBERI">
+        <div class="feature-heading"><p class="eyebrow">01 / главный кейс · самостоятельная разработка</p><span class="project-kind">Full-stack + ML</span></div>
+        <h3 class="feature-title">NEBERI<span>.</span></h3>
+        <div class="feature-grid">
+          <div class="feature-copy">
+            <p class="lead">Скоринг риска SMS и звонков.<br />С объяснением каждого решения.</p>
+            <p>Проект для задачи МТС Защитник: объединить правила и ML-анализ текста, сохранить события и показать оператору, откуда взялась оценка риска.</p>
+            <dl class="case-facts">
+              <div><dt>Моя роль</dt><dd>Самостоятельно разработал систему: исследование и ML, API, базу данных, интерфейс, тесты и конфигурацию деплоя.</dd></div>
+              <div><dt>Реализация</dt><dd>FastAPI и PostgreSQL, правила в YAML, текстовый классификатор, React-консоль. Docker Compose для локального запуска, Helm для Kubernetes.</dd></div>
+              <div><dt>Результат</dt><dd>Сквозной сценарий от приёма события до оценки риска и объяснения в интерфейсе. Код, тесты и инструкции запуска доступны в репозитории.</dd></div>
+            </dl>
+            <p class="project-note">Проект признали лучшим на курсе и пригласили меня в команду. Предложение не принял: на тот момент не было подходящей мне позиции.</p>
+            <ul class="chips" aria-label="Стек NEBERI"><li>React</li><li>TypeScript</li><li>FastAPI</li><li>PostgreSQL</li><li>scikit-learn</li><li>Docker</li><li>Kubernetes</li></ul>
+            <div class="actions"><a class="button button-outline" href="https://github.com/bluvvis/NEBERI" target="_blank" rel="noopener noreferrer">Код и запуск NEBERI <span aria-hidden="true">↗</span></a><a class="text-link" href="#demo">Как считается риск <span aria-hidden="true">↓</span></a></div>
+          </div>
+          <figure class="project-image">
+            <a href="assets/neberi-presentation.jpg" target="_blank" rel="noopener" aria-label="Открыть коллаж интерфейса и презентации NEBERI в полном размере"><img src="assets/neberi-presentation.jpg" alt="NEBERI: лента событий, объяснение скоринга, схема API и стек проекта — коллаж интерфейса и презентации" width="1206" height="2144" loading="lazy" decoding="async" /></a>
+            <figcaption><span>Интерфейс и презентация проекта</span><a href="assets/neberi-presentation.jpg" target="_blank" rel="noopener">Увеличить <span aria-hidden="true">↗</span></a></figcaption>
+          </figure>
+        </div>
+        <div class="architecture" aria-label="Путь события в NEBERI"><span><small>01 / вход</small>SMS / звонок</span><b aria-hidden="true">→</b><span><small>02 / оценка</small>FastAPI · правила + ML</span><b aria-hidden="true">→</b><span><small>03 / данные</small>PostgreSQL</span><b aria-hidden="true">→</b><span><small>04 / интерфейс</small>React · объяснение</span></div>
+        <div class="risk-demo" id="demo">
+          <div class="demo-copy"><p class="eyebrow">интерактивный разбор</p><h4>Что влияет<br /><em>на уровень риска?</em></h4><p>Меняйте оценку правил, оценку ML и вес модели. Система смешивает оценки, но не позволяет ML снизить уровень риска, заданный правилами.</p><p class="small">Демонстрация расчёта из проекта с заданными вручную оценками и без дополнительного бонуса. Модель здесь не запускается. Балл риска — не вероятность мошенничества.</p><a class="text-link" href="https://github.com/bluvvis/NEBERI/blob/main/apps/api/app/services/risk_levels.py" target="_blank" rel="noopener noreferrer">Логика в исходном коде <span aria-hidden="true">↗</span></a></div>
+          <div class="demo-console">
+            <div class="console-head"><span>NEBERI / risk breakdown</span><span class="status-dot" aria-hidden="true"></span></div>
+            <div class="risk-result"><div><span class="small">Оценка для уровня риска</span><p><output id="riskScore" for="ruleRange mlRange weightRange">65</output><span>/ 100</span></p></div><strong class="risk-badge" id="riskLevel" data-level="high">Высокий</strong></div>
+            <fieldset id="riskControls" disabled><legend class="sr-only">Входные оценки для демонстрации</legend>
+              <label for="ruleRange"><span>По правилам</span><output id="ruleOutput" for="ruleRange">40</output></label><input id="ruleRange" type="range" min="0" max="100" value="40" />
+              <label for="mlRange"><span>По ML</span><output id="mlOutput" for="mlRange">90</output></label><input id="mlRange" type="range" min="0" max="100" value="90" />
+              <label for="weightRange"><span>Вес ML в смеси</span><output id="weightOutput" for="weightRange">50%</output></label><input id="weightRange" type="range" min="0" max="100" step="5" value="50" />
+            </fieldset>
+            <p class="demo-formula" id="riskExplanation">Смесь: 65 · по правилам: 40 → итог: 65</p>
+            <p class="risk-thresholds">0–20 низкий · 21–54 средний · 55–100 высокий</p>
+            <p class="sr-only" id="riskAnnouncement" role="status" aria-live="polite"></p>
+            <noscript><p class="small">Для изменения оценок включите JavaScript. Показан пример: 40 × 0,5 + 90 × 0,5 = 65.</p></noscript>
+          </div>
+        </div>
+      </article>
+
+      <div class="project-grid">
+        <article class="project-card project-anchor" id="optitrade" data-project-name="OptiTrade">
+          <p class="eyebrow">02 / командный проект · full-stack</p><h3>OptiTrade</h3><p class="card-subtitle">Интерфейс торговой платформы и интеграция данных.</p>
+          <p>Подключил dashboard к backend, перенёс хранение на PostgreSQL, добавил валидацию форм и защищённые маршруты. Настроил состояние интерфейса, lazy loading и компонентные тесты.</p>
+          <ul class="chips" aria-label="Стек OptiTrade"><li>React</li><li>TypeScript</li><li>PostgreSQL</li><li>Zustand</li><li>Zod</li><li>Vitest</li></ul>
+          <details class="evidence"><summary>Мой вклад в коде</summary><ul><li><a href="https://github.com/FaritSharafutdinov/OptiTrade/commit/65792574f2369dac64b7b0c2afdd6d18dd4e6a82" target="_blank" rel="noopener noreferrer">PostgreSQL и интеграция интерфейса ↗</a></li><li><a href="https://github.com/FaritSharafutdinov/OptiTrade/commit/ee6e19d8dc1ca3125741a7a36b37f0d6ff3a5aaf" target="_blank" rel="noopener noreferrer">Мемоизация компонентов и lazy routes ↗</a></li><li><a href="https://github.com/FaritSharafutdinov/OptiTrade/commits?author=bluvvis" target="_blank" rel="noopener noreferrer">Все мои коммиты ↗</a></li></ul></details>
+          <a class="card-link" href="https://github.com/FaritSharafutdinov/OptiTrade" target="_blank" rel="noopener noreferrer">Репозиторий OptiTrade <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="project-card project-anchor" id="ocr" data-project-name="OCRFix-RU">
+          <p class="eyebrow">03 / личный проект · NLP</p><h3>OCRFix-RU</h3><p class="card-subtitle">Исправление ошибок распознавания русского текста.</p>
+          <p>Реализовал символьные и словные n-граммы, генерацию кандидатов и гибридное ранжирование. Добавил генератор шума, CLI, тесты и сравнение с word-only baseline по WER/CER.</p>
+          <div class="metric"><strong>35,1% <span aria-hidden="true">→</span> 21,4%</strong><span>WER в контрольном синтетическом эксперименте</span></div>
+          <p class="small">80 примеров, шум 30%, seed 42, α = 0,9. На других настройках преимущество нестабильно — результаты абляций опубликованы.</p>
+          <ul class="chips" aria-label="Стек OCRFix-RU"><li>Python</li><li>NLP / n-grams</li><li>pytest</li></ul>
+          <div class="card-links"><a class="card-link" href="https://github.com/bluvvis/OCRFix-RU" target="_blank" rel="noopener noreferrer">Код OCRFix-RU ↗</a><a class="card-link" href="https://github.com/bluvvis/OCRFix-RU/blob/main/artifacts/report.json" target="_blank" rel="noopener noreferrer">Результаты ↗</a></div>
+        </article>
+        <article class="project-card project-anchor" id="llm-eval" data-project-name="LLM Evaluation">
+          <p class="eyebrow">04 / командный проект · ML research</p><h3>LLM Evaluation</h3><p class="card-subtitle">Воспроизводимая оценка ответов языковых моделей.</p>
+          <p>В проекте Recovering Cyber-Security Domain Knowledge отвечал за baseline-оценку, скрипты инференса и отчёт. Добавил анализ отказов с bootstrap-интервалами, инструменты сравнения запусков и прототипы RAG/MCQ-оценки.</p>
+          <p class="small">Исследовательский пайплайн на ограниченном бенчмарке: воспроизводимые запуски, анализ ответов и оценка неопределённости.</p>
+          <ul class="chips" aria-label="Стек LLM Evaluation"><li>Python</li><li>Transformers</li><li>RAG</li><li>Evaluation</li></ul>
+          <div class="card-links"><a class="card-link" href="https://github.com/FaritSharafutdinov/Recovering-Cyber-Security-Domain-Knowledge" target="_blank" rel="noopener noreferrer">Репозиторий исследования ↗</a><a class="card-link" href="https://github.com/FaritSharafutdinov/Recovering-Cyber-Security-Domain-Knowledge/commits?author=bluvvis" target="_blank" rel="noopener noreferrer">Мой вклад ↗</a></div>
+        </article>
+        <article class="project-card project-anchor" id="daria" data-project-name="DariaBrusnika">
+          <p class="eyebrow">05 / веб-проект · реализация интерфейса</p><h3>DariaBrusnika</h3><p class="card-subtitle">Интерактивная история опыта в маркетинге территорий.</p>
+          <p>Веб-отчёт Дарьи Щербаковой о работе в «Бруснике». Реализовал интерактивные элементы: hover-сцену с фотографией, колесо навыков, анимации и правки навигации. Изменения приняты в трёх pull request.</p>
+          <ul class="chips" aria-label="Стек DariaBrusnika"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Responsive UI</li></ul>
+          <div class="card-links"><a class="card-link" href="https://bluvvis.github.io/DariaBrusnika/" target="_blank" rel="noopener noreferrer">Посмотреть сайт ↗</a><a class="card-link" href="https://github.com/bluvvis/DariaBrusnika/pull/2" target="_blank" rel="noopener noreferrer">Пример изменений ↗</a></div>
+        </article>
+        <article class="project-card project-anchor" id="bigdata" data-project-name="Big Data Search">
+          <p class="eyebrow">06 / учебный проект · data engineering</p><h3>Big Data Search</h3><p class="card-subtitle">Поисковый пайплайн с распределённым индексом.</p>
+          <p>В рамках учебного задания собрал подготовку данных в PySpark, инвертированный индекс через Hadoop MapReduce, хранение в Cassandra и поиск по BM25. Запуск окружения описан через Docker Compose.</p>
+          <ul class="chips" aria-label="Стек Big Data Search"><li>Python</li><li>PySpark</li><li>Hadoop</li><li>Cassandra</li></ul>
+          <a class="card-link" href="https://github.com/bluvvis/BigData_2" target="_blank" rel="noopener noreferrer">Репозиторий Big Data Search <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="project-card project-anchor" id="recommendation" data-project-name="Book Discovery">
+          <p class="eyebrow">07 / командный проект · frontend + данные</p><h3>Book Discovery</h3><p class="card-subtitle">Сервис поиска и рекомендаций книг.</p>
+          <p>Участвовал как frontend-разработчик: адаптировал интерфейс и авторизацию для мобильных устройств, улучшил читаемость полей и поиск. Добавил парсер Open Library и пример подготовленного CSV.</p>
+          <ul class="chips" aria-label="Мой стек в Book Discovery"><li>HTML / CSS</li><li>JavaScript</li><li>Python</li><li>Data parsing</li></ul>
+          <div class="card-links"><a class="card-link" href="https://github.com/IU-Capstone-Project-2025/Recommendation-System/pull/22" target="_blank" rel="noopener noreferrer">Мобильный интерфейс ↗</a><a class="card-link" href="https://github.com/IU-Capstone-Project-2025/Recommendation-System/pull/44" target="_blank" rel="noopener noreferrer">Парсер Open Library ↗</a></div>
+        </article>
+      </div>
+      <div class="work-footer"><p>Больше экспериментов и учебных работ — в профиле.</p><a class="text-link" href="https://github.com/bluvvis?tab=repositories" target="_blank" rel="noopener noreferrer">Все репозитории <span aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <section class="skills section-shell" id="skills" aria-labelledby="skills-title">
+      <div class="section-mark"><span>02 / технический профиль</span><span>технологии в контексте проектов</span></div>
+      <div class="section-heading"><h2 id="skills-title">Мой стек.<br /><em>И где он работает.</em></h2><p>Выберите технологию на сфере, чтобы увидеть мой опыт и связанные проекты. Ниже — полный список по направлениям.</p></div>
+      <div class="skills-explorer">
+        <div class="sphere-column">
+          <div class="skills-3d-stage" id="skills3d" role="group" aria-label="Сфера технологий. Выберите технологию клавишей Enter; вращайте стрелками в области сцены." tabindex="0">
+            <p class="sphere-status" id="sphereStatus" role="status">Интерактивная карта загружается при прокрутке. Все навыки доступны в списке ниже.</p>
+            <button class="skills-pause-btn" id="spherePause" type="button" hidden aria-pressed="false">Пауза вращения <span aria-hidden="true">Ⅱ</span></button>
+          </div>
+          <p class="sphere-hint" id="sphereHint">Потяните для вращения · выберите технологию для деталей</p>
+          <div class="skills-legend" aria-label="Цвета направлений"><span data-category="frontend">Frontend</span><span data-category="backend">Backend</span><span data-category="ml">ML / Data</span><span data-category="delivery">Delivery / Tests</span></div>
+          <noscript><p class="small">3D-карта доступна с JavaScript. Список навыков и ссылки на проекты работают без него.</p></noscript>
+        </div>
+        <aside class="skill-detail" id="skillDetail" aria-labelledby="skillDetailTitle">
+          <p class="eyebrow" id="skillDetailCategory">Frontend</p><h3 id="skillDetailTitle">React</h3><p id="skillDetailDescription">Консоль событий NEBERI и интерфейс OptiTrade: маршрутизация, формы и работа с API.</p>
+          <p class="detail-label">Где применял</p><ul id="skillDetailProjects"><li><a href="#neberi">NEBERI ↗</a></li><li><a href="#optitrade">OptiTrade ↗</a></li></ul>
+          <p class="small detail-footnote">Опыт описан через реальные задачи и код.</p>
+          <p class="sr-only" id="skillAnnouncement" role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+      <div class="skill-groups" id="skillGroups">
+        <div class="skill-group" data-category="frontend"><h3>Frontend</h3><p>Интерфейсы, состояние, формы и адаптивность.</p><ul>
+<li data-skill="React" data-category="frontend" data-description="Консоль событий NEBERI и интерфейс OptiTrade: маршрутизация, формы и работа с API." data-projects="neberi optitrade" data-sphere><a href="#neberi" title="React в NEBERI">React<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="TypeScript" data-category="frontend" data-description="Типизация React-интерфейсов, API-данных и состояния приложения." data-projects="neberi optitrade" data-sphere><a href="#neberi" title="TypeScript в NEBERI">TypeScript<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="JavaScript" data-category="frontend" data-description="Интерактивные сцены, навигация и адаптивное поведение веб-страниц." data-projects="daria recommendation" data-sphere><a href="#daria" title="JavaScript в DariaBrusnika">JavaScript<span class="sr-only"> — проект DariaBrusnika</span></a></li>
+<li data-skill="HTML / CSS" data-category="frontend" data-description="Семантическая разметка, адаптивные сетки и оформление интерфейсов." data-projects="daria recommendation" data-sphere><a href="#daria" title="HTML / CSS в DariaBrusnika">HTML / CSS<span class="sr-only"> — проект DariaBrusnika</span></a></li>
+<li data-skill="Tailwind CSS" data-category="frontend" data-description="Оформление React-консоли NEBERI и компонентов OptiTrade." data-projects="neberi optitrade"><a href="#neberi" title="Tailwind CSS в NEBERI">Tailwind CSS<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="Zustand" data-category="frontend" data-description="Хранилище данных dashboard в OptiTrade." data-projects="optitrade"><a href="#optitrade" title="Zustand в OptiTrade">Zustand<span class="sr-only"> — проект OptiTrade</span></a></li>
+<li data-skill="React Hook Form / Zod" data-category="frontend" data-description="Управление формой входа и проверка пользовательских данных в OptiTrade." data-projects="optitrade"><a href="#optitrade" title="React Hook Form / Zod в OptiTrade">React Hook Form / Zod<span class="sr-only"> — проект OptiTrade</span></a></li>
+<li data-skill="Vite" data-category="frontend" data-description="Сборка и среда разработки React-приложений." data-projects="neberi optitrade"><a href="#neberi" title="Vite в NEBERI">Vite<span class="sr-only"> — проект NEBERI</span></a></li>
+</ul></div>
+<div class="skill-group" data-category="backend"><h3>Backend</h3><p>API, модели данных и интеграция сервисов.</p><ul>
+<li data-skill="Python" data-category="backend" data-description="API и скоринг NEBERI, обработка текста, исследовательские и data-пайплайны." data-projects="neberi ocr bigdata" data-sphere><a href="#neberi" title="Python в NEBERI">Python<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="FastAPI" data-category="backend" data-description="REST API для приёма событий, авторизации, репутации и объяснения риска." data-projects="neberi" data-sphere><a href="#neberi" title="FastAPI в NEBERI">FastAPI<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="PostgreSQL" data-category="backend" data-description="Хранение событий NEBERI и интеграция базы данных OptiTrade." data-projects="neberi optitrade" data-sphere><a href="#neberi" title="PostgreSQL в NEBERI">PostgreSQL<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="SQL / SQLAlchemy" data-category="backend" data-description="Модели данных, запросы и работа с PostgreSQL через ORM." data-projects="neberi optitrade" data-sphere><a href="#neberi" title="SQL / SQLAlchemy в NEBERI">SQL / SQLAlchemy<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="REST API" data-category="backend" data-description="Проектирование API и подключение интерфейса к серверным данным." data-projects="neberi optitrade"><a href="#neberi" title="REST API в NEBERI">REST API<span class="sr-only"> — проект NEBERI</span></a></li>
+</ul></div>
+<div class="skill-group" data-category="ml"><h3>ML / Data</h3><p>От подготовки данных до проверки качества.</p><ul>
+<li data-skill="scikit-learn" data-category="ml" data-description="TF-IDF и логистическая регрессия для текстового скоринга NEBERI, оценка и экспорт pipeline." data-projects="neberi" data-sphere><a href="#neberi" title="scikit-learn в NEBERI">scikit-learn<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="pandas" data-category="ml" data-description="Подготовка размеченных данных для обучения: объединение корпусов и удаление дубликатов." data-projects="neberi" data-sphere><a href="#neberi" title="pandas в NEBERI">pandas<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="NLP / n-grams" data-category="ml" data-description="Символьные и словные языковые модели, кандидаты исправлений и сравнение по WER/CER." data-projects="ocr" data-sphere><a href="#ocr" title="NLP / n-grams в OCRFix-RU">NLP / n-grams<span class="sr-only"> — проект OCRFix-RU</span></a></li>
+<li data-skill="Transformers" data-category="ml" data-description="Скрипты инференса языковых моделей с фиксированными параметрами и сохранением конфигурации запуска." data-projects="llm-eval" data-sphere><a href="#llm-eval" title="Transformers в LLM Evaluation">Transformers<span class="sr-only"> — проект LLM Evaluation</span></a></li>
+<li data-skill="RAG / Evaluation" data-category="ml" data-description="Прототипы retrieval-augmentation, анализ ответов и bootstrap-интервалы для оценки отказов." data-projects="llm-eval"><a href="#llm-eval" title="RAG / Evaluation в LLM Evaluation">RAG / Evaluation<span class="sr-only"> — проект LLM Evaluation</span></a></li>
+<li data-skill="PySpark" data-category="ml" data-description="Подготовка Wikipedia-данных для распределённого поискового индекса." data-projects="bigdata" data-sphere><a href="#bigdata" title="PySpark в Big Data Search">PySpark<span class="sr-only"> — проект Big Data Search</span></a></li>
+<li data-skill="Hadoop / MapReduce" data-category="ml" data-description="Построение инвертированного индекса и работа с HDFS в учебном поисковом пайплайне." data-projects="bigdata"><a href="#bigdata" title="Hadoop / MapReduce в Big Data Search">Hadoop / MapReduce<span class="sr-only"> — проект Big Data Search</span></a></li>
+<li data-skill="Cassandra" data-category="ml" data-description="Загрузка и хранение распределённого индекса для BM25-поиска." data-projects="bigdata" data-sphere><a href="#bigdata" title="Cassandra в Big Data Search">Cassandra<span class="sr-only"> — проект Big Data Search</span></a></li>
+</ul></div>
+<div class="skill-group" data-category="delivery"><h3>Delivery / Tests</h3><p>Воспроизводимый запуск и проверка изменений.</p><ul>
+<li data-skill="Docker" data-category="delivery" data-description="Контейнеризация API и frontend; Docker Compose для локального запуска нескольких сервисов." data-projects="neberi bigdata" data-sphere><a href="#neberi" title="Docker в NEBERI">Docker<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="Kubernetes" data-category="delivery" data-description="Конфигурация развёртывания NEBERI: Deployment, Service, Ingress и постоянное хранение." data-projects="neberi" data-sphere><a href="#neberi" title="Kubernetes в NEBERI">Kubernetes<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="Helm" data-category="delivery" data-description="Шаблоны и values для развёртывания API, web-консоли и PostgreSQL в Kubernetes." data-projects="neberi" data-sphere><a href="#neberi" title="Helm в NEBERI">Helm<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="pytest" data-category="delivery" data-description="Проверка API и логики скоринга NEBERI, регрессионные тесты OCR-корректора." data-projects="neberi ocr" data-sphere><a href="#neberi" title="pytest в NEBERI">pytest<span class="sr-only"> — проект NEBERI</span></a></li>
+<li data-skill="Vitest" data-category="delivery" data-description="Компонентные тесты OptiTrade и тесты React-приложения NEBERI." data-projects="optitrade neberi" data-sphere><a href="#optitrade" title="Vitest в OptiTrade">Vitest<span class="sr-only"> — проект OptiTrade</span></a></li>
+<li data-skill="Git / CI" data-category="delivery" data-description="Командная работа через pull request; сборка и публикация Docker-образов NEBERI в GitHub Actions." data-projects="neberi recommendation optitrade"><a href="#neberi" title="Git / CI в NEBERI">Git / CI<span class="sr-only"> — проект NEBERI</span></a></li>
+</ul></div>
+      </div>
+    </section>
+
+    <section class="about section-shell" id="about" aria-labelledby="about-title">
+      <div class="section-mark"><span>03 / обо мне</span><span>за кодом — человек</span></div>
+      <div class="about-grid"><div><p class="eyebrow">Григорий Беляев</p><h2 id="about-title">Разобраться.<br /><em>Собрать.<br />Довести.</em></h2></div><div class="about-copy"><p>Я студент Иннополиса. Пришёл в IT через игры и дизайн: хотелось понять, как устроены вещи, которыми пользуешься каждый день.</p><p>Мне интересно работать на стыке интерфейсов, серверной логики и данных. Поэтому в проектах соединяю full-stack-разработку и ML: от эксперимента до системы с понятным поведением.</p><p>Работал в SMM и преподавал на образовательных сменах. Люблю объяснять сложное, обсуждать идеи и делать что-то вместе с людьми.</p><p class="about-personal">Вне кода — спорт, природа, игры и рыбалка.</p></div></div>
+    </section>
+
+    <section class="contact section-shell" id="contact" aria-labelledby="contact-title">
+      <div class="section-mark"><span>04 / связь</span><span>открыт к предложениям</span></div>
+      <div class="contact-main"><p class="eyebrow">Full-stack / ML · Иннополис</p><h2 id="contact-title">Давайте<br /><em>познакомимся.</em></h2><p>Ищете разработчика в команду? Напишите о роли и задачах — обсудим, где мой опыт будет полезен.</p><a class="button button-primary contact-cta" href="https://t.me/bluvvis" target="_blank" rel="noopener noreferrer">Написать в Telegram <span aria-hidden="true">↗</span></a><a class="contact-email" href="mailto:g.belyaev@innopolis.university">g.belyaev@innopolis.university</a></div>
+      <div class="socials"><a href="https://github.com/bluvvis" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://t.me/bluvvis" target="_blank" rel="noopener noreferrer">Telegram ↗</a><a href="https://vk.ru/idbelyaev21" target="_blank" rel="noopener noreferrer">ВКонтакте ↗</a></div>
+    </section>
+  </main>
+  <footer class="section-shell"><span>© 2026 Григорий Беляев / bluvvis</span><a href="#top">Наверх ↑</a></footer>
+</body>
+</html>

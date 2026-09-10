@@ -1,0 +1,15 @@
+{
+  "name": "bluvvis-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static full-stack / ML portfolio",
+  "scripts": {
+    "start": "python3 -m http.server 4173 --bind 127.0.0.1",
+    "check": "node --check portfolio.js && node --check skills-3d.js",
+    "test": "node tests/browser.cjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "playwright": "1.63.0"
+  }
+}
