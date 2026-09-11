@@ -1,11 +1,63 @@
 /* Progressive enhancement: content, project links and skill lists work without JS. */
 (() => {
+  const navigation = performance.getEntriesByType?.('navigation')[0];
+  const isReload = navigation?.type === 'reload' || performance.navigation?.type === 1;
+  const scrollKey = `portfolio-scroll:${location.pathname}${location.search}`;
+  const scrollAnchors = [...document.querySelectorAll('main > section[id], article[id], #demo, #skillGroups')];
+  let savedScroll;
+  try { savedScroll = JSON.parse(sessionStorage.getItem(scrollKey)); } catch {}
+  const layoutTop = element => {
+    let top = 0;
+    for (let node = element; node; node = node.offsetParent) top += node.offsetTop;
+    return top;
+  };
+
+  const captureScroll = () => {
+    let anchor;
+    let anchorTop = -Infinity;
+    for (const element of scrollAnchors) {
+      const top = layoutTop(element);
+      if (top <= scrollY + 8 && top > anchorTop) { anchor = element; anchorTop = top; }
+    }
+    const state = {
+      y: scrollY,
+      anchor: anchor?.id || '',
+      offset: anchor ? scrollY - anchorTop : 0
+    };
+    try { sessionStorage.setItem(scrollKey, JSON.stringify(state)); } catch {}
+  };
+
+  let saveFrame = 0;
+  addEventListener('scroll', () => {
+    if (saveFrame) return;
+    saveFrame = requestAnimationFrame(() => { saveFrame = 0; captureScroll(); });
+  }, { passive: true });
+  addEventListener('pagehide', captureScroll);
+
+  if (isReload && savedScroll && Number.isFinite(savedScroll.y)) {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    const restoreScroll = () => {
+      const anchor = savedScroll.anchor && document.getElementById(savedScroll.anchor);
+      const target = anchor
+        ? layoutTop(anchor) + Number(savedScroll.offset || 0)
+        : savedScroll.y;
+      const limit = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+      scrollTo({ top: Math.max(0, Math.min(target, limit)), behavior: 'instant' });
+    };
+    addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(restoreScroll)), { once: true });
+  }
+
   const clock = document.querySelector('#metaClock');
   if (clock) {
     const formatter = new Intl.DateTimeFormat('ru-RU', {
       timeZone: 'Europe/Moscow', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
     });
-    const update = () => { clock.textContent = `${formatter.format(new Date())} МСК`; };
+    const update = () => {
+      const time = formatter.format(new Date());
+      clock.textContent = `${time} МСК`;
+      const taskClock = document.querySelector('#taskClock');
+      if (taskClock) taskClock.textContent = time;
+    };
     update();
     setInterval(() => { if (!document.hidden) update(); }, 30000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) update(); });
@@ -78,36 +130,6 @@
       root.dataset.heroVisible = String(entry.isIntersecting);
     }).observe(hero);
   }
-  // Animate on entry, without CSS that could leave content hidden if JS fails.
-  if ('IntersectionObserver' in window && Element.prototype.animate) {
-    const running = new Set();
-    const reveal = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        reveal.unobserve(entry.target);
-        if (root.dataset.motion === 'paused' || entry.target.contains(document.activeElement)) return;
-        const isText = entry.target.matches('h1, .hero-usp, .hero-intro, .section-heading');
-        const animation = entry.target.animate([
-          { opacity: isText ? 0.25 : 0, translate: isText ? '0 10px' : '0 22px' },
-          { opacity: 1, translate: '0 0' }
-        ], { duration: isText ? 500 : 650, easing: 'cubic-bezier(.2,.7,.2,1)' });
-        running.add(animation);
-        animation.finished.catch(() => {}).finally(() => running.delete(animation));
-      });
-    }, { threshold: 0.06 });
-    document.querySelectorAll('.hero-name, .hero h1, .hero-usp, .hero-intro, .hero .actions, .hero-portrait, .section-heading, .feature-title, .feature-grid, .architecture, .risk-demo, .project-card, .skills-explorer, .skill-groups, .about-grid, .contact-main').forEach(element => reveal.observe(element));
-    reducedMotion.addEventListener('change', () => {
-      if (reducedMotion.matches) running.forEach(animation => animation.cancel());
-    });
-    document.addEventListener('portfolio:motion-change', () => {
-      if (root.dataset.motion === 'paused') running.forEach(animation => animation.cancel());
-    });
-    document.addEventListener('focusin', event => {
-      running.forEach(animation => {
-        if (animation.effect.target.contains(event.target)) animation.finish();
-      });
-    });
-  }
   if (progress) {
     let frame = 0;
     const update = () => {
@@ -132,7 +154,7 @@
       if (loaded) return;
       loaded = true;
       try {
-        const { initSphere } = await import('./skills-3d.js');
+        const { initSphere } = await import('./skills-3d.js?v=20260911-4');
         initSphere(stage);
       } catch (error) {
         document.querySelector('#sphereStatus').textContent = '3D-карта недоступна. Все технологии и ссылки на проекты есть в списке ниже.';

@@ -8,6 +8,12 @@ const screenshotDir = process.env.SCREENSHOT_DIR || '/tmp/portfolio-checks';
 const launchOptions = { headless: true, args: ['--enable-unsafe-swiftshader'] };
 if (process.env.CHROME_PATH) launchOptions.executablePath = process.env.CHROME_PATH;
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const skipStartup = async page => {
+  const skip = page.locator('.boot-skip');
+  if (!await skip.isVisible()) return;
+  await skip.dispatchEvent('click');
+  await page.waitForFunction(() => !document.documentElement.classList.contains('boot-enabled'));
+};
 (async () => {
   await fs.mkdir(screenshotDir, {recursive: true});
   const browser = await chromium.launch(launchOptions);
@@ -22,6 +28,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     const page = await desktopContext.newPage();
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(BASE, {waitUntil:'networkidle'});
+    await skipStartup(page);
     await test('3D is lazy; content and local assets are complete', async () => {
       assert.equal(await page.locator('.skill-node-button').count(), 0);
       const bad = await page.evaluate(() => {
@@ -32,7 +39,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
       });
       assert.deepEqual(bad, {broken:[],duplicates:[]});
       for (const image of await page.locator('img').all()) {
-        await image.scrollIntoViewIfNeeded();
+        if (await image.isVisible()) await image.evaluate(img => img.scrollIntoView({behavior: "instant", block: "center"}));
         await image.evaluate(img => img.decode());
         assert.ok(await image.evaluate(img => img.naturalWidth > 0));
       }
@@ -58,7 +65,6 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     await page.locator('#skills3d').scrollIntoViewIfNeeded();
     await page.waitForSelector('.skill-node-button');
     await test('sphere selection, related project links and keyboard controls', async () => {
-      await page.locator('#spherePause').click();
       const buttons = page.locator('.skill-node-button');
       let checks = 0;
       for (const button of await buttons.all()) {
@@ -80,16 +86,20 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
       await page.waitForFunction(hash=>location.hash===hash,href);
       await page.locator('#skills3d').scrollIntoViewIfNeeded();
       const before = await buttons.first().locator('..').getAttribute('style');
-      await page.locator('#skills3d').focus();await page.keyboard.press('ArrowRight');await wait(80);
-      assert.notEqual(await buttons.first().locator('..').getAttribute('style'),before);
+      await page.locator('#skills3d').focus();await page.keyboard.press('ArrowRight');
+      await page.waitForFunction(before => document.querySelector('.skill-node')?.getAttribute('style') !== before,before);
     });
-    await test('pause stops every motion; resume works with button focused', async () => {
-      const pause=page.locator('#spherePause');
-      if (await pause.getAttribute('aria-pressed')!=='true') await pause.click();
+    await test('sphere pauses on selection, keeps rotating on hover and resumes on pointer movement', async () => {
+      await page.locator('#skills3d').evaluate(element=>element.scrollIntoView({behavior:'instant',block:'center'}));
+      await wait(120);
       const state=()=>page.locator('.skill-node').evaluateAll(nodes=>nodes.map(n=>n.style.transform).join('|'));
-      await wait(100);const before=await state();await wait(200);assert.equal(await state(),before);
-      await pause.click();await wait(200);assert.notEqual(await state(),before);
-      await pause.click();
+      const first=page.locator('.skill-node-button:visible').first();
+      await first.evaluate(element=>element.click());await wait(80);const selected=await state();await wait(440);assert.equal(await state(),selected);
+      await page.locator('#skills3d').dispatchEvent('pointermove',{pointerType:'mouse',clientX:30,clientY:30});
+      await page.waitForFunction(selected => [...document.querySelectorAll('.skill-node')].map(node=>node.style.transform).join('|') !== selected,selected,{timeout:1500});
+      const hovered=await state();
+      await first.dispatchEvent('pointerenter',{pointerType:'mouse'});
+      await page.waitForFunction(hovered => [...document.querySelectorAll('.skill-node')].map(node=>node.style.transform).join('|') !== hovered,hovered,{timeout:1500});
     });
     await test('desktop WCAG A/AA accessibility', async () => {
       const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
@@ -116,11 +126,11 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     const mobile=await mobileContext.newPage();
     mobile.on('pageerror',error=>errors.push(error.message));
     await mobile.goto(BASE,{waitUntil:'networkidle'});
+    await skipStartup(mobile);
     await test('mobile taps, pointer cancellation, and readable labels', async()=>{
       await mobile.locator('#skills3d').scrollIntoViewIfNeeded();await mobile.waitForSelector('.skill-node-button');
-      await mobile.locator('#spherePause').tap();
       const buttons=mobile.locator('.skill-node-button:visible');
-      const first=buttons.first(); const name=await first.textContent();await first.tap();await wait(100);
+      const first=buttons.first(); const name=await first.textContent();await first.evaluate(element=>element.click());await wait(100);
       assert.equal(await mobile.locator('#skillDetailTitle').textContent(),name);
       assert.equal(await mobile.locator('.skill-node-button:visible').count(), await mobile.locator('#skillGroups [data-sphere]').count());
       const rect=await mobile.locator('#skills3d').boundingBox();
@@ -151,7 +161,6 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
       await reduced.goto(BASE);await reduced.locator('#skills3d').scrollIntoViewIfNeeded();await reduced.waitForSelector('.skill-node-button:visible');
       await wait(100);const before=await reduced.locator('.skill-node').first().getAttribute('style');await wait(150);
       assert.equal(await reduced.locator('.skill-node').first().getAttribute('style'),before);
-      assert.equal(await reduced.locator('#spherePause').isDisabled(),true);
       await reduced.emulateMedia({reducedMotion:'no-preference'});await wait(150);
       assert.notEqual(await reduced.locator('.skill-node').first().getAttribute('style'),before);
       await reduced.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await wait(100);
@@ -164,15 +173,15 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
       assert.equal(await nojs.locator('#ruleRange').isDisabled(),true);
       assert.equal(await nojs.locator('#skillGroups [data-skill]').count(),27);
       assert.ok(await nojs.locator('#optitrade').isVisible());
-      await nojs.getByRole('link',{name:'Посмотреть проекты'}).click();assert.equal(new URL(nojs.url()).hash,'#work');
+      await nojs.getByRole('link',{name:'Открыть проекты'}).click();assert.equal(new URL(nojs.url()).hash,'#work');
       await nojs.close();
     });
     await test('blocked module and unavailable WebGL keep a usable fallback',async()=>{
       for (const mode of ['module','webgl']) {
         const fallback=await browser.newPage();
-        if(mode==='module') await fallback.route('**/skills-3d.js',route=>route.abort());
+        if(mode==='module') await fallback.route(/\/skills-3d\.js(?:\?.*)?$/,route=>route.abort());
         else await fallback.addInitScript(()=>{const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return type.startsWith('webgl')?null:get.call(this,type,...args);};});
-        await fallback.goto(BASE);await fallback.locator('#skills3d').scrollIntoViewIfNeeded();
+        await fallback.goto(BASE);await skipStartup(fallback);await fallback.locator('#skills3d').scrollIntoViewIfNeeded();
         await fallback.waitForSelector('#skills3d.is-unavailable');
         assert.ok(await fallback.locator('#sphereStatus').isVisible());
         assert.equal(await fallback.locator('#skillGroups [data-skill]').count(),27);
@@ -184,6 +193,112 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
       await page.locator('canvas').dispatchEvent('webglcontextlost',{cancelable:true});
       assert.equal(await page.locator('canvas').count(),0);
       assert.ok(await page.locator('#sphereStatus').isVisible());
+    });
+    await test('XP startup runs through POST, XP, app launch and remains skippable', async () => {
+      const startupContext = await browser.newContext({viewport:{width:1440,height:1000}});
+      const startup = await startupContext.newPage();
+      await startup.goto(BASE,{waitUntil:'domcontentloaded'});
+      await startup.evaluate(() => {
+        window.__appStateHistory = [document.documentElement.dataset.appState];
+        new MutationObserver(() => {
+          const state = document.documentElement.dataset.appState;
+          if (state && window.__appStateHistory.at(-1) !== state) window.__appStateHistory.push(state);
+        }).observe(document.documentElement, {attributes:true, attributeFilter:['data-app-state']});
+      });
+      assert.ok(await startup.locator('html').evaluate(el => el.classList.contains('boot-enabled')));
+      await startup.waitForFunction(() => document.documentElement.dataset.bootState === 'post');
+      await startup.locator('.system-boot').click({position:{x:20,y:20}});
+      await startup.mouse.wheel(0,120);
+      assert.ok(await startup.locator('html').evaluate(el => el.classList.contains('boot-enabled')));
+      await startup.waitForFunction(() => document.documentElement.dataset.bootState === 'xp');
+      assert.equal(await startup.locator('.boot-loader-runner').evaluate(el => getComputedStyle(el).animationIterationCount),'infinite');
+      await startup.waitForFunction(() => !document.documentElement.classList.contains('boot-enabled'),null,{timeout:10000});
+      assert.ok(await startup.locator('.hero').evaluate(el => el.classList.contains('hero-booting')));
+      assert.equal(await startup.locator('html').getAttribute('data-app-state'),'inactive');
+      assert.equal(await startup.locator('[data-task="top"]').evaluate(el => el.classList.contains('is-active')),false);
+      assert.equal(await startup.locator('.profile-window').evaluate(el => getComputedStyle(el).visibility),'hidden');
+      await startup.waitForFunction(() => document.documentElement.dataset.appState === 'launching',null,{timeout:5000});
+      assert.ok(await startup.locator('[data-task="top"]').evaluate(el => el.classList.contains('is-app-launching')));
+      assert.equal(await startup.locator('.profile-window').evaluate(el => getComputedStyle(el).visibility),'visible');
+      await startup.waitForFunction(() => document.querySelector('.hero').classList.contains('hero-ready'),null,{timeout:5000});
+      assert.deepEqual(await startup.evaluate(() => window.__appStateHistory.filter((value,index,list) => list.indexOf(value) === index)),['inactive','hover','pressed','launching','active']);
+      assert.ok(await startup.locator('.system-notification').evaluate(el => el.classList.contains('is-visible')));
+      await startup.evaluate(() => scrollTo({top:430,behavior:'instant'}));
+      await wait(100);
+      assert.notEqual(await startup.locator('.profile-window').evaluate(el => getComputedStyle(el).scale),'none');
+      assert.ok(await startup.locator('[data-task="work"]').evaluate(el => el.classList.contains('is-minimize-target')));
+      await startup.reload({waitUntil:'domcontentloaded'});
+      assert.ok(await startup.locator('html').evaluate(el => !el.classList.contains('boot-enabled')));
+      const replay = await startupContext.newPage();
+      await replay.goto(`${BASE}?replay=1`,{waitUntil:'domcontentloaded'});
+      await skipStartup(replay);
+      await replay.evaluate(() => scrollTo({top:0,behavior:'instant'}));
+      await wait(100);
+      await replay.reload({waitUntil:'domcontentloaded'});
+      assert.ok(await replay.locator('html').evaluate(el => el.classList.contains('boot-enabled')));
+      await replay.locator('.boot-skip').click();
+      const skipped = await startupContext.newPage();
+      await skipped.goto(BASE,{waitUntil:'domcontentloaded'});
+      await skipped.locator('.boot-skip').focus();
+      await skipped.keyboard.press('Enter');
+      await skipped.waitForFunction(() => document.querySelector('.hero').classList.contains('hero-ready'));
+      assert.ok(await skipped.locator('.system-boot').isHidden());
+      await startupContext.close();
+    });
+    await test('XP taskbar, Start keyboard navigation and motion preferences', async () => {
+      const ui = await browser.newPage({viewport:{width:390,height:844}});
+      await ui.goto(BASE);
+      await skipStartup(ui);
+      for (const id of ['work','skills','about','contact']) {
+        assert.ok(await ui.locator(`[data-task="${id}"]`).isVisible());
+        await ui.locator(`[data-task="${id}"]`).click();
+        await ui.waitForFunction(id => document.querySelector(`[data-task="${id}"]`).getAttribute('aria-current') === 'location', id);
+      }
+      assert.ok(await ui.locator('.topbar nav').isHidden());
+      assert.ok(await ui.locator('#startToggle').isHidden());
+      await ui.locator('#motionToggle').evaluate(el => el.click());
+      assert.equal(await ui.locator('html').getAttribute('data-motion'), 'paused');
+      await ui.reload();
+      assert.equal(await ui.locator('html').getAttribute('data-motion'), 'paused');
+      await ui.close();
+
+      const desktopUi = await browser.newPage({viewport:{width:1000,height:844}});
+      await desktopUi.goto(BASE);
+      await skipStartup(desktopUi);
+      await desktopUi.locator('#startToggle').click();
+      await desktopUi.locator('#startPanel a[href="#about"]').click();
+      await desktopUi.waitForFunction(() => document.activeElement.id === 'about');
+      assert.ok(await desktopUi.locator('#startPanel').isHidden());
+      await desktopUi.locator('#startToggle').focus(); await desktopUi.keyboard.press('ArrowUp');
+      assert.ok(await desktopUi.locator('#startPanel').isVisible());
+      await desktopUi.keyboard.press('Escape');
+      assert.equal(await desktopUi.evaluate(() => document.activeElement.id), 'startToggle');
+      await desktopUi.close();
+    });
+    await test('reload restores the exact reading position', async () => {
+      const reading = await browser.newPage({viewport:{width:390,height:844}});
+      await reading.goto(BASE);
+      await skipStartup(reading);
+      await reading.locator('#ocr').evaluate(element => {
+        element.scrollIntoView({behavior:'instant', block:'start'});
+        scrollBy({top:137, behavior:'instant'});
+      });
+      await wait(120);
+      const before = await reading.evaluate(() => scrollY);
+      await reading.reload({waitUntil:'load'});
+      await reading.waitForFunction(expected => Math.abs(scrollY - expected) <= 2, before);
+      assert.ok(before > 0);
+      await reading.close();
+    });
+    await test('contact methods have the requested order and destinations', async () => {
+      const channels = await page.locator('.contact-channels a').evaluateAll(links => links.map(link => ({
+        text: link.textContent.trim().replace(/\s+/g, ' '), href: link.href
+      })));
+      assert.deepEqual(channels.map(channel => channel.text), ['01 Telegram↗', '02 MAX↗', '03 ВКонтакте↗']);
+      assert.equal(new URL(channels[0].href).hostname, 't.me');
+      assert.equal(new URL(channels[1].href).hostname, 'max.ru');
+      assert.equal(new URL(channels[2].href).hostname, 'vk.ru');
+      assert.equal(await page.locator('.contact-email').getAttribute('href'), 'mailto:g.belyaev@innopolis.university');
     });
     await test('no uncaught JavaScript errors',async()=>assert.deepEqual(errors,[]));
   } finally { await browser.close(); }

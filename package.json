@@ -5,7 +5,7 @@
   "description": "Static full-stack / ML portfolio",
   "scripts": {
     "start": "python3 -m http.server 4173 --bind 127.0.0.1",
-    "check": "node --check portfolio.js && node --check skills-3d.js",
+    "check": "node --check portfolio.js && node --check skills-3d.js && node --check desktop.js && node --check motion.js",
     "test": "node tests/browser.cjs"
   },
   "devDependencies": {

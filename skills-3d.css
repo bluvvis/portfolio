@@ -32,7 +32,6 @@
 .detail-label { font: 10px/1.5 var(--mono); text-transform: uppercase; color: var(--muted); margin-top: 25px; }
 #skillDetailProjects { padding: 0; list-style: none; margin-top: 10px; }
 #skillDetailProjects a { display: flex; align-items: center; justify-content: space-between; min-height: 44px; font: 12px/1.5 var(--mono); border-bottom: 1px solid var(--line); }
-.detail-footnote { margin-top: 23px; font-size: 10px; }
 .skill-groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px; margin-top: 55px; }
 .skill-group { padding-top: 22px; border-top: 1px solid var(--line); }
 .skill-group h3 { font: 14px/1.5 var(--mono); color: var(--category); letter-spacing: -.02em; }
