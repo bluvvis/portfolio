@@ -59,7 +59,7 @@
 			})()
 		</script>
 		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-		<link rel="modulepreload" href="skills-3d.js?v=20260911-8" />
+		<link rel="modulepreload" href="skills-3d.js?v=20260911-9" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -76,12 +76,12 @@
 				href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;600&display=swap"
 				rel="stylesheet"
 		/></noscript>
-		<link rel="stylesheet" href="style.css?v=20260911-8" />
-		<link rel="stylesheet" href="skills-3d.css?v=20260911-8" />
-		<link rel="stylesheet" href="xp-theme.css?v=20260911-8" />
-		<script src="portfolio.js?v=20260911-8" defer></script>
-		<script src="desktop.js?v=20260911-8" defer></script>
-		<script src="motion.js?v=20260911-8" defer></script>
+		<link rel="stylesheet" href="style.css?v=20260911-9" />
+		<link rel="stylesheet" href="skills-3d.css?v=20260911-9" />
+		<link rel="stylesheet" href="xp-theme.css?v=20260911-9" />
+		<script src="portfolio.js?v=20260911-9" defer></script>
+		<script src="desktop.js?v=20260911-9" defer></script>
+		<script src="motion.js?v=20260911-9" defer></script>
 	</head>
 	<body class="xp-desktop">
 		<svg
@@ -535,7 +535,12 @@
 						><b aria-hidden="true">→</b
 						><span><small>04 / интерфейс</small>React · объяснение</span>
 					</div>
-					<div class="risk-demo" id="demo">
+					<details class="mobile-disclosure" id="demo" open>
+						<summary>
+							<span>Интерактивный разбор скоринга</span>
+							<small>Открыть демо</small>
+						</summary>
+						<div class="risk-demo">
 						<div class="demo-copy">
 							<p class="eyebrow">интерактивный разбор</p>
 							<h4>Что влияет<br /><em>на уровень риска?</em></h4>
@@ -630,9 +635,13 @@
 								</p></noscript
 							>
 						</div>
-					</div>
+						</div>
+					</details>
 				</article>
 
+				<div class="mobile-strip-label">
+					<strong>Другие проекты</strong><span>Листайте вбок</span>
+				</div>
 				<div class="project-grid">
 					<article
 						class="project-card project-anchor"
@@ -1003,7 +1012,12 @@
 						просмотра используйте список ниже.
 					</p>
 				</div>
-				<div class="skills-explorer">
+				<details class="mobile-disclosure stack-disclosure" open>
+					<summary>
+						<span>Интерактивная 3D-карта</span>
+						<small>Открыть карту</small>
+					</summary>
+					<div class="skills-explorer">
 					<div class="sphere-column">
 						<div class="xp-titlebar">
 							<span class="xp-window-name"
@@ -1082,6 +1096,10 @@
 							aria-live="polite"
 						></p>
 					</aside>
+					</div>
+				</details>
+				<div class="mobile-strip-label">
+					<strong>Навыки по направлениям</strong><span>Листайте вбок</span>
 				</div>
 				<div class="skill-groups" id="skillGroups">
 					<div class="skill-group" data-category="frontend">

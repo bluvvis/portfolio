@@ -721,7 +721,7 @@
 				renderedSections.add(section)
 				renderObserver.unobserve(section)
 				const overlay = section.querySelector('.section-renderer')
-				if (!overlay || !allowed()) {
+				if (!overlay || !allowed() || innerWidth <= 600) {
 					overlay?.remove()
 					document.dispatchEvent(
 						new CustomEvent('portfolio:section-rendered', { detail: section }),
@@ -902,6 +902,10 @@
 	}
 	const prepare = element => {
 		if (prepared.has(element) || started.has(element)) return
+		if (innerWidth <= 600) {
+			started.add(element)
+			return
+		}
 		if (!allowed() || element.contains(document.activeElement)) {
 			started.add(element)
 			return

@@ -147,6 +147,47 @@
     schedule();
   }
 
+  // Dense desktop tools remain available on phones through native disclosures.
+  // With JavaScript disabled they stay open, so no portfolio content disappears.
+  const compactLayout = matchMedia('(max-width: 600px)');
+  const disclosures = [...document.querySelectorAll('.mobile-disclosure')];
+  const disclosureState = new WeakMap();
+  const hashTarget = () => {
+    try { return document.getElementById(decodeURIComponent(location.hash.slice(1))); }
+    catch { return null; }
+  };
+  const syncDisclosures = () => disclosures.forEach(details => {
+    const state = disclosureState.get(details) || { userSet: false, syncing: false };
+    disclosureState.set(details, state);
+    const target = hashTarget();
+    const containsTarget = target && (target === details || details.contains(target));
+    const shouldOpen = !compactLayout.matches || state.userSet || containsTarget;
+    if (details.open === shouldOpen) return;
+    state.syncing = true;
+    details.open = shouldOpen;
+    setTimeout(() => { state.syncing = false; });
+  });
+  disclosures.forEach(details => details.addEventListener('toggle', () => {
+    const state = disclosureState.get(details);
+    if (compactLayout.matches && state && !state.syncing) state.userSet = details.open;
+  }));
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    let target;
+    try { target = document.getElementById(decodeURIComponent(link.hash.slice(1))); }
+    catch { return; }
+    const details = target?.closest('.mobile-disclosure');
+    if (details) {
+      const state = disclosureState.get(details);
+      if (state) state.userSet = true;
+      details.open = true;
+    }
+  });
+  addEventListener('hashchange', syncDisclosures);
+  compactLayout.addEventListener('change', syncDisclosures);
+  syncDisclosures();
+
   const stage = document.querySelector('#skills3d');
   if (stage) {
     let loaded = false;
@@ -154,7 +195,7 @@
       if (loaded) return;
       loaded = true;
       try {
-        const { initSphere } = await import('./skills-3d.js?v=20260911-8');
+        const { initSphere } = await import('./skills-3d.js?v=20260911-9');
         initSphere(stage);
       } catch (error) {
         document.querySelector('#sphereStatus').textContent = '3D-карта недоступна. Все технологии и ссылки на проекты есть в списке ниже.';

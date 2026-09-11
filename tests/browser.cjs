@@ -127,6 +127,19 @@ const skipStartup = async page => {
     mobile.on('pageerror',error=>errors.push(error.message));
     await mobile.goto(BASE,{waitUntil:'networkidle'});
     await skipStartup(mobile);
+    await test('mobile presents dense sections progressively', async()=>{
+      assert.equal(await mobile.locator('#demo').evaluate(details=>details.open),false);
+      assert.equal(await mobile.locator('.stack-disclosure').evaluate(details=>details.open),false);
+      const layout=await mobile.evaluate(()=>{
+        const grid=document.querySelector('.project-grid');
+        const cards=[...grid.children].filter(element=>element.matches('.project-card'));
+        return {height:document.documentElement.scrollHeight,overflow:grid.scrollWidth-grid.clientWidth,firstTop:cards[0].offsetTop,secondTop:cards[1].offsetTop,secondLeft:cards[1].offsetLeft};
+      });
+      assert.ok(layout.height<10000,JSON.stringify(layout));
+      assert.ok(layout.overflow>200,JSON.stringify(layout));
+      assert.equal(layout.firstTop,layout.secondTop);
+      assert.ok(layout.secondLeft>300,JSON.stringify(layout));
+    });
     await test('mobile hero keeps the portrait available while scrolling', async()=>{
       const portrait=mobile.locator('.hero-portrait');
       await portrait.scrollIntoViewIfNeeded();await wait(100);
@@ -139,6 +152,7 @@ const skipStartup = async page => {
       assert.match(state.currentSrc,/grigorii-belyaev-(480|800)\.webp$/);
     });
     await test('mobile taps, pointer cancellation, and readable labels', async()=>{
+      await mobile.locator('.stack-disclosure > summary').click();
       await mobile.locator('#skills3d').scrollIntoViewIfNeeded();await mobile.waitForSelector('.skill-node-button');
       const buttons=mobile.locator('.skill-node-button:visible');
       const first=buttons.first(); const name=await first.textContent();await first.evaluate(element=>element.click());await wait(100);
@@ -162,6 +176,7 @@ const skipStartup = async page => {
       assert.deepEqual(result.violations.map(v=>`${v.id}: ${v.nodes.map(n=>n.target.join(' ')).join(', ')}`),[]);
     });
     await mobile.screenshot({path:`${screenshotDir}/sphere-mobile.png`});
+    await mobile.locator('.stack-disclosure > summary').click();
     await mobile.locator('.project-image img').scrollIntoViewIfNeeded();await mobile.locator('.project-image img').evaluate(img=>img.decode());
     await mobile.screenshot({path:`${screenshotDir}/neberi-mobile.png`});
     await mobile.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await mobile.screenshot({path:`${screenshotDir}/hero-mobile.png`});
