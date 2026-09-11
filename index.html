@@ -59,6 +59,7 @@
 			})()
 		</script>
 		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+		<link rel="modulepreload" href="skills-3d.js?v=20260911-8" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -75,12 +76,12 @@
 				href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;600&display=swap"
 				rel="stylesheet"
 		/></noscript>
-		<link rel="stylesheet" href="style.css?v=20260911-7" />
-		<link rel="stylesheet" href="skills-3d.css?v=20260911-7" />
-		<link rel="stylesheet" href="xp-theme.css?v=20260911-7" />
-		<script src="portfolio.js?v=20260911-7" defer></script>
-		<script src="desktop.js?v=20260911-7" defer></script>
-		<script src="motion.js?v=20260911-7" defer></script>
+		<link rel="stylesheet" href="style.css?v=20260911-8" />
+		<link rel="stylesheet" href="skills-3d.css?v=20260911-8" />
+		<link rel="stylesheet" href="xp-theme.css?v=20260911-8" />
+		<script src="portfolio.js?v=20260911-8" defer></script>
+		<script src="desktop.js?v=20260911-8" defer></script>
+		<script src="motion.js?v=20260911-8" defer></script>
 	</head>
 	<body class="xp-desktop">
 		<svg
@@ -216,14 +217,14 @@
 				</div>
 			</div>
 			<button class="boot-skip" type="button">
-				<span>Пропустить&nbsp; →</span><small>Esc</small>
+				<span>Пропустить загрузку</span><small>Esc</small>
 			</button>
 		</div>
 		<div class="ambient" aria-hidden="true"></div>
 		<div class="scroll-progress" aria-hidden="true"><span></span></div>
 		<header class="topbar" id="top">
 			<a class="wordmark" href="#top" aria-label="Grigorii Belyaev — наверх"
-				>Grigorii Belyaev<span aria-hidden="true">✳</span></a
+				>Grigorii Belyaev</a
 			>
 			<p class="top-note">full-stack <b>+</b> ML / personal portfolio</p>
 			<nav aria-label="Основная навигация">
@@ -282,14 +283,14 @@
 									><span class="title-dot" aria-hidden="true">.</span></span
 								>
 							</h1>
-							<p class="hero-usp">Данные —> Работающий продукт</p>
+							<p class="hero-usp">От данных до работающего продукта</p>
 							<p class="hero-intro">
 								Разрабатываю API, веб-интерфейсы и ML-пайплайны. Связываю их в
 								систему, которую можно запустить, проверить и развивать.
 							</p>
 							<div class="actions">
 								<a class="button button-primary" href="#work"
-									>Открыть проекты <span aria-hidden="true">↗</span></a
+									>Открыть проекты</a
 								><a class="button button-outline" href="#contact">Связаться</a>
 							</div>
 						</div>
@@ -313,15 +314,17 @@
 									target="_blank"
 									rel="noopener"
 									aria-label="Открыть фотографию в полном размере"
-									>↗</a
+									>Открыть</a
 								>
 							</div>
 							<div class="photo-mat">
 								<img
-									src="assets/grigorii-belyaev.jpg"
+									src="assets/grigorii-belyaev-800.webp"
+									srcset="assets/grigorii-belyaev-480.webp 480w, assets/grigorii-belyaev-800.webp 800w"
+									sizes="(max-width: 600px) 276px, (max-width: 1050px) 34vw, 360px"
 									alt="Григорий Беляев"
-									width="2321"
-									height="2321"
+									width="800"
+									height="800"
 									fetchpriority="high"
 								/>
 							</div>
@@ -388,7 +391,7 @@
 						class="xp-window-action"
 						href="#top"
 						aria-label="Вернуться на рабочий стол"
-						>↑</a
+						>Наверх</a
 					>
 				</div>
 				<div class="xp-address">
@@ -410,7 +413,7 @@
 					<span>К кейсам:</span><a href="#neberi">NEBERI · full-stack + ML</a
 					><a href="#optitrade">OptiTrade · full-stack</a
 					><a href="#ocr">OCRFix-RU · NLP</a
-					><a href="#llm-eval">Ещё проекты ↓</a>
+					><a href="#llm-eval">Ещё проекты</a>
 				</nav>
 				<article
 					class="feature project-anchor"
@@ -427,7 +430,7 @@
 							target="_blank"
 							rel="noopener noreferrer"
 							aria-label="Открыть NEBERI"
-							>↗</a
+							>Открыть</a
 						>
 					</div>
 					<div class="feature-heading">
@@ -492,9 +495,9 @@
 									href="https://github.com/bluvvis/NEBERI"
 									target="_blank"
 									rel="noopener noreferrer"
-									>Код и запуск NEBERI <span aria-hidden="true">↗</span></a
+									>Код и запуск NEBERI</a
 								><a class="text-link" href="#demo"
-									>Как считается риск <span aria-hidden="true">↓</span></a
+									>Как считается риск</a
 								>
 							</div>
 						</div>
@@ -505,10 +508,10 @@
 								rel="noopener"
 								aria-label="Открыть коллаж интерфейса и презентации NEBERI в полном размере"
 								><img
-									src="assets/neberi-presentation.jpg"
+									src="assets/neberi-presentation-640.webp"
 									alt="NEBERI: лента событий, объяснение скоринга, схема API и стек проекта — коллаж интерфейса и презентации"
-									width="1206"
-									height="2144"
+									width="640"
+									height="1138"
 									loading="lazy"
 									decoding="async"
 							/></a>
@@ -518,7 +521,7 @@
 									href="assets/neberi-presentation.jpg"
 									target="_blank"
 									rel="noopener"
-									>Увеличить <span aria-hidden="true">↗</span></a
+									>Увеличить</a
 								>
 							</figcaption>
 						</figure>
@@ -551,7 +554,7 @@
 								href="https://github.com/bluvvis/NEBERI/blob/main/apps/api/app/services/risk_levels.py"
 								target="_blank"
 								rel="noopener noreferrer"
-								>Логика в исходном коде <span aria-hidden="true">↗</span></a
+								>Логика в исходном коде</a
 							>
 						</div>
 						<div class="demo-console">
@@ -646,7 +649,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть OptiTrade"
-								>↗</a
+								>Открыть</a
 							>
 						</div>
 						<p class="eyebrow">02 / командный проект · full-stack</p>
@@ -674,7 +677,7 @@
 										href="https://github.com/FaritSharafutdinov/OptiTrade/commit/65792574f2369dac64b7b0c2afdd6d18dd4e6a82"
 										target="_blank"
 										rel="noopener noreferrer"
-										>PostgreSQL и интеграция интерфейса ↗</a
+										>PostgreSQL и интеграция интерфейса</a
 									>
 								</li>
 								<li>
@@ -682,7 +685,7 @@
 										href="https://github.com/FaritSharafutdinov/OptiTrade/commit/ee6e19d8dc1ca3125741a7a36b37f0d6ff3a5aaf"
 										target="_blank"
 										rel="noopener noreferrer"
-										>Мемоизация компонентов и lazy routes ↗</a
+										>Мемоизация компонентов и lazy routes</a
 									>
 								</li>
 								<li>
@@ -690,7 +693,7 @@
 										href="https://github.com/FaritSharafutdinov/OptiTrade/commits?author=bluvvis"
 										target="_blank"
 										rel="noopener noreferrer"
-										>Все мои коммиты ↗</a
+										>Все мои коммиты</a
 									>
 								</li>
 							</ul>
@@ -700,7 +703,7 @@
 							href="https://github.com/FaritSharafutdinov/OptiTrade"
 							target="_blank"
 							rel="noopener noreferrer"
-							>Репозиторий OptiTrade <span aria-hidden="true">↗</span></a
+							>Репозиторий OptiTrade</a
 						>
 					</article>
 					<article
@@ -718,7 +721,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть OCRFix-RU"
-								>↗</a
+								>Открыть</a
 							>
 						</div>
 						<p class="eyebrow">03 / личный проект · NLP</p>
@@ -750,13 +753,13 @@
 								href="https://github.com/bluvvis/OCRFix-RU"
 								target="_blank"
 								rel="noopener noreferrer"
-								>Код OCRFix-RU ↗</a
+								>Код OCRFix-RU</a
 							><a
 								class="card-link"
 								href="https://github.com/bluvvis/OCRFix-RU/blob/main/artifacts/report.json"
 								target="_blank"
 								rel="noopener noreferrer"
-								>Результаты ↗</a
+								>Результаты</a
 							>
 						</div>
 					</article>
@@ -775,7 +778,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть LLM Evaluation"
-								>↗</a
+								>Открыть</a
 							>
 						</div>
 						<p class="eyebrow">04 / командный проект · ML research</p>
@@ -804,13 +807,13 @@
 								href="https://github.com/FaritSharafutdinov/Recovering-Cyber-Security-Domain-Knowledge"
 								target="_blank"
 								rel="noopener noreferrer"
-								>Репозиторий исследования ↗</a
+								>Репозиторий исследования</a
 							><a
 								class="card-link"
 								href="https://github.com/FaritSharafutdinov/Recovering-Cyber-Security-Domain-Knowledge/commits?author=bluvvis"
 								target="_blank"
 								rel="noopener noreferrer"
-								>Мой вклад ↗</a
+								>Мой вклад</a
 							>
 						</div>
 					</article>
@@ -829,7 +832,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть DariaBrusnika"
-								>↗</a
+								>Открыть</a
 							>
 						</div>
 						<p class="eyebrow">05 / веб-проект · реализация интерфейса</p>
@@ -854,13 +857,13 @@
 								href="https://bluvvis.github.io/DariaBrusnika/"
 								target="_blank"
 								rel="noopener noreferrer"
-								>Посмотреть сайт ↗</a
+								>Посмотреть сайт</a
 							><a
 								class="card-link"
 								href="https://github.com/bluvvis/DariaBrusnika/pull/2"
 								target="_blank"
 								rel="noopener noreferrer"
-								>Пример изменений ↗</a
+								>Пример изменений</a
 							>
 						</div>
 					</article>
@@ -879,7 +882,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть Big Data Search"
-								>↗</a
+								>Открыть</a
 							>
 						</div>
 						<p class="eyebrow">06 / учебный проект · data engineering</p>
@@ -903,7 +906,7 @@
 							href="https://github.com/bluvvis/BigData_2"
 							target="_blank"
 							rel="noopener noreferrer"
-							>Репозиторий Big Data Search <span aria-hidden="true">↗</span></a
+							>Репозиторий Big Data Search</a
 						>
 					</article>
 					<article
@@ -921,7 +924,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть Book Discovery"
-								>↗</a
+								>Открыть</a
 							>
 						</div>
 						<p class="eyebrow">07 / командный проект · frontend + данные</p>
@@ -943,13 +946,13 @@
 								href="https://github.com/IU-Capstone-Project-2025/Recommendation-System/pull/22"
 								target="_blank"
 								rel="noopener noreferrer"
-								>Мобильный интерфейс ↗</a
+								>Мобильный интерфейс</a
 							><a
 								class="card-link"
 								href="https://github.com/IU-Capstone-Project-2025/Recommendation-System/pull/44"
 								target="_blank"
 								rel="noopener noreferrer"
-								>Парсер Open Library ↗</a
+								>Парсер Open Library</a
 							>
 						</div>
 					</article>
@@ -961,7 +964,7 @@
 						href="https://github.com/bluvvis?tab=repositories"
 						target="_blank"
 						rel="noopener noreferrer"
-						>Все репозитории <span aria-hidden="true">↗</span></a
+						>Все репозитории</a
 					>
 				</div>
 			</section>
@@ -979,7 +982,7 @@
 						class="xp-window-action"
 						href="#top"
 						aria-label="Вернуться на рабочий стол"
-						>↑</a
+						>Наверх</a
 					>
 				</div>
 				<div class="xp-address">
@@ -1020,6 +1023,11 @@
 								Интерактивная карта загружается при прокрутке. Все навыки
 								доступны в списке ниже.
 							</p>
+						</div>
+						<div class="sphere-controls" aria-label="Управление сферой">
+							<button class="sphere-turn-btn" id="sphereLeft" type="button" hidden>
+								Повернуть влево
+							</button>
 							<button
 								class="skills-pause-btn"
 								id="spherePause"
@@ -1027,11 +1035,14 @@
 								hidden
 								aria-pressed="false"
 							>
-								Пауза вращения <span aria-hidden="true">Ⅱ</span>
+								Пауза вращения
+							</button>
+							<button class="sphere-turn-btn" id="sphereRight" type="button" hidden>
+								Повернуть вправо
 							</button>
 						</div>
 						<p class="sphere-hint" id="sphereHint">
-							Потяните для вращения · выберите технологию для деталей
+							Проведите по свободному месту сферы или используйте кнопки ниже
 						</p>
 						<div class="skills-legend" aria-label="Цвета направлений">
 							<span data-category="frontend">Frontend</span
@@ -1060,8 +1071,8 @@
 						</p>
 						<p class="detail-label">Где применял</p>
 						<ul id="skillDetailProjects">
-							<li><a href="#neberi">NEBERI ↗</a></li>
-							<li><a href="#optitrade">OptiTrade ↗</a></li>
+							<li><a href="#neberi">NEBERI</a></li>
+							<li><a href="#optitrade">OptiTrade</a></li>
 						</ul>
 
 						<p
@@ -1422,7 +1433,7 @@
 						class="xp-window-action"
 						href="#top"
 						aria-label="Вернуться на рабочий стол"
-						>↑</a
+						>Наверх</a
 					>
 				</div>
 				<div class="xp-address">
@@ -1484,7 +1495,7 @@
 						class="xp-window-action"
 						href="#top"
 						aria-label="Вернуться на рабочий стол"
-						>↑</a
+						>Наверх</a
 					>
 				</div>
 				<div class="xp-address">
@@ -1519,7 +1530,7 @@
 						</div>
 						<div class="contact-person">
 							<img
-								src="assets/grigorii-belyaev.jpg"
+								src="assets/grigorii-belyaev-480.webp"
 								width="64"
 								height="64"
 								alt=""
@@ -1541,7 +1552,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								><span><small>01</small> Telegram</span
-								><span aria-hidden="true">↗</span></a
+								></a
 							>
 							<a
 								class="button button-outline"
@@ -1549,7 +1560,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								><span><small>02</small> MAX</span
-								><span aria-hidden="true">↗</span></a
+								></a
 							>
 							<a
 								class="button button-outline"
@@ -1557,7 +1568,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								><span><small>03</small> ВКонтакте</span
-								><span aria-hidden="true">↗</span></a
+								></a
 							>
 						</nav>
 						<div class="contact-email-block">
@@ -1582,7 +1593,7 @@
 			</section>
 		</main>
 		<footer class="section-shell">
-			<span>© 2026 Григорий Беляев</span><a href="#top">Наверх ↑</a>
+			<span>© 2026 Григорий Беляев</span><a href="#top">Наверх</a>
 		</footer>
 
 		<div class="xp-taskbar">
@@ -1628,7 +1639,7 @@
 			hidden
 		>
 			<div class="xp-start-user">
-				<img src="assets/grigorii-belyaev.jpg" alt="" width="44" height="44" />
+				<img src="assets/grigorii-belyaev-480.webp" alt="" width="44" height="44" />
 				<div>
 					<strong>Григорий Беляев</strong
 					><span>@bluvvis · full-stack + ML</span>
@@ -1660,7 +1671,7 @@
 				><svg class="xp-icon" aria-hidden="true">
 					<use href="#xp-terminal" />
 				</svg>
-				GitHub / bluvvis ↗</a
+				GitHub / bluvvis</a
 			>
 		</nav>
 	</body>

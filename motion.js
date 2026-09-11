@@ -612,6 +612,12 @@
 	}
 	const updateHeroExit = () => {
 		heroExitFrame = 0
+		// On compact layouts the portrait follows the main window vertically.
+		// Fading that column while it is still below the fold made it unreachable.
+		if (innerWidth <= 820) {
+			resetHeroExit()
+			return
+		}
 		if (
 			!hero?.classList.contains('hero-ready') ||
 			!profileWindow ||

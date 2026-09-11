@@ -127,6 +127,17 @@ const skipStartup = async page => {
     mobile.on('pageerror',error=>errors.push(error.message));
     await mobile.goto(BASE,{waitUntil:'networkidle'});
     await skipStartup(mobile);
+    await test('mobile hero keeps the portrait available while scrolling', async()=>{
+      const portrait=mobile.locator('.hero-portrait');
+      await portrait.scrollIntoViewIfNeeded();await wait(100);
+      const state=await portrait.evaluate(element=>{
+        const rect=element.getBoundingClientRect();
+        return {opacity:getComputedStyle(element.closest('.desktop-side')).opacity,top:rect.top,bottom:rect.bottom,viewport:innerHeight,currentSrc:element.querySelector('img').currentSrc};
+      });
+      assert.equal(state.opacity,'1');
+      assert.ok(state.bottom>0 && state.top<state.viewport,JSON.stringify(state));
+      assert.match(state.currentSrc,/grigorii-belyaev-(480|800)\.webp$/);
+    });
     await test('mobile taps, pointer cancellation, and readable labels', async()=>{
       await mobile.locator('#skills3d').scrollIntoViewIfNeeded();await mobile.waitForSelector('.skill-node-button');
       const buttons=mobile.locator('.skill-node-button:visible');
@@ -139,6 +150,11 @@ const skipStartup = async page => {
       await cdp.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});
       await cdp.detach();
       assert.equal(await mobile.locator('#skills3d').evaluate(el=>el.classList.contains('is-dragging')),false);
+      assert.ok(await mobile.locator('#sphereLeft').isVisible());
+      const nodeState=()=>mobile.locator('.skill-node').evaluateAll(nodes=>nodes.map(node=>node.style.transform).join('|'));
+      await mobile.locator('#spherePause').click();await wait(80);const beforeTurn=await nodeState();
+      await mobile.locator('#sphereRight').click();await wait(80);
+      assert.notEqual(await nodeState(),beforeTurn);
     });
     await test('mobile accessibility',async()=>{
       const result=await new AxeBuilder({page:mobile}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
@@ -150,6 +166,23 @@ const skipStartup = async page => {
     await mobile.screenshot({path:`${screenshotDir}/neberi-mobile.png`});
     await mobile.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await mobile.screenshot({path:`${screenshotDir}/hero-mobile.png`});
     await mobile.screenshot({path:`${screenshotDir}/mobile-full.png`,fullPage:true});
+
+    await test('boot content stays centered on a mobile viewport',async()=>{
+      const boot=await mobileContext.newPage();
+      await boot.goto(`${BASE}?boot-center=1`,{waitUntil:'domcontentloaded'});
+      await boot.waitForFunction(()=>document.documentElement.dataset.bootState==='post');
+      const centered=async selector=>boot.locator(selector).evaluate(element=>{
+        const rect=element.getBoundingClientRect();
+        return {x:Math.abs(rect.left+rect.width/2-innerWidth/2),y:Math.abs(rect.top+rect.height/2-innerHeight/2)};
+      });
+      const post=await centered('.boot-bios');
+      assert.ok(post.x<2 && post.y<2,JSON.stringify(post));
+      await boot.evaluate(()=>document.documentElement.dataset.bootState='xp');
+      const xp=await centered('.boot-xp');
+      assert.ok(xp.x<2 && xp.y<2,JSON.stringify(xp));
+      await boot.locator('.boot-skip').click();
+      await boot.close();
+    });
 
     await test('reduced motion and offscreen suspension',async()=>{
       const reduced=await browser.newPage({reducedMotion:'reduce',viewport:{width:1200,height:900}});
@@ -294,7 +327,7 @@ const skipStartup = async page => {
       const channels = await page.locator('.contact-channels a').evaluateAll(links => links.map(link => ({
         text: link.textContent.trim().replace(/\s+/g, ' '), href: link.href
       })));
-      assert.deepEqual(channels.map(channel => channel.text), ['01 Telegram↗', '02 MAX↗', '03 ВКонтакте↗']);
+      assert.deepEqual(channels.map(channel => channel.text), ['01 Telegram', '02 MAX', '03 ВКонтакте']);
       assert.equal(new URL(channels[0].href).hostname, 't.me');
       assert.equal(new URL(channels[1].href).hostname, 'max.ru');
       assert.equal(new URL(channels[2].href).hostname, 'vk.ru');

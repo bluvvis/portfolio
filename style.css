@@ -44,7 +44,6 @@ ul { margin: 0; }
 .scroll-progress span { display: block; background: var(--accent); height: 100%; transform: scaleX(0); transform-origin: left; }
 .topbar { min-height: 90px; width: min(100% - 80px, 1440px); margin: auto; display: grid; grid-template-columns: 1fr auto 1fr; gap: 30px; align-items: center; border-bottom: 1px solid var(--line); }
 .wordmark { width: fit-content; font-size: 25px; font-weight: 700; letter-spacing: -.08em; }
-.wordmark span { color: var(--accent); margin-left: 5px; }
 .top-note, .topbar nav, .hero-banner, .eyebrow, .section-mark, .small, .hero-foot, .project-kind, .project-image figcaption, .work-footer, .socials, footer { font: 11px/1.6 var(--mono); }
 .top-note { color: var(--muted); text-transform: uppercase; }
 .topbar nav { display: flex; gap: 25px; justify-self: end; }

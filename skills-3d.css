@@ -18,7 +18,9 @@
 .skill-node-button::before { content: ''; display: inline-block; width: 5px; height: 5px; background: var(--category); border-radius: 50%; margin-right: 7px; vertical-align: middle; }
 .skill-node-button:hover, .skill-node-button:focus-visible, .skill-node-button[aria-pressed="true"] { color: var(--category); border-color: var(--category); background: #191b1ba8; }
 .skill-node-button.is-related { border-color: var(--category); }
-.skills-pause-btn { position: absolute; top: 16px; right: 16px; z-index: 30; min-height: 44px; display: flex; align-items: center; gap: 14px; padding: 10px 13px; background: var(--panel); border: 1px solid var(--line); color: var(--text); font: 10px/1.4 var(--mono); border-radius: 4px; }
+.sphere-controls { display: flex; align-items: stretch; justify-content: center; gap: 8px; margin-top: 12px; }
+.skills-pause-btn, .sphere-turn-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 10px 13px; background: var(--panel); border: 1px solid var(--line); color: var(--text); font: 10px/1.4 var(--mono); border-radius: 4px; }
+.sphere-turn-btn { display: none; }
 .skills-pause-btn:hover { border-color: var(--accent-soft); }
 .skills-pause-btn:disabled { cursor: default; color: var(--muted); }
 .sphere-hint { font: 10px/1.7 var(--mono); color: var(--muted); text-align: center; margin-top: 16px; }
@@ -57,7 +59,10 @@
   .skill-group li > a { min-height: 44px; }
   .skill-group > p { min-height: 60px; }
   .sphere-hint { font-size: 9px; }
-  .skills-pause-btn { top: 12px; right: 12px; }
+  .sphere-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sphere-turn-btn { display: flex; }
+  .skills-pause-btn { grid-column: 1 / -1; grid-row: 2; }
+  .sphere-hint { margin-top: 10px; padding-inline: 8px; }
 }
 @media (max-width: 380px) {
   .skills-3d-stage { height: 420px; }
@@ -78,6 +83,6 @@
 @media (hover: hover) and (pointer: fine) {
   .skills-3d-stage { cursor: url('assets/cursor-pink-hand.svg') 12 2, grab; }
   .skills-3d-stage.is-dragging { cursor: url('assets/cursor-pink-grab.svg') 12 10, grabbing; }
-  .skill-node-button, .skills-pause-btn { cursor: url('assets/cursor-pink-hand.svg') 12 2, pointer; }
+  .skill-node-button, .skills-pause-btn, .sphere-turn-btn { cursor: url('assets/cursor-pink-hand.svg') 12 2, pointer; }
   .skills-pause-btn:disabled { cursor: not-allowed; }
 }

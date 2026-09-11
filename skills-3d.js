@@ -24,7 +24,10 @@ export function initSphere(stage) {
 	}
 	const status = document.querySelector('#sphereStatus')
 	const pause = document.querySelector('#spherePause')
+	const turnLeft = document.querySelector('#sphereLeft')
+	const turnRight = document.querySelector('#sphereRight')
 	const motion = matchMedia('(prefers-reduced-motion: reduce)')
+	const coarsePointer = matchMedia('(pointer: coarse)')
 	const events = new AbortController()
 	const listen = (target, event, handler, options = {}) =>
 		target.addEventListener(event, handler, {
@@ -82,6 +85,8 @@ export function initSphere(stage) {
 		renderer?.domElement.remove()
 		labels?.domElement.remove()
 		if (pause) pause.hidden = true
+		if (turnLeft) turnLeft.hidden = true
+		if (turnRight) turnRight.hidden = true
 		if (message) {
 			status.hidden = false
 			status.textContent = message
@@ -127,10 +132,6 @@ export function initSphere(stage) {
 			const link = document.createElement('a')
 			link.href = `#${id}`
 			link.textContent = target.dataset.projectName
-			const arrow = document.createElement('span')
-			arrow.textContent = '↗'
-			arrow.setAttribute('aria-hidden', 'true')
-			link.append(arrow)
 			item.append(link)
 			projects.append(item)
 		})
@@ -160,8 +161,8 @@ export function initSphere(stage) {
 			pause.textContent = systemPaused
 				? 'Анимация отключена'
 				: userPaused
-					? 'Продолжить вращение ▷'
-					: 'Пауза вращения Ⅱ'
+					? 'Продолжить вращение'
+					: 'Пауза вращения'
 		}
 		lastTime = 0
 		requestFrame()
@@ -210,7 +211,9 @@ export function initSphere(stage) {
 		camera.position.set(0, 0, fitDistance * (width < 450 ? 1.28 : 1.15))
 		camera.updateProjectionMatrix()
 		camera.updateMatrixWorld()
-		renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75))
+		renderer.setPixelRatio(
+			Math.min(devicePixelRatio || 1, coarsePointer.matches ? 1.25 : 1.75),
+		)
 		renderer.setSize(width, height)
 		labels.setSize(width, height)
 		requestFrame()
@@ -400,6 +403,13 @@ export function initSphere(stage) {
 				updateMotion()
 			})
 		}
+		const turn = direction => {
+			horizontalAngle += direction * 0.32
+			lastTime = 0
+			requestFrame()
+		}
+		if (turnLeft) listen(turnLeft, 'click', () => turn(-1))
+		if (turnRight) listen(turnRight, 'click', () => turn(1))
 		listen(motion, 'change', updateMotion)
 		listen(document, 'portfolio:motion-change', () => {
 			globalPaused = document.documentElement.dataset.motion === 'paused'
@@ -436,7 +446,8 @@ export function initSphere(stage) {
 			resumeAfterPointerMove()
 			requestFrame()
 			if (!dragging || event.pointerId !== pointerId) return
-			horizontalAngle += (event.clientX - lastX) * 0.008
+			horizontalAngle +=
+				(event.clientX - lastX) * (coarsePointer.matches ? 0.012 : 0.008)
 			lastX = event.clientX
 			requestFrame()
 		})
@@ -493,6 +504,8 @@ export function initSphere(stage) {
 		updateMotion()
 		status.hidden = true
 		if (pause) pause.hidden = false
+		if (turnLeft) turnLeft.hidden = false
+		if (turnRight) turnRight.hidden = false
 		stage.classList.add('is-ready')
 
 		// 3D появляется только после первого кадра entrance-анимации секции.
