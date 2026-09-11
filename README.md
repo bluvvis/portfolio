@@ -58,6 +58,8 @@ CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" npm t
 
 Разместить `index.html`, `style.css`, `skills-3d.css`, `xp-theme.css`, `portfolio.js`, `skills-3d.js`, `desktop.js`, `motion.js`, `assets/` и `vendor/` на статическом HTTP(S)-хостинге с корректными MIME-типами JavaScript. Домен не задан: canonical/og:url и абсолютный og:image следует добавить после выбора адреса. Шрифты загружаются с Google Fonts; при недоступности используются системные альтернативы.
 
+При публикации через Cloudflare Workers Static Assets корнем ассетов может оставаться корень репозитория: `.assetsignore` исключает `node_modules`, тесты, документацию и служебные файлы из загрузки.
+
 Демо NEBERI иллюстрирует конкретную часть публичной логики: смесь правил и ML с нулевым дополнительным бонусом, Python-совместимое округление и `max(смесь, правила)` для присвоения уровня риска. Оценки вводятся вручную; ML-модель в портфолио не запускается.
 
 ## Поведение XP-оболочки

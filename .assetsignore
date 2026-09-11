@@ -1,0 +1,18 @@
+# Development dependencies and test artifacts are not public site assets.
+node_modules
+tests
+test-results
+playwright-report
+
+# Repository documentation and package metadata stay out of the deployment.
+docs
+README.md
+package.json
+package-lock.json
+
+# Version-control and local service files.
+.git
+.github
+.gitignore
+.assetsignore
+.DS_Store
