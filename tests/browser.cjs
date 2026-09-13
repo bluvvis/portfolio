@@ -66,6 +66,13 @@ const skipStartup = async page => {
     await page.waitForSelector('.skill-node-button');
     await test('sphere selection, related project links and keyboard controls', async () => {
       const buttons = page.locator('.skill-node-button');
+      assert.equal(await page.locator('.skill-node-button[aria-pressed="true"]').count(),0);
+      assert.equal(await page.locator('#skills3d').getAttribute('data-active-connections'),'0');
+      const sql=page.getByRole('button',{name:/^SQL \/ SQLAlchemy/});
+      await sql.evaluate(element=>element.click());
+      assert.equal(await page.locator('#skills3d').getAttribute('data-selected-category'),'backend');
+      assert.equal(await page.locator('#skills3d').getAttribute('data-active-connections'),'3');
+      assert.equal(await page.locator('.skill-node-button.is-related').count(),3);
       let checks = 0;
       for (const button of await buttons.all()) {
         if (!await button.isVisible()) continue;
@@ -129,7 +136,7 @@ const skipStartup = async page => {
     await skipStartup(mobile);
     await test('mobile presents dense sections progressively', async()=>{
       assert.equal(await mobile.locator('#demo').evaluate(details=>details.open),false);
-      assert.equal(await mobile.locator('.stack-disclosure').evaluate(details=>details.open),false);
+      assert.equal(await mobile.locator('.stack-disclosure').evaluate(details=>details.open),true);
       const layout=await mobile.evaluate(()=>{
         const grid=document.querySelector('.project-grid');
         const cards=[...grid.children].filter(element=>element.matches('.project-card'));
@@ -152,12 +159,13 @@ const skipStartup = async page => {
       assert.match(state.currentSrc,/grigorii-belyaev-(480|800)\.webp$/);
     });
     await test('mobile taps, pointer cancellation, and readable labels', async()=>{
-      await mobile.locator('.stack-disclosure > summary').click();
       await mobile.locator('#skills3d').scrollIntoViewIfNeeded();await mobile.waitForSelector('.skill-node-button');
       const buttons=mobile.locator('.skill-node-button:visible');
       const first=buttons.first(); const name=await first.textContent();await first.evaluate(element=>element.click());await wait(100);
       assert.equal(await mobile.locator('#skillDetailTitle').textContent(),name);
-      assert.equal(await mobile.locator('.skill-node-button:visible').count(), await mobile.locator('#skillGroups [data-sphere]').count());
+      const visibleCount=await mobile.locator('.skill-node-button:visible').count();
+      const totalCount=await mobile.locator('#skillGroups [data-sphere]').count();
+      assert.ok(visibleCount>=6 && visibleCount<totalCount,JSON.stringify({visibleCount,totalCount}));
       const rect=await mobile.locator('#skills3d').boundingBox();
       const cdp=await mobile.context().newCDPSession(mobile);
       await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:rect.x+20,y:rect.y+90}]});

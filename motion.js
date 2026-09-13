@@ -4,6 +4,9 @@
 	const root = document.documentElement
 	const reduced = matchMedia('(prefers-reduced-motion: reduce)')
 	const fine = matchMedia('(hover: hover) and (pointer: fine)')
+	const compact = matchMedia(
+		'(max-width: 600px), (pointer: coarse) and (orientation: landscape) and (max-height: 500px)',
+	)
 	const allowed = () =>
 		root.dataset.motion !== 'paused' && !reduced.matches && !document.hidden
 	const running = new Set()
@@ -735,7 +738,7 @@
 				if (
 					!overlay ||
 					!allowed() ||
-					innerWidth <= 600 ||
+					compact.matches ||
 					section.contains(document.activeElement)
 				) {
 					finishSectionRendering(section)
@@ -916,7 +919,7 @@
 	}
 	const prepare = element => {
 		if (prepared.has(element) || started.has(element)) return
-		if (innerWidth <= 600) {
+		if (compact.matches) {
 			started.add(element)
 			return
 		}

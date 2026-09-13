@@ -149,7 +149,7 @@
 
   // Dense desktop tools remain available on phones through native disclosures.
   // With JavaScript disabled they stay open, so no portfolio content disappears.
-  const compactLayout = matchMedia('(max-width: 600px)');
+  const compactLayout = matchMedia('(max-width: 600px), (pointer: coarse) and (orientation: landscape) and (max-height: 500px)');
   const disclosures = [...document.querySelectorAll('.mobile-disclosure')];
   const disclosureState = new WeakMap();
   const hashTarget = () => {
@@ -157,11 +157,12 @@
     catch { return null; }
   };
   const syncDisclosures = () => disclosures.forEach(details => {
-    const state = disclosureState.get(details) || { userSet: false, syncing: false };
+    const state = disclosureState.get(details) || { userSet: false, open: details.open, syncing: false };
     disclosureState.set(details, state);
     const target = hashTarget();
     const containsTarget = target && (target === details || details.contains(target));
-    const shouldOpen = !compactLayout.matches || state.userSet || containsTarget;
+    const defaultOpen = details.classList.contains('stack-disclosure');
+    const shouldOpen = !compactLayout.matches || containsTarget || (state.userSet ? state.open : defaultOpen);
     if (details.open === shouldOpen) return;
     state.syncing = true;
     details.open = shouldOpen;
@@ -169,7 +170,10 @@
   });
   disclosures.forEach(details => details.addEventListener('toggle', () => {
     const state = disclosureState.get(details);
-    if (compactLayout.matches && state && !state.syncing) state.userSet = details.open;
+    if (compactLayout.matches && state && !state.syncing) {
+      state.userSet = true;
+      state.open = details.open;
+    }
   }));
   document.addEventListener('click', event => {
     const link = event.target.closest('a[href^="#"]');
@@ -180,7 +184,7 @@
     const details = target?.closest('.mobile-disclosure');
     if (details) {
       const state = disclosureState.get(details);
-      if (state) state.userSet = true;
+      if (state) { state.userSet = true; state.open = true; }
       details.open = true;
     }
   });
@@ -195,7 +199,7 @@
       if (loaded) return;
       loaded = true;
       try {
-        const { initSphere } = await import('./skills-3d.js?v=20260914-2');
+        const { initSphere } = await import('./skills-3d.js?v=20260914-3');
         initSphere(stage);
       } catch (error) {
         document.querySelector('#sphereStatus').textContent = '3D-карта недоступна. Все технологии и ссылки на проекты есть в списке ниже.';
@@ -205,7 +209,8 @@
         console.warn('Не удалось загрузить карту технологий:', error);
       }
     };
-    if ('IntersectionObserver' in window) {
+    if (compactLayout.matches) load();
+    else if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver(entries => {
         if (entries.some(entry => entry.isIntersecting)) { observer.disconnect(); load(); }
       }, { rootMargin: '1000px 0px' });

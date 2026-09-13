@@ -54,7 +54,7 @@ export function initSphere(stage) {
 	let suppressClick = false
 	let lastTime = 0
 	let elapsed = 0
-	let selected = 0
+	let selected = -1
 	let horizontalAngle = -0.3
 	const nodes = []
 	const lines = []
@@ -145,10 +145,14 @@ export function initSphere(stage) {
 				i !== index && skills[i].category === skill.category,
 			)
 		})
+		let activeConnections = 0
 		lines.forEach(line => {
 			const active = line.userData.a === index || line.userData.b === index
-			line.material.opacity = active ? 0.46 : 0.07
+			if (active) activeConnections += 1
+			line.material.opacity = active ? 0.52 : 0.018
 		})
+		stage.dataset.activeConnections = String(activeConnections)
+		stage.dataset.selectedCategory = skill.category
 		if (announce)
 			document.querySelector('#skillAnnouncement').textContent =
 				`${skill.name}. ${skill.description} Связанные проекты показаны в панели.`
@@ -215,7 +219,11 @@ export function initSphere(stage) {
 		// Fit the sphere to the narrower axis, keeping space for labels and controls.
 		const halfFov = THREE.MathUtils.degToRad(camera.fov / 2)
 		const fitDistance = 2.22 / (Math.tan(halfFov) * Math.min(camera.aspect, 1))
-		camera.position.set(0, 0, fitDistance * (width < 450 ? 1.28 : 1.15))
+		camera.position.set(
+			0,
+			0,
+			fitDistance * (width < 450 ? (coarsePointer.matches ? 1.32 : 1.28) : 1.15),
+		)
 		camera.updateProjectionMatrix()
 		camera.updateMatrixWorld()
 		renderer.setPixelRatio(
@@ -249,10 +257,14 @@ export function initSphere(stage) {
 		sphere.rotation.y = horizontalAngle
 		sphere.updateMatrixWorld(true)
 		// All labels stay present. Only scale and opacity express depth.
-		nodes.forEach(node => {
+		nodes.forEach((node, index) => {
 			node.label.getWorldPosition(vector)
 			const depth = Math.max(0, Math.min(1, (vector.z + 2) / 4))
 			const smoothDepth = depth * depth * (3 - 2 * depth)
+			const depthHidden =
+				coarsePointer.matches && smoothDepth < 0.42 && index !== selected
+			node.wrapper.classList.toggle('is-depth-hidden', depthHidden)
+			node.button.tabIndex = depthHidden ? -1 : 0
 			node.button.style.setProperty(
 				'--depth-scale',
 				String(0.9 + smoothDepth * 0.16),
@@ -359,14 +371,14 @@ export function initSphere(stage) {
 				`${skill.name} — показать опыт и проекты`,
 			)
 			button.setAttribute('aria-controls', 'skillDetail')
-			button.setAttribute('aria-pressed', String(i === 0))
+			button.setAttribute('aria-pressed', 'false')
 			wrapper.append(button)
 			const label = new CSS2DObject(wrapper)
 			// Unique render order avoids abrupt depth-based z-index swaps.
 			label.renderOrder = skills.length - i
 			label.position.copy(position)
 			sphere.add(label)
-			nodes.push({ label, button, position })
+			nodes.push({ label, wrapper, button, position })
 			listen(button, 'focus', () => select(i, true))
 			listen(button, 'click', event => {
 				if (suppressClick && event.detail !== 0) {
@@ -380,42 +392,27 @@ export function initSphere(stage) {
 			})
 		})
 
-		// Sparse, meaningful connections between tools used together.
-		const relations = [
-			['React', 'TypeScript'],
-			['React', 'FastAPI'],
-			['FastAPI', 'Python'],
-			['FastAPI', 'PostgreSQL'],
-			['PostgreSQL', 'SQL / SQLAlchemy'],
-			['Python', 'scikit-learn'],
-			['scikit-learn', 'pandas'],
-			['Python', 'NLP / n-grams'],
-			['Python', 'Transformers'],
-			['PySpark', 'Cassandra'],
-			['Docker', 'Kubernetes'],
-			['Kubernetes', 'Helm'],
-			['FastAPI', 'pytest'],
-			['React', 'Vitest'],
-		]
-		relations.forEach(([a, b]) => {
-			const ai = skills.findIndex(skill => skill.name === a)
-			const bi = skills.findIndex(skill => skill.name === b)
-			if (ai < 0 || bi < 0) return
-			const line = new THREE.Line(
-				new THREE.BufferGeometry().setFromPoints([
-					nodes[ai].position,
-					nodes[bi].position,
-				]),
-				new THREE.LineBasicMaterial({
-					color: palette[skills[ai].category],
-					transparent: true,
-					opacity: 0.07,
-				}),
-			)
-			line.userData = { a: ai, b: bi }
-			sphere.add(line)
-		lines.push(line)
-		})
+		// Every node connects to all other nodes in its category. Selection then
+		// highlights only the spokes that belong to the chosen technology.
+		for (let ai = 0; ai < skills.length; ai += 1) {
+			for (let bi = ai + 1; bi < skills.length; bi += 1) {
+				if (skills[ai].category !== skills[bi].category) continue
+				const line = new THREE.Line(
+					new THREE.BufferGeometry().setFromPoints([
+						nodes[ai].position,
+						nodes[bi].position,
+					]),
+					new THREE.LineBasicMaterial({
+						color: palette[skills[ai].category],
+						transparent: true,
+						opacity: 0.035,
+					}),
+				)
+				line.userData = { a: ai, b: bi }
+				sphere.add(line)
+				lines.push(line)
+			}
+		}
 		if (pause) {
 			listen(pause, 'click', () => {
 				userPaused = !userPaused
@@ -523,10 +520,10 @@ export function initSphere(stage) {
 			viewportObserver.observe(stage)
 		} else visible = true
 		resize()
+		stage.dataset.activeConnections = '0'
 		document.fonts?.ready.then(() => {
 			if (!disposed) resize()
 		})
-		select(0)
 		updateMotion()
 		status.hidden = true
 		if (pause) pause.hidden = false

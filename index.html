@@ -24,6 +24,7 @@
 		</style>
 		<script>
 			;(() => {
+				document.documentElement.classList.add('js-enabled')
 				const navigation = performance.getEntriesByType?.('navigation')[0]
 				const navigationType = navigation?.type
 				let savedY = 0
@@ -49,6 +50,9 @@
 					!motionPaused &&
 					!reducedMotion &&
 					matchMedia('(min-width: 601px)').matches &&
+					!matchMedia(
+						'(pointer: coarse) and (orientation: landscape) and (max-height: 500px)',
+					).matches &&
 					'IntersectionObserver' in window &&
 					'animate' in Element.prototype
 				) {
@@ -72,7 +76,7 @@
 			})()
 		</script>
 		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-		<link rel="modulepreload" href="skills-3d.js?v=20260914-2" />
+		<link rel="modulepreload" href="skills-3d.js?v=20260914-3" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -89,12 +93,12 @@
 				href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;600&display=swap"
 				rel="stylesheet"
 		/></noscript>
-		<link rel="stylesheet" href="style.css?v=20260914-2" />
-		<link rel="stylesheet" href="skills-3d.css?v=20260914-2" />
-		<link rel="stylesheet" href="xp-theme.css?v=20260914-2" />
-		<script src="portfolio.js?v=20260914-2" defer></script>
-		<script src="desktop.js?v=20260914-2" defer></script>
-		<script src="motion.js?v=20260914-2" defer></script>
+		<link rel="stylesheet" href="style.css?v=20260914-3" />
+		<link rel="stylesheet" href="skills-3d.css?v=20260914-3" />
+		<link rel="stylesheet" href="xp-theme.css?v=20260914-3" />
+		<script src="portfolio.js?v=20260914-3" defer></script>
+		<script src="desktop.js?v=20260914-3" defer></script>
+		<script src="motion.js?v=20260914-3" defer></script>
 	</head>
 	<body class="xp-desktop">
 		<svg
@@ -468,12 +472,16 @@
 									</dd>
 								</div>
 
-								<div>
-									<dt>Результат</dt>
-									<dd>
-										Событие проходит от приёма до оценки риска с объяснением в
-										интерфейсе. В репозитории: код, тесты и запуск.
-									</dd>
+							<div>
+								<dt>Результат</dt>
+								<dd>
+									<span class="desktop-copy"
+										>Событие проходит от приёма до оценки риска с объяснением в
+										интерфейсе. В репозитории: код, тесты и запуск.</span
+									><span class="mobile-copy"
+										>Полный путь: событие → скоринг → объяснение оператору.</span
+									>
+								</dd>
 								</div>
 							</dl>
 							<details class="implementation-details">
@@ -521,7 +529,7 @@
 									alt="NEBERI: лента событий, объяснение скоринга, схема API и стек проекта — коллаж интерфейса и презентации"
 									width="640"
 									height="1138"
-									loading="lazy"
+									loading="eager"
 									decoding="async"
 							/></a>
 							<figcaption>
@@ -651,7 +659,11 @@
 				<div class="mobile-strip-label">
 					<strong>Другие проекты</strong><span>Листайте вбок</span>
 				</div>
-				<div class="project-grid">
+				<div
+					class="project-grid"
+					tabindex="0"
+					aria-label="Другие проекты — горизонтальный список"
+				>
 					<article
 						class="project-card project-anchor"
 						id="optitrade"
@@ -1086,23 +1098,21 @@
 					<aside
 						class="skill-detail"
 						id="skillDetail"
+						data-category="none"
 						aria-labelledby="skillDetailTitle"
 					>
 						<div class="console-head skill-detail-head">
 							<span>Свойства технологии</span
 							><span class="status-dot" aria-hidden="true"></span>
 						</div>
-						<p class="eyebrow" id="skillDetailCategory">Frontend</p>
-						<h3 id="skillDetailTitle">React</h3>
+						<p class="eyebrow" id="skillDetailCategory">Карта навыков</p>
+						<h3 id="skillDetailTitle">Выберите технологию</h3>
 						<p id="skillDetailDescription">
-							Консоль событий NEBERI и интерфейс OptiTrade: маршрутизация, формы
-							и работа с API.
+							Нажмите на навык, чтобы увидеть описание, связанные технологии и
+							проекты.
 						</p>
 						<p class="detail-label">Где применял</p>
-						<ul id="skillDetailProjects">
-							<li><a href="#neberi">NEBERI</a></li>
-							<li><a href="#optitrade">OptiTrade</a></li>
-						</ul>
+						<ul id="skillDetailProjects"></ul>
 
 						<p
 							class="sr-only"
@@ -1567,7 +1577,7 @@
 								width="64"
 								height="64"
 								alt=""
-								loading="lazy"
+								loading="eager"
 							/>
 							<div>
 								<strong>Григорий Беляев</strong
