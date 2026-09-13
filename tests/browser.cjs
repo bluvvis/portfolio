@@ -232,6 +232,7 @@ const skipStartup = async page => {
       const boot=await mobileContext.newPage();
       await boot.goto(`${BASE}?boot-center=1`,{waitUntil:'domcontentloaded'});
       await boot.waitForFunction(()=>document.documentElement.dataset.bootState==='post');
+	  assert.equal(await boot.locator('.boot-skip small').isVisible(),false);
       const centered=async selector=>boot.locator(selector).evaluate(element=>{
         const rect=element.getBoundingClientRect();
         return {x:Math.abs(rect.left+rect.width/2-innerWidth/2),y:Math.abs(rect.top+rect.height/2-innerHeight/2)};
@@ -244,6 +245,13 @@ const skipStartup = async page => {
       await boot.locator('.boot-skip').click();
       await boot.close();
     });
+	await test('desktop boot shows the Escape shortcut',async()=>{
+	  const boot=await desktopContext.newPage();
+	  await boot.goto(`${BASE}?desktop-escape=1`,{waitUntil:'domcontentloaded'});
+	  assert.ok(await boot.locator('.boot-skip small').isVisible());
+	  await boot.locator('.boot-skip').click();
+	  await boot.close();
+	});
 
     await test('reduced motion and offscreen suspension',async()=>{
       const reduced=await browser.newPage({reducedMotion:'reduce',viewport:{width:1200,height:900}});

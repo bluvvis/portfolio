@@ -4,6 +4,7 @@
 }
 
 @media (max-width: 600px), (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+	.boot-skip small { display: none; }
 	.desktop-copy { display: none; }
 	.mobile-copy { display: inline; }
 	.top-note,
