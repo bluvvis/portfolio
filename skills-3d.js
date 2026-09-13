@@ -24,10 +24,11 @@ export function initSphere(stage) {
 	}
 	const status = document.querySelector('#sphereStatus')
 	const pause = document.querySelector('#spherePause')
-	const turnLeft = document.querySelector('#sphereLeft')
-	const turnRight = document.querySelector('#sphereRight')
 	const motion = matchMedia('(prefers-reduced-motion: reduce)')
 	const coarsePointer = matchMedia('(pointer: coarse)')
+	const compactLayout = matchMedia(
+		'(max-width: 600px), (pointer: coarse) and (orientation: landscape) and (max-height: 500px)',
+	)
 	const events = new AbortController()
 	const listen = (target, event, handler, options = {}) =>
 		target.addEventListener(event, handler, {
@@ -88,8 +89,6 @@ export function initSphere(stage) {
 		renderer?.domElement.remove()
 		labels?.domElement.remove()
 		if (pause) pause.hidden = true
-		if (turnLeft) turnLeft.hidden = true
-		if (turnRight) turnRight.hidden = true
 		if (message) {
 			status.hidden = false
 			status.textContent = message
@@ -105,7 +104,7 @@ export function initSphere(stage) {
 	}
 
 	let detailAnimation
-	function select(index, announce = false) {
+	function select(index, announce = false, revealDetail = false) {
 		const changed = selected !== index
 		selected = index
 		const skill = skills[index]
@@ -157,6 +156,14 @@ export function initSphere(stage) {
 			document.querySelector('#skillAnnouncement').textContent =
 				`${skill.name}. ${skill.description} Связанные проекты показаны в панели.`
 		requestFrame()
+		if (revealDetail && compactLayout.matches) {
+			requestAnimationFrame(() =>
+				detail.scrollIntoView({
+					behavior: motion.matches || globalPaused ? 'auto' : 'smooth',
+					block: 'start',
+				}),
+			)
+		}
 	}
 
 	function updateMotion() {
@@ -387,7 +394,7 @@ export function initSphere(stage) {
 					return
 				}
 				suppressClick = false
-				select(i, true)
+				select(i, true, true)
 				pauseAfterSelection()
 			})
 		})
@@ -419,13 +426,6 @@ export function initSphere(stage) {
 				updateMotion()
 			})
 		}
-		const turn = direction => {
-			horizontalAngle += direction * (coarsePointer.matches ? 0.48 : 0.32)
-			lastTime = 0
-			requestFrame()
-		}
-		if (turnLeft) listen(turnLeft, 'click', () => turn(-1))
-		if (turnRight) listen(turnRight, 'click', () => turn(1))
 		listen(motion, 'change', updateMotion)
 		listen(document, 'portfolio:motion-change', () => {
 			globalPaused = document.documentElement.dataset.motion === 'paused'
@@ -527,8 +527,6 @@ export function initSphere(stage) {
 		updateMotion()
 		status.hidden = true
 		if (pause) pause.hidden = false
-		if (turnLeft) turnLeft.hidden = false
-		if (turnRight) turnRight.hidden = false
 		stage.classList.add('is-ready')
 
 		// 3D появляется только после первого кадра entrance-анимации секции.

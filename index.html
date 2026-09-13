@@ -57,6 +57,16 @@
 					'animate' in Element.prototype
 				) {
 					document.documentElement.classList.add('section-loading-enabled')
+					window.__portfolioRevealSections = () => {
+						document.documentElement.classList.remove('section-loading-enabled')
+					}
+					window.__portfolioSectionInitFallback = setTimeout(() => {
+						window.__portfolioRevealSections()
+					}, 2500)
+					window.addEventListener('error', event => {
+						if (String(event.filename || '').includes('/motion.js'))
+							window.__portfolioRevealSections()
+					})
 				}
 				if (
 					openingHero &&
@@ -71,34 +81,21 @@
 						document.documentElement.classList.remove('boot-enabled')
 						document.documentElement.removeAttribute('data-boot-state')
 						document.documentElement.dataset.appState = 'active'
-					}, 16000)
+					}, 15000)
 				}
 			})()
 		</script>
 		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-		<link rel="modulepreload" href="skills-3d.js?v=20260914-3" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			rel="preload"
-			as="style"
-			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;600&display=swap"
-			onload="
-				this.onload = null
-				this.rel = 'stylesheet'
-			"
-		/>
-		<noscript
-			><link
-				href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;600&display=swap"
-				rel="stylesheet"
-		/></noscript>
-		<link rel="stylesheet" href="style.css?v=20260914-3" />
-		<link rel="stylesheet" href="skills-3d.css?v=20260914-3" />
-		<link rel="stylesheet" href="xp-theme.css?v=20260914-3" />
-		<script src="portfolio.js?v=20260914-3" defer></script>
-		<script src="desktop.js?v=20260914-3" defer></script>
-		<script src="motion.js?v=20260914-3" defer></script>
+		<link rel="modulepreload" href="skills-3d.js" />
+		<link rel="preload" href="assets/fonts/ibm-plex-sans-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="stylesheet" href="fonts.css" />
+		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="skills-3d.css" />
+		<link rel="stylesheet" href="xp-theme.css" />
+		<link rel="stylesheet" href="mobile.css" />
+		<script src="portfolio.js" defer></script>
+		<script src="desktop.js" defer></script>
+		<script src="motion.js" defer onerror="window.__portfolioRevealSections?.()"></script>
 	</head>
 	<body class="xp-desktop">
 		<svg
@@ -234,7 +231,7 @@
 				</div>
 			</div>
 			<button class="boot-skip" type="button">
-				<span>Пропустить загрузку</span><small>Esc</small>
+				<span>Пропустить загрузку</span>
 			</button>
 		</div>
 		<div class="ambient" aria-hidden="true"></div>
@@ -735,6 +732,9 @@
 							rel="noopener noreferrer"
 							>Репозиторий OptiTrade</a
 						>
+						<div class="mobile-project-links">
+							<a href="https://github.com/FaritSharafutdinov/OptiTrade" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+						</div>
 					</article>
 					<article
 						class="project-card project-anchor"
@@ -757,7 +757,8 @@
 						<p class="eyebrow">03 / личный проект · NLP</p>
 						<h3>OCRFix-RU</h3>
 						<p class="card-subtitle">
-							Исправление ошибок распознавания русского текста.
+							<span class="desktop-copy">Исправление ошибок распознавания русского текста.</span>
+							<span class="mobile-copy">Корректор ошибок русского OCR.</span>
 						</p>
 						<p>
 							Реализовал символьные и словные n-граммы, генерацию кандидатов и
@@ -791,6 +792,9 @@
 								rel="noopener noreferrer"
 								>Результаты</a
 							>
+						</div>
+						<div class="mobile-project-links">
+							<a href="https://github.com/bluvvis/OCRFix-RU" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
 						</div>
 					</article>
 					<article
@@ -846,6 +850,9 @@
 								>Мой вклад</a
 							>
 						</div>
+						<div class="mobile-project-links">
+							<a href="https://github.com/FaritSharafutdinov/Recovering-Cyber-Security-Domain-Knowledge" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+						</div>
 					</article>
 					<article
 						class="project-card project-anchor"
@@ -896,6 +903,10 @@
 								>Пример изменений</a
 							>
 						</div>
+						<div class="mobile-project-links">
+							<a href="https://bluvvis.github.io/DariaBrusnika/" target="_blank" rel="noopener noreferrer">Сайт ↗</a>
+							<a href="https://github.com/bluvvis/DariaBrusnika" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+						</div>
 					</article>
 					<article
 						class="project-card project-anchor"
@@ -938,6 +949,9 @@
 							rel="noopener noreferrer"
 							>Репозиторий Big Data Search</a
 						>
+						<div class="mobile-project-links">
+							<a href="https://github.com/bluvvis/BigData_2" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+						</div>
 					</article>
 					<article
 						class="project-card project-anchor"
@@ -984,6 +998,9 @@
 								rel="noopener noreferrer"
 								>Парсер Open Library</a
 							>
+						</div>
+						<div class="mobile-project-links">
+							<a href="https://github.com/IU-Capstone-Project-2025/Recommendation-System" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
 						</div>
 					</article>
 				</div>
@@ -1051,7 +1068,7 @@
 							class="skills-3d-stage"
 							id="skills3d"
 							role="group"
-							aria-label="Сфера технологий. Выберите технологию клавишей Enter; вращайте стрелками в области сцены."
+							aria-label="Сфера технологий. Выберите технологию клавишей Enter; вращайте жестом, мышью или стрелками клавиатуры."
 							tabindex="0"
 						>
 							<p class="sphere-status" id="sphereStatus" role="status">
@@ -1070,18 +1087,6 @@
 						>
 							<span class="sphere-pause-icon" aria-hidden="true"></span>
 						</button>
-						<div
-							class="sphere-controls"
-							role="group"
-							aria-label="Управление сферой"
-						>
-							<button class="sphere-turn-btn" id="sphereLeft" type="button" hidden>
-								Повернуть влево
-							</button>
-							<button class="sphere-turn-btn" id="sphereRight" type="button" hidden>
-								Повернуть вправо
-							</button>
-						</div>
 						<div class="skills-legend" aria-label="Цвета направлений">
 							<span data-category="frontend">Frontend</span
 							><span data-category="backend">Backend</span

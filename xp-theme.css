@@ -246,17 +246,15 @@ body.xp-desktop {
 	align-items: center;
 	justify-content: space-between;
 	gap: 18px;
-	min-width: 194px;
-	min-height: 52px;
-	padding: 11px 14px 11px 18px;
-	border: 2px solid #c85179;
+	min-width: 0;
+	min-height: 40px;
+	padding: 8px 12px;
+	border: 1px solid #704052;
 	border-radius: 2px;
-	color: #fff7fa;
-	background: linear-gradient(#4c1d2e, #1b0f14);
-	box-shadow:
-		inset 1px 1px 0 #ffb4cf55,
-		4px 5px 0 #000;
-	font: 700 12px/1.5 var(--mono);
+	color: #cdbbc1;
+	background: #180f12cc;
+	box-shadow: 2px 2px 0 #000;
+	font: 500 10px/1.5 var(--mono);
 	letter-spacing: 0.07em;
 }
 .boot-skip small {
@@ -1511,8 +1509,8 @@ footer.section-shell {
 	.boot-skip {
 		right: 12px;
 		bottom: 14px;
-		min-width: 178px;
-		min-height: 48px;
+		min-width: 0;
+		min-height: 40px;
 	}
 	.section-shell {
 		width: calc(100% - 24px);
@@ -3780,13 +3778,10 @@ main > section.section-rendering > .section-renderer {
 
 .skill-detail {
 	padding: 22px;
-	border: 1px solid;
-	border-color: var(--chrome-line) #141213 #141213 var(--chrome-line);
+	border: 1px solid var(--chrome-line);
 	border-radius: 5px;
 	background: #191516;
-	box-shadow:
-		inset 1px 1px 0 #ffffff12,
-		8px 8px 0 #050405;
+	box-shadow: none;
 }
 .skills-explorer {
 	padding-right: 8px;
@@ -3802,6 +3797,9 @@ main > section.section-rendering > .section-renderer {
 .skill-detail-head .status-dot {
 	background: var(--category, var(--frontend));
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--category, var(--frontend)) 14%, transparent);
+}
+.skill-detail > .eyebrow {
+	margin-top: 18px;
 }
 .skill-detail h3 {
 	margin: 24px 0 18px;
@@ -3832,9 +3830,6 @@ main > section.section-rendering > .section-renderer {
 		width: 36px;
 		height: 36px;
 	}
-	.sphere-controls {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
 }
 
 /* A subtle rightward optical alignment shared by every repository action. */
@@ -3848,209 +3843,4 @@ main > section.section-rendering > .section-renderer {
 }
 .mobile-copy {
 	display: none;
-}
-
-/* Compact mobile edition: content first, secondary evidence stays on desktop. */
-@media (max-width: 600px), (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
-	.desktop-copy {
-		display: none;
-	}
-	.mobile-copy {
-		display: inline;
-	}
-	.top-note,
-	.desktop-shortcuts,
-	main > section .xp-titlebar .xp-window-action,
-	.section-heading > p,
-	.feature-copy > p:not(.lead),
-	.case-facts > div:first-child,
-	.implementation-details,
-	.project-note,
-	.feature-copy .actions,
-	.architecture,
-	.project-image figcaption a,
-	.demo-copy .small,
-	.demo-copy .text-link,
-	.project-card > p:not(.eyebrow):not(.card-subtitle),
-	.project-card .small,
-	.project-card .evidence,
-	.project-card > .card-link,
-	.project-card .card-links,
-	.feature > .xp-cardbar > a,
-	.project-card > .xp-cardbar > a,
-	.work-footer,
-	.contact-directions,
-	.about-copy > p:nth-child(n + 2) {
-		display: none;
-	}
-	.topbar {
-		grid-template-columns: minmax(0, 1fr);
-		min-height: 54px;
-	}
-	.hero {
-		padding-top: 10px;
-	}
-	.hero-banner {
-		font-size: 9px;
-	}
-	.desktop-scene {
-		padding-top: 6px;
-		gap: 14px;
-	}
-	.hero-copy {
-		padding: 22px 18px;
-	}
-	.hero h1 {
-		font-size: clamp(43px, 13vw, 58px);
-	}
-	.hero-usp {
-		font-size: 22px;
-	}
-	.hero-intro {
-		font-size: 13px;
-		line-height: 1.5;
-	}
-	.work,
-	.skills,
-	.about,
-	.contact {
-		margin-top: 24px;
-	}
-	.section-heading {
-		margin-bottom: 18px;
-	}
-	.feature {
-		padding-bottom: 14px;
-	}
-	.feature-title {
-		margin-bottom: 14px;
-	}
-	.lead {
-		font-size: 20px;
-	}
-	.case-facts {
-		margin-block: 12px;
-	}
-	.case-facts > div {
-		padding-block: 10px;
-	}
-	.case-facts dd {
-		display: -webkit-box;
-		overflow: hidden;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 3;
-	}
-	.chips {
-		margin-block: 12px;
-	}
-	.feature .chips li:nth-child(n + 5),
-	.project-card .chips li:nth-child(n + 4) {
-		display: none;
-	}
-	.project-image > a {
-		max-height: 270px;
-	}
-	.project-image img {
-		height: 258px;
-	}
-	.project-image figcaption {
-		padding-block: 9px;
-	}
-	#demo {
-		margin-bottom: 2px;
-	}
-	.mobile-disclosure > summary {
-		min-height: 50px;
-	}
-	.mobile-disclosure .risk-demo {
-		padding-top: 16px;
-	}
-	.demo-copy h4 {
-		font-size: 30px;
-	}
-	.project-card {
-		min-height: 350px;
-		padding-bottom: 16px;
-	}
-	.project-card .card-subtitle {
-		font-size: 15px;
-		line-height: 1.45;
-	}
-	.stack-disclosure {
-		margin-top: 12px;
-	}
-	.stack-disclosure .skills-explorer {
-		padding: 8px;
-	}
-	.skills-3d-stage {
-		height: 360px;
-	}
-	.skill-node-button {
-		min-height: 44px;
-		padding: 7px 8px;
-		font-size: 10px;
-	}
-	.skills-legend {
-		margin-top: 10px;
-	}
-	.skill-detail {
-		padding: 18px;
-	}
-	.skill-detail h3 {
-		font-size: 29px;
-	}
-	#skillDetailDescription {
-		font-size: 13px;
-		line-height: 1.5;
-	}
-	.skill-group {
-		min-height: 250px;
-	}
-	.skill-group > p {
-		display: none;
-	}
-	.xp-profile-summary {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr);
-		gap: 1px;
-	}
-	.xp-profile-summary > span {
-		display: grid;
-		grid-template-columns: minmax(92px, 0.8fr) minmax(0, 1.2fr);
-		align-items: center;
-		gap: 10px;
-		min-width: 0;
-		padding: 10px 12px;
-		font-size: 10px;
-	}
-	.xp-profile-summary b {
-		min-width: 0;
-		font-size: 12px;
-		overflow-wrap: anywhere;
-	}
-	.about-grid {
-		margin-block: 18px 22px;
-		gap: 14px;
-	}
-	.about-copy p:first-child {
-		font-size: 16px;
-		line-height: 1.55;
-	}
-	.contact-layout {
-		gap: 16px;
-	}
-	.xp-taskbar {
-		height: 53px;
-		min-height: 53px;
-	}
-}
-
-@media (max-width: 350px) {
-	.skills-3d-stage {
-		height: 340px;
-	}
-	.project-grid,
-	.skill-groups {
-		grid-auto-columns: 84vw;
-	}
 }

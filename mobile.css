@@ -1,0 +1,121 @@
+/* Compact layouts live here so the main XP theme remains easier to maintain. */
+.mobile-project-links {
+	display: none;
+}
+
+@media (max-width: 600px), (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+	.desktop-copy { display: none; }
+	.mobile-copy { display: inline; }
+	.top-note,
+	.desktop-shortcuts,
+	main > section .xp-titlebar .xp-window-action,
+	.section-heading > p,
+	.feature-copy > p:not(.lead),
+	.case-facts > div:first-child,
+	.implementation-details,
+	.project-note,
+	.feature-copy .actions,
+	.architecture,
+	.project-image figcaption a,
+	.demo-copy .small,
+	.demo-copy .text-link,
+	.project-card > p:not(.eyebrow):not(.card-subtitle),
+	.project-card .small,
+	.project-card .evidence,
+	.project-card > .card-link,
+	.project-card .card-links,
+	.feature > .xp-cardbar > a,
+	.project-card > .xp-cardbar > a,
+	.work-footer,
+	.contact-directions,
+	.about-copy > p:nth-child(n + 2) { display: none; }
+	.topbar { grid-template-columns: minmax(0, 1fr); min-height: 54px; }
+	.hero { padding-top: 10px; }
+	.hero-banner { font-size: 9px; }
+	.desktop-scene { padding-top: 6px; gap: 14px; }
+	.hero-copy { padding: 22px 18px; }
+	.hero h1 { font-size: clamp(43px, 13vw, 58px); }
+	.hero-usp { font-size: 22px; }
+	.hero-intro { font-size: 13px; line-height: 1.5; }
+	.work, .skills, .about, .contact { margin-top: 24px; }
+	.section-heading { margin-bottom: 18px; }
+	.feature { padding-bottom: 18px; }
+	.feature-title { margin-bottom: 14px; }
+	.lead { font-size: 20px; }
+	.case-facts { margin-block: 12px; }
+	.case-facts > div { padding-block: 10px; }
+	.case-facts dd {
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+	}
+	.chips { margin-block: 12px; }
+	.feature .chips li:nth-child(n + 5),
+	.project-card .chips li:nth-child(n + 4) { display: none; }
+	.project-image > a { max-height: 270px; }
+	.project-image img { height: 258px; }
+	.project-image figcaption { padding-block: 9px; }
+	#demo { margin: 18px 0 10px; }
+	.mobile-disclosure > summary { min-height: 50px; }
+	.mobile-disclosure .risk-demo { padding-top: 16px; }
+	.demo-copy h4 { font-size: 30px; }
+	.project-card {
+		display: flex;
+		flex-direction: column;
+		height: 360px;
+		min-height: 360px;
+		padding-bottom: 16px;
+	}
+	.project-card > .xp-cardbar {
+		min-height: 43px;
+		margin-bottom: 12px;
+		padding: 9px 0;
+	}
+	.project-card .card-subtitle { font-size: 15px; line-height: 1.45; }
+	.mobile-project-links {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		margin-top: auto;
+		padding-top: 14px;
+		border-top: 1px solid var(--chrome-line-soft);
+	}
+	.mobile-project-links a {
+		color: var(--pink-soft);
+		font-family: var(--mono);
+		font-size: 11px;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 4px;
+	}
+	.stack-disclosure { margin-top: 12px; }
+	.stack-disclosure .skills-explorer { padding: 8px; }
+	.skills-3d-stage { height: 360px; }
+	.skill-node-button { min-height: 44px; padding: 7px 8px; font-size: 10px; }
+	.skills-legend { margin-top: 10px; }
+	.skill-detail { padding: 18px; scroll-margin-top: 12px; }
+	.skill-detail h3 { font-size: 29px; }
+	#skillDetailDescription { font-size: 13px; line-height: 1.5; }
+	.skill-group { min-height: 250px; }
+	.skill-group > p { display: none; }
+	.xp-profile-summary { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; }
+	.xp-profile-summary > span {
+		display: grid;
+		grid-template-columns: minmax(92px, 0.8fr) minmax(0, 1.2fr);
+		align-items: center;
+		gap: 10px;
+		min-width: 0;
+		padding: 10px 12px;
+		font-size: 10px;
+	}
+	.xp-profile-summary b { min-width: 0; font-size: 12px; overflow-wrap: anywhere; }
+	.about-grid { margin-block: 18px 22px; gap: 14px; }
+	.about-copy p:first-child { font-size: 16px; line-height: 1.55; }
+	.contact-layout { gap: 16px; }
+	.xp-taskbar { height: 53px; min-height: 53px; }
+}
+
+@media (max-width: 350px) {
+	.skills-3d-stage { height: 340px; }
+	.project-grid, .skill-groups { grid-auto-columns: 84vw; }
+}

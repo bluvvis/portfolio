@@ -515,7 +515,7 @@
 		const at = (callback, targetTime) =>
 			bootLater(
 				callback,
-				Math.max(0, targetTime - (performance.now() - origin)),
+				Math.max(0, targetTime * 0.94 - (performance.now() - origin)),
 			)
 		setBootState('black')
 		at(() => {
@@ -773,6 +773,7 @@
 		section.append(overlay)
 		renderObserver.observe(section)
 	})
+	clearTimeout(window.__portfolioSectionInitFallback)
 	document.addEventListener('focusin', event => {
 		const section = event.target.closest?.('main > section[id]')
 		if (section?.querySelector(':scope > .section-renderer'))

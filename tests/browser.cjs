@@ -44,6 +44,14 @@ const skipStartup = async page => {
         assert.ok(await image.evaluate(img => img.naturalWidth > 0));
       }
       assert.equal(await page.locator('#riskControls').isDisabled(), false);
+	  const dependencies = await page.evaluate(() => ({
+		remoteFonts: [...document.querySelectorAll('link')].map(link => link.href).filter(href => /fonts\.googleapis|fonts\.gstatic/.test(href)),
+		versionedAssets: [...document.querySelectorAll('link[href],script[src]')].map(element => element.href || element.src).filter(url => /\?v=/.test(url)),
+		fonts: ['400 16px "IBM Plex Sans"','400 16px "JetBrains Mono"','500 16px "Oswald"'].map(font => document.fonts.check(font)),
+	  }));
+	  assert.deepEqual(dependencies.remoteFonts, []);
+	  assert.deepEqual(dependencies.versionedAssets, []);
+	  assert.deepEqual(dependencies.fonts, [true,true,true]);
     });
     await test('risk boundaries, rule floor, ML weight and Python rounding', async () => {
       const cases = [
@@ -140,12 +148,24 @@ const skipStartup = async page => {
       const layout=await mobile.evaluate(()=>{
         const grid=document.querySelector('.project-grid');
         const cards=[...grid.children].filter(element=>element.matches('.project-card'));
-        return {height:document.documentElement.scrollHeight,overflow:grid.scrollWidth-grid.clientWidth,firstTop:cards[0].offsetTop,secondTop:cards[1].offsetTop,secondLeft:cards[1].offsetLeft};
+		return {
+		  height:document.documentElement.scrollHeight,
+		  overflow:grid.scrollWidth-grid.clientWidth,
+		  firstTop:cards[0].offsetTop,
+		  secondTop:cards[1].offsetTop,
+		  secondLeft:cards[1].offsetLeft,
+		  cardHeights:cards.map(card=>card.getBoundingClientRect().height),
+		  barPadding:parseFloat(getComputedStyle(cards[0].querySelector('.xp-cardbar')).paddingTop),
+		};
       });
       assert.ok(layout.height<10000,JSON.stringify(layout));
       assert.ok(layout.overflow>200,JSON.stringify(layout));
       assert.equal(layout.firstTop,layout.secondTop);
       assert.ok(layout.secondLeft>300,JSON.stringify(layout));
+	  assert.equal(new Set(layout.cardHeights.map(Math.round)).size,1,JSON.stringify(layout));
+	  assert.ok(layout.barPadding>=8,JSON.stringify(layout));
+	  assert.equal(await mobile.locator('.mobile-project-links:visible').count(),6);
+	  assert.equal(await mobile.locator('#daria .mobile-project-links a').count(),2);
     });
     await test('mobile hero keeps the portrait available while scrolling', async()=>{
       const portrait=mobile.locator('.hero-portrait');
@@ -161,22 +181,22 @@ const skipStartup = async page => {
     await test('mobile taps, pointer cancellation, and readable labels', async()=>{
       await mobile.locator('#skills3d').scrollIntoViewIfNeeded();await mobile.waitForSelector('.skill-node-button');
       const buttons=mobile.locator('.skill-node-button:visible');
-      const first=buttons.first(); const name=await first.textContent();await first.evaluate(element=>element.click());await wait(100);
-      assert.equal(await mobile.locator('#skillDetailTitle').textContent(),name);
-      const visibleCount=await mobile.locator('.skill-node-button:visible').count();
-      const totalCount=await mobile.locator('#skillGroups [data-sphere]').count();
-      assert.ok(visibleCount>=6 && visibleCount<totalCount,JSON.stringify({visibleCount,totalCount}));
       const rect=await mobile.locator('#skills3d').boundingBox();
       const cdp=await mobile.context().newCDPSession(mobile);
       await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:rect.x+20,y:rect.y+90}]});
       await cdp.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});
       await cdp.detach();
       assert.equal(await mobile.locator('#skills3d').evaluate(el=>el.classList.contains('is-dragging')),false);
-      assert.ok(await mobile.locator('#sphereLeft').isVisible());
-      const nodeState=()=>mobile.locator('.skill-node').evaluateAll(nodes=>nodes.map(node=>node.style.transform).join('|'));
-      await mobile.locator('#spherePause').click();await wait(80);const beforeTurn=await nodeState();
-      await mobile.locator('#sphereRight').click();await wait(80);
-      assert.notEqual(await nodeState(),beforeTurn);
+	  assert.equal(await mobile.locator('#sphereLeft, #sphereRight').count(),0);
+	  const first=buttons.first(); const name=await first.textContent();await first.evaluate(element=>element.click());
+	  await mobile.waitForFunction(()=>Math.abs(document.querySelector('#skillDetail').getBoundingClientRect().top)<50);
+	  assert.equal(await mobile.locator('#skillDetailTitle').textContent(),name);
+	  const visibleCount=await mobile.locator('.skill-node-button:visible').count();
+	  const totalCount=await mobile.locator('#skillGroups [data-sphere]').count();
+	  assert.ok(visibleCount>=6 && visibleCount<totalCount,JSON.stringify({visibleCount,totalCount}));
+	  const panelStyle=await mobile.locator('#skillDetail').evaluate(element=>({shadow:getComputedStyle(element).boxShadow,borders:['Top','Right','Bottom','Left'].map(side=>getComputedStyle(element)[`border${side}Color`])}));
+	  assert.equal(panelStyle.shadow,'none');
+	  assert.equal(new Set(panelStyle.borders).size,1,JSON.stringify(panelStyle));
     });
     await test('mobile accessibility',async()=>{
       const result=await new AxeBuilder({page:mobile}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
@@ -189,6 +209,24 @@ const skipStartup = async page => {
     await mobile.screenshot({path:`${screenshotDir}/neberi-mobile.png`});
     await mobile.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await mobile.screenshot({path:`${screenshotDir}/hero-mobile.png`});
     await mobile.screenshot({path:`${screenshotDir}/mobile-full.png`,fullPage:true});
+
+	const landscapeContext=await browser.newContext({viewport:{width:844,height:390},isMobile:true,hasTouch:true,deviceScaleFactor:1});
+	const landscape=await landscapeContext.newPage();
+	await landscape.goto(BASE,{waitUntil:'networkidle'});await skipStartup(landscape);
+	await test('mobile landscape keeps the compact visual contract',async()=>{
+	  const state=await landscape.evaluate(()=>({
+		overflow:document.documentElement.scrollWidth-innerWidth,
+		stack:document.querySelector('.stack-disclosure').open,
+		demo:document.querySelector('#demo').open,
+		sectionLoader:document.documentElement.classList.contains('section-loading-enabled'),
+		topNote:getComputedStyle(document.querySelector('.top-note')).display,
+	  }));
+	  assert.ok(state.overflow<=0,JSON.stringify(state));
+	  assert.equal(state.stack,true);assert.equal(state.demo,false);
+	  assert.equal(state.sectionLoader,false);assert.equal(state.topNote,'none');
+	});
+	await landscape.screenshot({path:`${screenshotDir}/mobile-landscape.png`,fullPage:true});
+	await landscapeContext.close();
 
     await test('boot content stays centered on a mobile viewport',async()=>{
       const boot=await mobileContext.newPage();
@@ -244,6 +282,14 @@ const skipStartup = async page => {
         await fallback.close();
       }
     });
+	await test('blocked motion script never leaves sections hidden',async()=>{
+	  const fallback=await browser.newPage({viewport:{width:1200,height:900}});
+	  await fallback.route(/\/motion\.js$/,route=>route.abort());
+	  await fallback.goto(BASE,{waitUntil:'networkidle'});
+	  assert.equal(await fallback.locator('html').evaluate(element=>element.classList.contains('section-loading-enabled')),false);
+	  assert.notEqual(await fallback.locator('#work').evaluate(element=>getComputedStyle(element).visibility),'hidden');
+	  await fallback.close();
+	});
     await test('WebGL context loss releases scene and preserves content',async()=>{
       await page.locator('#skills3d').scrollIntoViewIfNeeded();
       await page.locator('canvas').dispatchEvent('webglcontextlost',{cancelable:true});
