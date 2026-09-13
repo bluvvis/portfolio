@@ -3679,13 +3679,29 @@ footer.section-shell {
 	border-right: 2px solid currentColor;
 }
 
-/* Keep the actual Explorer window hidden until its loading pass is complete. */
-main > section.section-rendering {
+/* Future Explorer windows stay hidden from first paint until their loading pass. */
+@media (min-width: 601px) {
+	:root.section-loading-enabled
+		main
+		> section[id]:not(.section-rendered) {
+		border-color: transparent;
+		background: transparent;
+		box-shadow: none;
+	}
+	:root.section-loading-enabled
+		main
+		> section[id]:not(.section-rendered)
+		> :not(.section-renderer) {
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+main > section.section-rendering:not(.section-rendered) {
 	border-color: transparent;
 	background: transparent;
 	box-shadow: none;
 }
-main > section.section-rendering > :not(.section-renderer) {
+main > section.section-rendering:not(.section-rendered) > :not(.section-renderer) {
 	opacity: 0;
 	pointer-events: none;
 }
@@ -3701,21 +3717,65 @@ main > section.section-rendering > .section-renderer {
 	z-index: 12;
 	top: 48px;
 	right: 12px;
-	width: 38px;
-	min-width: 38px;
-	height: 38px;
-	min-height: 38px;
+	width: 32px;
+	min-width: 32px;
+	height: 32px;
+	min-height: 32px;
 	padding: 0;
-	border-radius: 4px;
-	font: 17px/1 var(--xp-ui);
-	box-shadow: 2px 2px 0 #090708;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	color: #d9d2d5;
 }
 .sphere-pause-overlay[aria-pressed='true'] {
-	border-color: var(--accent);
-	background: #4b2734;
+	background: transparent;
+	color: var(--accent-soft);
 }
 .sphere-pause-overlay:disabled {
 	opacity: 0.62;
+}
+.sphere-pause-overlay:hover,
+.sphere-pause-overlay:focus-visible {
+	border: 0;
+	background: transparent;
+	color: #fff;
+}
+.sphere-pause-icon {
+	position: relative;
+	display: block;
+	width: 14px;
+	height: 16px;
+	margin: auto;
+}
+.sphere-pause-icon::before,
+.sphere-pause-icon::after {
+	content: '';
+	position: absolute;
+	top: 1px;
+	bottom: 1px;
+	width: 4px;
+	border-radius: 1px;
+	background: currentColor;
+}
+.sphere-pause-icon::before {
+	left: 1px;
+}
+.sphere-pause-icon::after {
+	right: 1px;
+}
+.sphere-pause-overlay[data-icon='play'] .sphere-pause-icon::before {
+	inset: 1px auto 1px 2px;
+	width: 0;
+	height: 0;
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-left: 12px solid currentColor;
+	border-radius: 0;
+	background: transparent;
+}
+.sphere-pause-overlay[data-icon='play'] .sphere-pause-icon::after {
+	display: none;
 }
 
 .skill-detail {
@@ -3726,7 +3786,14 @@ main > section.section-rendering > .section-renderer {
 	background: #191516;
 	box-shadow:
 		inset 1px 1px 0 #ffffff12,
-		4px 4px 0 #0a0809;
+		8px 8px 0 #050405;
+}
+.skills-explorer {
+	padding-right: 8px;
+	padding-bottom: 8px;
+}
+.skills-explorer.scene-entering {
+	overflow: hidden;
 }
 .skill-detail-head {
 	padding-bottom: 14px;
@@ -3762,10 +3829,16 @@ main > section.section-rendering > .section-renderer {
 	.sphere-pause-overlay {
 		top: 46px;
 		right: 9px;
-		width: 40px;
-		height: 40px;
+		width: 36px;
+		height: 36px;
 	}
 	.sphere-controls {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
+}
+
+/* A subtle rightward optical alignment shared by every repository action. */
+.feature > .xp-cardbar > a,
+.project-card > .xp-cardbar > a {
+	transform: translateX(6px);
 }

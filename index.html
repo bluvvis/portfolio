@@ -41,11 +41,24 @@
 				try {
 					motionPaused = localStorage.getItem('portfolio-motion') === 'paused'
 				} catch {}
+				const reducedMotion = matchMedia(
+					'(prefers-reduced-motion: reduce)',
+				).matches
+				if (
+					!location.hash &&
+					!motionPaused &&
+					!reducedMotion &&
+					matchMedia('(min-width: 601px)').matches &&
+					'IntersectionObserver' in window &&
+					'animate' in Element.prototype
+				) {
+					document.documentElement.classList.add('section-loading-enabled')
+				}
 				if (
 					openingHero &&
 					!location.hash &&
 					!motionPaused &&
-					!matchMedia('(prefers-reduced-motion: reduce)').matches
+					!reducedMotion
 				) {
 					window.__portfolioBootStartedAt = performance.now()
 					document.documentElement.classList.add('boot-enabled')
@@ -59,7 +72,7 @@
 			})()
 		</script>
 		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-		<link rel="modulepreload" href="skills-3d.js?v=20260914-1" />
+		<link rel="modulepreload" href="skills-3d.js?v=20260914-2" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -76,12 +89,12 @@
 				href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;600&display=swap"
 				rel="stylesheet"
 		/></noscript>
-		<link rel="stylesheet" href="style.css?v=20260914-1" />
-		<link rel="stylesheet" href="skills-3d.css?v=20260914-1" />
-		<link rel="stylesheet" href="xp-theme.css?v=20260914-1" />
-		<script src="portfolio.js?v=20260914-1" defer></script>
-		<script src="desktop.js?v=20260914-1" defer></script>
-		<script src="motion.js?v=20260914-1" defer></script>
+		<link rel="stylesheet" href="style.css?v=20260914-2" />
+		<link rel="stylesheet" href="skills-3d.css?v=20260914-2" />
+		<link rel="stylesheet" href="xp-theme.css?v=20260914-2" />
+		<script src="portfolio.js?v=20260914-2" defer></script>
+		<script src="desktop.js?v=20260914-2" defer></script>
+		<script src="motion.js?v=20260914-2" defer></script>
 	</head>
 	<body class="xp-desktop">
 		<svg
@@ -1043,7 +1056,7 @@
 							aria-label="Приостановить вращение сферы"
 							title="Приостановить вращение"
 						>
-							⏸️
+							<span class="sphere-pause-icon" aria-hidden="true"></span>
 						</button>
 						<div
 							class="sphere-controls"

@@ -162,7 +162,7 @@ export function initSphere(stage) {
 			const paused = userPaused || systemPaused
 			pause.disabled = systemPaused
 			pause.setAttribute('aria-pressed', String(paused))
-			pause.textContent = userPaused && !systemPaused ? '▶️' : '⏸️'
+			pause.dataset.icon = userPaused && !systemPaused ? 'play' : 'pause'
 			const label = systemPaused
 				? 'Автоматическое вращение отключено'
 				: userPaused

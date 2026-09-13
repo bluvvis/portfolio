@@ -718,6 +718,7 @@
 		renderedSections.add(section)
 		renderObserver.unobserve(section)
 		section.classList.remove('section-rendering')
+		section.classList.add('section-rendered')
 		section.querySelector(':scope > .section-renderer')?.remove()
 		document.dispatchEvent(
 			new CustomEvent('portfolio:section-rendered', { detail: section }),
