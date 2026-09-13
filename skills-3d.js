@@ -49,6 +49,9 @@ export function initSphere(stage) {
 	let dragging = false
 	let pointerId = null
 	let lastX = 0
+	let dragStartX = 0
+	let dragMoved = false
+	let suppressClick = false
 	let lastTime = 0
 	let elapsed = 0
 	let selected = 0
@@ -156,13 +159,17 @@ export function initSphere(stage) {
 		if (motion.matches || globalPaused) detailAnimation?.cancel()
 		if (pause) {
 			const systemPaused = motion.matches || globalPaused
+			const paused = userPaused || systemPaused
 			pause.disabled = systemPaused
-			pause.setAttribute('aria-pressed', String(userPaused || systemPaused))
-			pause.textContent = systemPaused
-				? 'Анимация отключена'
+			pause.setAttribute('aria-pressed', String(paused))
+			pause.textContent = userPaused && !systemPaused ? '▶️' : '⏸️'
+			const label = systemPaused
+				? 'Автоматическое вращение отключено'
 				: userPaused
-					? 'Продолжить вращение'
-					: 'Пауза вращения'
+					? 'Продолжить вращение сферы'
+					: 'Приостановить вращение сферы'
+			pause.setAttribute('aria-label', label)
+			pause.title = label
 		}
 		lastTime = 0
 		requestFrame()
@@ -269,7 +276,7 @@ export function initSphere(stage) {
 	try {
 		renderer = new THREE.WebGLRenderer({
 			alpha: true,
-			antialias: true,
+			antialias: !coarsePointer.matches,
 			powerPreference: 'low-power',
 		})
 		renderer.domElement.className = 'skills-3d-canvas'
@@ -281,9 +288,10 @@ export function initSphere(stage) {
 		renderer.domElement.style.visibility = 'hidden'
 		labels.domElement.style.visibility = 'hidden'
 
+		const particleCount = coarsePointer.matches ? 60 : 100
 		const particles = []
-		for (let i = 0; i < 100; i++) {
-			const phi = Math.acos(1 - (2 * (i + 0.5)) / 100)
+		for (let i = 0; i < particleCount; i++) {
+			const phi = Math.acos(1 - (2 * (i + 0.5)) / particleCount)
 			const theta = Math.PI * (3 - Math.sqrt(5)) * i
 			particles.push(
 				2 * Math.sin(phi) * Math.cos(theta),
@@ -309,7 +317,12 @@ export function initSphere(stage) {
 		)
 		;[0, Math.PI / 2].forEach(angle => {
 			const ring = new THREE.Mesh(
-				new THREE.TorusGeometry(2.04, 0.0025, 5, 96),
+				new THREE.TorusGeometry(
+					2.04,
+					0.0025,
+					5,
+					coarsePointer.matches ? 64 : 96,
+				),
 				new THREE.MeshBasicMaterial({
 					color: 0xe7e5de,
 					transparent: true,
@@ -355,7 +368,13 @@ export function initSphere(stage) {
 			sphere.add(label)
 			nodes.push({ label, button, position })
 			listen(button, 'focus', () => select(i, true))
-			listen(button, 'click', () => {
+			listen(button, 'click', event => {
+				if (suppressClick && event.detail !== 0) {
+					event.preventDefault()
+					suppressClick = false
+					return
+				}
+				suppressClick = false
 				select(i, true)
 				pauseAfterSelection()
 			})
@@ -404,7 +423,7 @@ export function initSphere(stage) {
 			})
 		}
 		const turn = direction => {
-			horizontalAngle += direction * 0.32
+			horizontalAngle += direction * (coarsePointer.matches ? 0.48 : 0.32)
 			lastTime = 0
 			requestFrame()
 		}
@@ -430,13 +449,16 @@ export function initSphere(stage) {
 		})
 		listen(stage, 'pointerdown', event => {
 			if (
-				event.target.closest('button') ||
+				(event.target.closest('button') && !coarsePointer.matches) ||
 				!event.isPrimary ||
 				event.button !== 0
 			)
 				return
 			pointerId = event.pointerId
 			dragging = true
+			dragMoved = false
+			suppressClick = false
+			dragStartX = event.clientX
 			lastX = event.clientX
 			stage.classList.add('is-dragging')
 			stage.setPointerCapture(pointerId)
@@ -446,13 +468,17 @@ export function initSphere(stage) {
 			resumeAfterPointerMove()
 			requestFrame()
 			if (!dragging || event.pointerId !== pointerId) return
+			if (Math.abs(event.clientX - dragStartX) > 6) dragMoved = true
 			horizontalAngle +=
-				(event.clientX - lastX) * (coarsePointer.matches ? 0.012 : 0.008)
+				(event.clientX - lastX) * (coarsePointer.matches ? 0.018 : 0.008)
 			lastX = event.clientX
+			if (dragMoved && event.cancelable) event.preventDefault()
 			requestFrame()
 		})
 		const stopDrag = () => {
+			if (!dragging) return
 			const captured = pointerId
+			if (dragMoved) suppressClick = true
 			pointerId = null
 			dragging = false
 			stage.classList.remove('is-dragging')

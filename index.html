@@ -59,7 +59,7 @@
 			})()
 		</script>
 		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-		<link rel="modulepreload" href="skills-3d.js?v=20260911-9" />
+		<link rel="modulepreload" href="skills-3d.js?v=20260914-1" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -76,12 +76,12 @@
 				href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;600&display=swap"
 				rel="stylesheet"
 		/></noscript>
-		<link rel="stylesheet" href="style.css?v=20260911-9" />
-		<link rel="stylesheet" href="skills-3d.css?v=20260911-9" />
-		<link rel="stylesheet" href="xp-theme.css?v=20260911-9" />
-		<script src="portfolio.js?v=20260911-9" defer></script>
-		<script src="desktop.js?v=20260911-9" defer></script>
-		<script src="motion.js?v=20260911-9" defer></script>
+		<link rel="stylesheet" href="style.css?v=20260914-1" />
+		<link rel="stylesheet" href="skills-3d.css?v=20260914-1" />
+		<link rel="stylesheet" href="xp-theme.css?v=20260914-1" />
+		<script src="portfolio.js?v=20260914-1" defer></script>
+		<script src="desktop.js?v=20260914-1" defer></script>
+		<script src="motion.js?v=20260914-1" defer></script>
 	</head>
 	<body class="xp-desktop">
 		<svg
@@ -227,10 +227,6 @@
 				>Grigorii Belyaev</a
 			>
 			<p class="top-note">full-stack <b>+</b> ML / personal portfolio</p>
-			<nav aria-label="Основная навигация">
-				<a href="#work">работы</a><a href="#skills">стек</a
-				><a href="#about">обо мне</a><a href="#contact">связь</a>
-			</nav>
 		</header>
 		<main id="main">
 			<section class="hero section-shell" aria-labelledby="hero-title">
@@ -430,7 +426,7 @@
 							target="_blank"
 							rel="noopener noreferrer"
 							aria-label="Открыть NEBERI"
-							>Открыть</a
+							><span class="link-arrow" aria-hidden="true"></span></a
 						>
 					</div>
 					<div class="feature-heading">
@@ -658,7 +654,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть OptiTrade"
-								>Открыть</a
+								><span class="link-arrow" aria-hidden="true"></span></a
 							>
 						</div>
 						<p class="eyebrow">02 / командный проект · full-stack</p>
@@ -730,7 +726,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть OCRFix-RU"
-								>Открыть</a
+								><span class="link-arrow" aria-hidden="true"></span></a
 							>
 						</div>
 						<p class="eyebrow">03 / личный проект · NLP</p>
@@ -787,7 +783,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть LLM Evaluation"
-								>Открыть</a
+								><span class="link-arrow" aria-hidden="true"></span></a
 							>
 						</div>
 						<p class="eyebrow">04 / командный проект · ML research</p>
@@ -841,7 +837,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть DariaBrusnika"
-								>Открыть</a
+								><span class="link-arrow" aria-hidden="true"></span></a
 							>
 						</div>
 						<p class="eyebrow">05 / веб-проект · реализация интерфейса</p>
@@ -891,7 +887,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть Big Data Search"
-								>Открыть</a
+								><span class="link-arrow" aria-hidden="true"></span></a
 							>
 						</div>
 						<p class="eyebrow">06 / учебный проект · data engineering</p>
@@ -933,7 +929,7 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть Book Discovery"
-								>Открыть</a
+								><span class="link-arrow" aria-hidden="true"></span></a
 							>
 						</div>
 						<p class="eyebrow">07 / командный проект · frontend + данные</p>
@@ -1038,26 +1034,29 @@
 								доступны в списке ниже.
 							</p>
 						</div>
-						<div class="sphere-controls" aria-label="Управление сферой">
+						<button
+							class="skills-pause-btn sphere-pause-overlay"
+							id="spherePause"
+							type="button"
+							hidden
+							aria-pressed="false"
+							aria-label="Приостановить вращение сферы"
+							title="Приостановить вращение"
+						>
+							⏸️
+						</button>
+						<div
+							class="sphere-controls"
+							role="group"
+							aria-label="Управление сферой"
+						>
 							<button class="sphere-turn-btn" id="sphereLeft" type="button" hidden>
 								Повернуть влево
-							</button>
-							<button
-								class="skills-pause-btn"
-								id="spherePause"
-								type="button"
-								hidden
-								aria-pressed="false"
-							>
-								Пауза вращения
 							</button>
 							<button class="sphere-turn-btn" id="sphereRight" type="button" hidden>
 								Повернуть вправо
 							</button>
 						</div>
-						<p class="sphere-hint" id="sphereHint">
-							Проведите по свободному месту сферы или используйте кнопки ниже
-						</p>
 						<div class="skills-legend" aria-label="Цвета направлений">
 							<span data-category="frontend">Frontend</span
 							><span data-category="backend">Backend</span
@@ -1076,7 +1075,10 @@
 						id="skillDetail"
 						aria-labelledby="skillDetailTitle"
 					>
-						<div class="xp-properties-label">Свойства технологии</div>
+						<div class="console-head skill-detail-head">
+							<span>Свойства технологии</span
+							><span class="status-dot" aria-hidden="true"></span>
+						</div>
 						<p class="eyebrow" id="skillDetailCategory">Frontend</p>
 						<h3 id="skillDetailTitle">React</h3>
 						<p id="skillDetailDescription">

@@ -195,7 +195,7 @@
       if (loaded) return;
       loaded = true;
       try {
-        const { initSphere } = await import('./skills-3d.js?v=20260911-9');
+        const { initSphere } = await import('./skills-3d.js?v=20260914-1');
         initSphere(stage);
       } catch (error) {
         document.querySelector('#sphereStatus').textContent = '3D-карта недоступна. Все технологии и ссылки на проекты есть в списке ниже.';

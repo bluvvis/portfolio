@@ -713,6 +713,16 @@
 		],
 	}
 	const renderedSections = new WeakSet()
+	const finishSectionRendering = section => {
+		if (!section) return
+		renderedSections.add(section)
+		renderObserver.unobserve(section)
+		section.classList.remove('section-rendering')
+		section.querySelector(':scope > .section-renderer')?.remove()
+		document.dispatchEvent(
+			new CustomEvent('portfolio:section-rendered', { detail: section }),
+		)
+	}
 	const renderObserver = new IntersectionObserver(
 		entries =>
 			entries.forEach(entry => {
@@ -721,20 +731,18 @@
 				renderedSections.add(section)
 				renderObserver.unobserve(section)
 				const overlay = section.querySelector('.section-renderer')
-				if (!overlay || !allowed() || innerWidth <= 600) {
-					overlay?.remove()
-					document.dispatchEvent(
-						new CustomEvent('portfolio:section-rendered', { detail: section }),
-					)
+				if (
+					!overlay ||
+					!allowed() ||
+					innerWidth <= 600 ||
+					section.contains(document.activeElement)
+				) {
+					finishSectionRendering(section)
 					return
 				}
 				section.classList.add('section-rendering')
 				setTimeout(() => {
-					section.classList.remove('section-rendering')
-					overlay.remove()
-					document.dispatchEvent(
-						new CustomEvent('portfolio:section-rendered', { detail: section }),
-					)
+					if (overlay.isConnected) finishSectionRendering(section)
 				}, 2300)
 			}),
 		{ threshold: 0.08, rootMargin: '0px 0px -10% 0px' },
@@ -760,6 +768,11 @@
 		overlay.append(blocks)
 		section.append(overlay)
 		renderObserver.observe(section)
+	})
+	document.addEventListener('focusin', event => {
+		const section = event.target.closest?.('main > section[id]')
+		if (section?.querySelector(':scope > .section-renderer'))
+			finishSectionRendering(section)
 	})
 	const targetSelector = [
 		'#work > .xp-titlebar',

@@ -3641,3 +3641,131 @@ footer.section-shell {
 		grid-auto-columns: 85vw;
 	}
 }
+
+/* 2026-09-14 interface refinements. */
+.topbar {
+	grid-template-columns: minmax(0, 1fr) auto;
+}
+.top-note {
+	justify-self: end;
+	text-align: right;
+}
+
+.link-arrow {
+	position: relative;
+	display: block;
+	width: 16px;
+	height: 16px;
+}
+.link-arrow::before {
+	content: '';
+	position: absolute;
+	left: 1px;
+	top: 7px;
+	width: 14px;
+	height: 2px;
+	border-radius: 2px;
+	background: currentColor;
+	transform: rotate(-45deg);
+}
+.link-arrow::after {
+	content: '';
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	width: 8px;
+	height: 8px;
+	border-top: 2px solid currentColor;
+	border-right: 2px solid currentColor;
+}
+
+/* Keep the actual Explorer window hidden until its loading pass is complete. */
+main > section.section-rendering {
+	border-color: transparent;
+	background: transparent;
+	box-shadow: none;
+}
+main > section.section-rendering > :not(.section-renderer) {
+	opacity: 0;
+	pointer-events: none;
+}
+main > section.section-rendering > .section-renderer {
+	visibility: visible;
+}
+
+.sphere-column {
+	position: relative;
+}
+.sphere-pause-overlay {
+	position: absolute;
+	z-index: 12;
+	top: 48px;
+	right: 12px;
+	width: 38px;
+	min-width: 38px;
+	height: 38px;
+	min-height: 38px;
+	padding: 0;
+	border-radius: 4px;
+	font: 17px/1 var(--xp-ui);
+	box-shadow: 2px 2px 0 #090708;
+}
+.sphere-pause-overlay[aria-pressed='true'] {
+	border-color: var(--accent);
+	background: #4b2734;
+}
+.sphere-pause-overlay:disabled {
+	opacity: 0.62;
+}
+
+.skill-detail {
+	padding: 22px;
+	border: 1px solid;
+	border-color: var(--chrome-line) #141213 #141213 var(--chrome-line);
+	border-radius: 5px;
+	background: #191516;
+	box-shadow:
+		inset 1px 1px 0 #ffffff12,
+		4px 4px 0 #0a0809;
+}
+.skill-detail-head {
+	padding-bottom: 14px;
+	border-bottom: 1px solid var(--chrome-line-soft);
+}
+.skill-detail-head .status-dot {
+	background: var(--category, var(--frontend));
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--category, var(--frontend)) 14%, transparent);
+}
+.skill-detail h3 {
+	margin: 24px 0 18px;
+}
+
+@media (max-width: 1050px) {
+	.top-note {
+		display: block;
+	}
+}
+
+@media (max-width: 600px) {
+	.topbar {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+	.top-note {
+		max-width: 150px;
+		font-size: 8px;
+		line-height: 1.35;
+	}
+	.top-note b {
+		margin-right: 4px;
+		font-size: 14px;
+	}
+	.sphere-pause-overlay {
+		top: 46px;
+		right: 9px;
+		width: 40px;
+		height: 40px;
+	}
+	.sphere-controls {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
