@@ -122,17 +122,27 @@ const skipStartup = async page => {
       await fs.writeFile(`${screenshotDir}/axe-desktop.json`,JSON.stringify(result.violations,null,2));
       assert.deepEqual(result.violations.map(v=>`${v.id}: ${v.nodes.map(n=>n.target.join(' ')).join(', ')}`),[]);
     });
-    await test('responsive layout at 320, 390, 768, 1024, 1440 and 1920 px', async () => {
-      for (const width of [320,390,768,1024,1440,1920]) {
+    await test('responsive layout from 320 through 2560 px', async () => {
+      for (const width of [320,390,768,1024,1440,1920,2560]) {
         await page.setViewportSize({width,height:1000});await wait(80);
-        const layout=await page.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth,skipBottom:document.querySelector('.skip-link').getBoundingClientRect().bottom,shellWidth:document.querySelector('.section-shell').getBoundingClientRect().width,ambientHeight:document.querySelector('.ambient').getBoundingClientRect().height}));
+        const layout=await page.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth,skipBottom:document.querySelector('.skip-link').getBoundingClientRect().bottom,shellWidth:document.querySelector('.section-shell').offsetWidth,ambientHeight:document.querySelector('.ambient').offsetHeight,projectColumns:getComputedStyle(document.querySelector('.project-grid')).gridTemplateColumns.split(' ').length,projectImageWidth:document.querySelector('.project-image').offsetWidth,sphereHeight:document.querySelector('.skills-3d-stage').offsetHeight,aboutCopyWidth:document.querySelector('.about-copy').offsetWidth}));
         const overflowing=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(el=>{const r=el.getBoundingClientRect();return r.right>innerWidth+1 && r.width>0}).map(el=>({tag:el.tagName,cls:el.className,text:el.textContent.slice(0,70),right:el.getBoundingClientRect().right})));
         assert.ok(layout.scroll<=layout.viewport,`Overflow at ${width}: ${JSON.stringify({layout,overflowing})}`);
         assert.ok(layout.skipBottom<0,`Skip link visible without focus: ${JSON.stringify(layout)}`);
-		if(width===1440) assert.equal(layout.shellWidth,1280);
-		if(width===1920) {
+		if(width===1440) {
+		  assert.equal(layout.shellWidth,1280);
+		  assert.equal(layout.projectColumns,2);
+		  assert.equal(layout.projectImageWidth,340);
+		  assert.equal(layout.sphereHeight,490);
+		  assert.equal(layout.aboutCopyWidth,500);
+		}
+		if(width>=1920) {
 		  assert.ok(layout.shellWidth>1600,JSON.stringify(layout));
 		  assert.ok(layout.ambientHeight>1200,JSON.stringify(layout));
+		  assert.equal(layout.projectColumns,3);
+		  assert.equal(layout.projectImageWidth,440);
+		  assert.equal(layout.sphereHeight,560);
+		  assert.equal(layout.aboutCopyWidth,640);
 		}
       }
     });

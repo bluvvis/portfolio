@@ -3821,6 +3821,18 @@ main > section.section-rendering > .section-renderer {
 	.desktop-shortcuts {
 		gap: 28px;
 	}
+	.wordmark {
+		font-size: 26px;
+	}
+	.xp-titlebar {
+		min-height: 39px;
+		font-size: 12px;
+	}
+	.xp-address,
+	.section-mark,
+	.eyebrow {
+		font-size: 11px;
+	}
 	.desktop-side {
 		gap: 28px;
 	}
@@ -3838,6 +3850,68 @@ main > section.section-rendering > .section-renderer {
 		font-size: 16px;
 	}
 	.workflow-lines {
+		font-size: 11px;
+	}
+	.section-heading > p {
+		max-width: 420px;
+		font-size: 17px;
+	}
+	.feature-grid {
+		grid-template-columns: minmax(0, 1.3fr) minmax(420px, 0.7fr);
+		gap: 5%;
+	}
+	.project-image {
+		max-width: 440px;
+	}
+	.project-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.project-card {
+		padding-inline: 28px;
+	}
+	.project-card > p:not(.eyebrow):not(.card-subtitle) {
+		font-size: 15px;
+	}
+	.skills-3d-stage {
+		height: 560px;
+	}
+	.skill-detail {
+		min-height: 410px;
+		padding: 30px;
+	}
+	.skill-group {
+		padding: 22px 18px;
+	}
+	.skill-group h3 {
+		font-size: 14px;
+	}
+	.skill-group > p {
+		font-size: 12px;
+	}
+	.skill-group li > a {
+		font-size: 11px;
+	}
+	.about h2 {
+		font-size: 96px;
+	}
+	.about-copy {
+		max-width: 640px;
+	}
+	.about-copy p {
+		font-size: 17px;
+	}
+	.about-copy p:first-child {
+		font-size: 24px;
+	}
+	.contact-intro > p:not(.eyebrow) {
+		max-width: 600px;
+		font-size: 19px;
+	}
+	.contact-card {
+		padding: 34px;
+	}
+	.xp-task-buttons a {
+		max-width: 210px;
 		font-size: 11px;
 	}
 }
