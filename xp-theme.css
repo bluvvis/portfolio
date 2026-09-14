@@ -2568,6 +2568,10 @@ h2 em {
 	opacity: 0.65;
 	font: 10px/1 var(--mono);
 }
+.contact-channels a[href^='https://t.me/'],
+.contact-channels a[href^='https://t.me/']:hover {
+	color: #fff;
+}
 .contact-email-block {
 	padding-top: 20px;
 	border-top: 1px solid var(--line);
