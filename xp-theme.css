@@ -3085,9 +3085,6 @@ footer.section-shell {
 .project-card:hover h3 {
 	color: var(--text);
 }
-.project-card:target {
-	box-shadow: inset 3px 0 0 var(--accent);
-}
 .metric {
 	padding-left: 16px;
 	border-left: 3px solid var(--accent);
@@ -3807,11 +3804,16 @@ main > section.section-rendering > .section-renderer {
 
 @media (min-width: 821px) {
 	.skill-detail {
-		border-color: #a66878 #090707 #090707 #a66878;
+		border-color: var(--chrome-line) #141213 #141213 var(--chrome-line);
 		box-shadow:
-			inset 1px 1px 0 #ffffff16,
-			5px 6px 0 #0003,
-			0 16px 34px #09070755;
+			inset 1px 1px 0 #d4b8c018,
+			4px 4px 0 #0a0809;
+	}
+	.xp-window-action,
+	.xp-cardbar > a,
+	.feature > .xp-cardbar > a,
+	.project-card > .xp-cardbar > a {
+		min-height: 40px;
 	}
 }
 

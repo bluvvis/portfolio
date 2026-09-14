@@ -32,7 +32,12 @@
 	.about-copy > p:nth-child(n + 2) { display: none; }
 	.topbar { grid-template-columns: minmax(0, 1fr); min-height: 54px; }
 	.hero { padding-top: 10px; }
-	.hero-banner { font-size: 9px; }
+	.hero-banner,
+	.hero-portrait .xp-titlebar,
+	.hero-portrait figcaption,
+	.workflow-window .xp-titlebar,
+	.workflow-lines,
+	.top-note { font-size: 10px; }
 	.desktop-scene { padding-top: 6px; gap: 14px; }
 	.hero-copy { padding: 22px 18px; }
 	.hero h1 { font-size: clamp(43px, 13vw, 58px); }
@@ -83,11 +88,28 @@
 		border-top: 1px solid var(--chrome-line-soft);
 	}
 	.mobile-project-links a {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		margin-block: -13px;
 		color: var(--pink-soft);
 		font-family: var(--mono);
 		font-size: 11px;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 4px;
+	}
+	.mobile-strip-label span { font-size: 10px; }
+	#ocr .metric {
+		margin-top: 14px;
+		padding: 10px 0 10px 10px;
+		border-top: 0;
+		border-bottom-color: var(--chrome-line-soft);
+		border-left-width: 2px;
+	}
+	#ocr .metric strong {
+		font-size: 20px;
+		letter-spacing: -.035em;
 	}
 	.stack-disclosure { margin-top: 12px; }
 	.stack-disclosure .skills-explorer { padding: 8px; }
@@ -113,6 +135,30 @@
 	.about-grid { margin-block: 18px 22px; gap: 14px; }
 	.about-copy p:first-child { font-size: 16px; line-height: 1.55; }
 	.contact-layout { gap: 16px; }
+	.contact-intro h2 { margin-block: 12px 16px; }
+	.contact-card .contact-email { font-size: 12px; }
+	.contact-email-block { padding-top: 14px; }
+	.contact-card .copy-email-row { margin-top: 12px; }
+	.contact-channels {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 6px;
+		margin: 14px 0 0;
+	}
+	.contact-channels .button {
+		justify-content: center;
+		min-height: 44px;
+		padding: 8px 5px;
+		font-size: 10px;
+	}
+	.contact-channels small { display: none; }
+	.sphere-pause-overlay {
+		width: 44px;
+		min-width: 44px;
+		height: 44px;
+		min-height: 44px;
+		top: 42px;
+		right: 5px;
+	}
 	.xp-taskbar { height: 53px; min-height: 53px; }
 }
 

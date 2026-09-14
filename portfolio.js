@@ -192,6 +192,38 @@
   compactLayout.addEventListener('change', syncDisclosures);
   syncDisclosures();
 
+  // Show the nearest card number while a compact horizontal strip is moving.
+  document.querySelectorAll('.mobile-strip-label').forEach(label => {
+    const strip = label.nextElementSibling;
+    const output = label.querySelector('.strip-position');
+    if (!strip || !output) return;
+    const items = [...strip.children].filter(item =>
+      item.matches('.project-card, .skill-group'),
+    );
+    if (!items.length) return;
+    let stripFrame = 0;
+    const updatePosition = () => {
+      stripFrame = 0;
+      const stripLeft = strip.getBoundingClientRect().left;
+      let current = 0;
+      let nearestDistance = Infinity;
+      items.forEach((item, index) => {
+        const distance = Math.abs(item.getBoundingClientRect().left - stripLeft);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          current = index;
+        }
+      });
+      output.value = `${current + 1} / ${items.length}`;
+    };
+    const schedulePosition = () => {
+      if (!stripFrame) stripFrame = requestAnimationFrame(updatePosition);
+    };
+    strip.addEventListener('scroll', schedulePosition, { passive: true });
+    addEventListener('resize', schedulePosition);
+    updatePosition();
+  });
+
   // Skill-to-project links need to align both the page and the horizontal
   // project strip. Native anchor scrolling is inconsistent inside scroll-snap.
   document.addEventListener('click', event => {
@@ -205,11 +237,25 @@
     if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
     history.pushState(null, '', link.hash);
     target.focus({ preventScroll: true });
-    requestAnimationFrame(() => target.scrollIntoView({
-      behavior: reducedMotion.matches || motionPaused ? 'auto' : 'smooth',
-      block: 'start',
-      inline: 'center'
-    }));
+    requestAnimationFrame(() => {
+      if (compactLayout.matches && target.parentElement?.classList.contains('project-grid')) {
+        const strip = target.parentElement;
+        strip.scrollTo({
+          left: target.offsetLeft - (strip.clientWidth - target.offsetWidth) / 2,
+          behavior: 'instant',
+        });
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + scrollY,
+          behavior: reducedMotion.matches || motionPaused ? 'auto' : 'smooth',
+        });
+        return;
+      }
+      target.scrollIntoView({
+        behavior: reducedMotion.matches || motionPaused ? 'auto' : 'smooth',
+        block: 'start',
+        inline: 'center',
+      });
+    });
   });
 
   const stage = document.querySelector('#skills3d');
