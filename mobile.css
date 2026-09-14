@@ -46,6 +46,7 @@
 	.work, .skills, .about, .contact { margin-top: 24px; }
 	.section-heading { margin-bottom: 18px; }
 	.feature { padding-bottom: 18px; }
+	.feature-heading .project-kind { display: none; }
 	.feature-title { margin-bottom: 14px; }
 	.lead { font-size: 20px; }
 	.case-facts { margin-block: 12px; }
@@ -135,22 +136,6 @@
 	.about-grid { margin-block: 18px 22px; gap: 14px; }
 	.about-copy p:first-child { font-size: 16px; line-height: 1.55; }
 	.contact-layout { gap: 16px; }
-	.contact-intro h2 { margin-block: 12px 16px; }
-	.contact-card .contact-email { font-size: 12px; }
-	.contact-email-block { padding-top: 14px; }
-	.contact-card .copy-email-row { margin-top: 12px; }
-	.contact-channels {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 6px;
-		margin: 14px 0 0;
-	}
-	.contact-channels .button {
-		justify-content: center;
-		min-height: 44px;
-		padding: 8px 5px;
-		font-size: 10px;
-	}
-	.contact-channels small { display: none; }
 	.sphere-pause-overlay {
 		width: 44px;
 		min-width: 44px;
