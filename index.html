@@ -68,12 +68,7 @@
 							window.__portfolioRevealSections()
 					})
 				}
-				if (
-					openingHero &&
-					!location.hash &&
-					!motionPaused &&
-					!reducedMotion
-				) {
+				if (openingHero && !location.hash && !motionPaused && !reducedMotion) {
 					window.__portfolioBootStartedAt = performance.now()
 					document.documentElement.classList.add('boot-enabled')
 					document.documentElement.dataset.appState = 'inactive'
@@ -87,7 +82,13 @@
 		</script>
 		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 		<link rel="modulepreload" href="skills-3d.js" />
-		<link rel="preload" href="assets/fonts/ibm-plex-sans-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+		<link
+			rel="preload"
+			href="assets/fonts/ibm-plex-sans-cyrillic.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
 		<link rel="stylesheet" href="fonts.css" />
 		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="skills-3d.css" />
@@ -95,7 +96,11 @@
 		<link rel="stylesheet" href="mobile.css" />
 		<script src="portfolio.js" defer></script>
 		<script src="desktop.js" defer></script>
-		<script src="motion.js" defer onerror="window.__portfolioRevealSections?.()"></script>
+		<script
+			src="motion.js"
+			defer
+			onerror="window.__portfolioRevealSections?.()"
+		></script>
 	</head>
 	<body class="xp-desktop">
 		<svg
@@ -299,8 +304,7 @@
 								систему, которую можно запустить, проверить и развивать.
 							</p>
 							<div class="actions">
-								<a class="button button-primary" href="#work"
-									>Открыть проекты</a
+								<a class="button button-primary" href="#work">Открыть проекты</a
 								><a class="button button-outline" href="#contact">Связаться</a>
 							</div>
 						</div>
@@ -323,7 +327,10 @@
 							<div class="photo-mat">
 								<img
 									src="assets/grigorii-belyaev-800.webp"
-									srcset="assets/grigorii-belyaev-480.webp 480w, assets/grigorii-belyaev-800.webp 800w"
+									srcset="
+										assets/grigorii-belyaev-480.webp 480w,
+										assets/grigorii-belyaev-800.webp 800w
+									"
 									sizes="(max-width: 600px) 276px, (max-width: 1050px) 34vw, 360px"
 									alt="Григорий Беляев"
 									width="800"
@@ -415,8 +422,7 @@
 				<nav class="project-jumps" aria-label="Быстрый переход к проекту">
 					<span>К кейсам:</span><a href="#neberi">NEBERI · full-stack + ML</a
 					><a href="#optitrade">OptiTrade · full-stack</a
-					><a href="#ocr">OCRFix-RU · NLP</a
-					><a href="#llm-eval">Ещё проекты</a>
+					><a href="#ocr">OCRFix-RU · NLP</a><a href="#llm-eval">Ещё проекты</a>
 				</nav>
 				<article
 					class="feature project-anchor"
@@ -433,8 +439,8 @@
 							target="_blank"
 							rel="noopener noreferrer"
 							aria-label="Открыть NEBERI"
-							><span class="link-arrow" aria-hidden="true"></span></a
-						>
+							><span class="link-arrow" aria-hidden="true"></span
+						></a>
 					</div>
 					<div class="feature-heading">
 						<p class="eyebrow">
@@ -462,16 +468,17 @@
 									</dd>
 								</div>
 
-							<div>
-								<dt>Результат</dt>
-								<dd>
-									<span class="desktop-copy"
-										>Событие проходит от приёма до оценки риска с объяснением в
-										интерфейсе. В репозитории: код, тесты и запуск.</span
-									><span class="mobile-copy"
-										>Полный путь: событие → скоринг → объяснение оператору.</span
-									>
-								</dd>
+								<div>
+									<dt>Результат</dt>
+									<dd>
+										<span class="desktop-copy"
+											>Событие проходит от приёма до оценки риска с объяснением
+											в интерфейсе. В репозитории: код, тесты и запуск.</span
+										><span class="mobile-copy"
+											>Полный путь: событие → скоринг → объяснение
+											оператору.</span
+										>
+									</dd>
 								</div>
 							</dl>
 							<details class="implementation-details">
@@ -503,9 +510,7 @@
 									target="_blank"
 									rel="noopener noreferrer"
 									>Код и запуск NEBERI</a
-								><a class="text-link" href="#demo"
-									>Как считается риск</a
-								>
+								><a class="text-link" href="#demo">Как считается риск</a>
 							</div>
 						</div>
 						<figure class="project-image">
@@ -548,100 +553,102 @@
 							<small>Открыть демо</small>
 						</summary>
 						<div class="risk-demo">
-						<div class="demo-copy">
-							<p class="eyebrow">интерактивный разбор</p>
-							<h4>Что влияет<br /><em>на уровень риска?</em></h4>
-							<p>
-								Меняйте оценку правил, оценку ML и вес модели. Система смешивает
-								оценки, но не позволяет ML снизить уровень риска, заданный
-								правилами.
-							</p>
-							<p class="small">
-								Демонстрация расчёта из проекта с заданными вручную оценками и
-								без дополнительного бонуса. Модель здесь не запускается. Балл
-								риска — не вероятность мошенничества.
-							</p>
-							<a
-								class="text-link"
-								href="https://github.com/bluvvis/NEBERI/blob/main/apps/api/app/services/risk_levels.py"
-								target="_blank"
-								rel="noopener noreferrer"
-								>Логика в исходном коде</a
-							>
-						</div>
-						<div class="demo-console">
-							<div class="console-head">
-								<span>NEBERI / risk breakdown</span
-								><span class="status-dot" aria-hidden="true"></span>
-							</div>
-							<div class="risk-result">
-								<div>
-									<span class="small">Оценка для уровня риска</span>
-									<p>
-										<output id="riskScore" for="ruleRange mlRange weightRange"
-											>65</output
-										><span>/ 100</span>
-									</p>
-								</div>
-								<strong class="risk-badge" id="riskLevel" data-level="high"
-									>Высокий</strong
+							<div class="demo-copy">
+								<p class="eyebrow">интерактивный разбор</p>
+								<h4>Что влияет<br /><em>на уровень риска?</em></h4>
+								<p>
+									Меняйте оценку правил, оценку ML и вес модели. Система
+									смешивает оценки, но не позволяет ML снизить уровень риска,
+									заданный правилами.
+								</p>
+								<p class="small">
+									Демонстрация расчёта из проекта с заданными вручную оценками и
+									без дополнительного бонуса. Модель здесь не запускается. Балл
+									риска — не вероятность мошенничества.
+								</p>
+								<a
+									class="text-link"
+									href="https://github.com/bluvvis/NEBERI/blob/main/apps/api/app/services/risk_levels.py"
+									target="_blank"
+									rel="noopener noreferrer"
+									>Логика в исходном коде</a
 								>
 							</div>
-							<fieldset id="riskControls" disabled>
-								<legend class="sr-only">Входные оценки для демонстрации</legend>
-								<label for="ruleRange"
-									><span>По правилам</span
-									><output id="ruleOutput" for="ruleRange">40</output></label
-								><input
-									id="ruleRange"
-									type="range"
-									min="0"
-									max="100"
-									value="40"
-								/>
-								<label for="mlRange"
-									><span>По ML</span
-									><output id="mlOutput" for="mlRange">90</output></label
-								><input
-									id="mlRange"
-									type="range"
-									min="0"
-									max="100"
-									value="90"
-								/>
-								<label for="weightRange"
-									><span>Вес ML в смеси</span
-									><output id="weightOutput" for="weightRange"
-										>50%</output
-									></label
-								><input
-									id="weightRange"
-									type="range"
-									min="0"
-									max="100"
-									step="5"
-									value="50"
-								/>
-							</fieldset>
-							<p class="demo-formula" id="riskExplanation">
-								Смесь: 65 · по правилам: 40 → итог: 65
-							</p>
-							<p class="risk-thresholds">
-								0–20 низкий · 21–54 средний · 55–100 высокий
-							</p>
-							<p
-								class="sr-only"
-								id="riskAnnouncement"
-								role="status"
-								aria-live="polite"
-							></p>
-							<noscript
-								><p class="small">
-									Для изменения оценок включите JavaScript. Показан пример: 40 ×
-									0,5 + 90 × 0,5 = 65.
-								</p></noscript
-							>
-						</div>
+							<div class="demo-console">
+								<div class="console-head">
+									<span>NEBERI / risk breakdown</span
+									><span class="status-dot" aria-hidden="true"></span>
+								</div>
+								<div class="risk-result">
+									<div>
+										<span class="small">Оценка для уровня риска</span>
+										<p>
+											<output id="riskScore" for="ruleRange mlRange weightRange"
+												>65</output
+											><span>/ 100</span>
+										</p>
+									</div>
+									<strong class="risk-badge" id="riskLevel" data-level="high"
+										>Высокий</strong
+									>
+								</div>
+								<fieldset id="riskControls" disabled>
+									<legend class="sr-only">
+										Входные оценки для демонстрации
+									</legend>
+									<label for="ruleRange"
+										><span>По правилам</span
+										><output id="ruleOutput" for="ruleRange">40</output></label
+									><input
+										id="ruleRange"
+										type="range"
+										min="0"
+										max="100"
+										value="40"
+									/>
+									<label for="mlRange"
+										><span>По ML</span
+										><output id="mlOutput" for="mlRange">90</output></label
+									><input
+										id="mlRange"
+										type="range"
+										min="0"
+										max="100"
+										value="90"
+									/>
+									<label for="weightRange"
+										><span>Вес ML в смеси</span
+										><output id="weightOutput" for="weightRange"
+											>50%</output
+										></label
+									><input
+										id="weightRange"
+										type="range"
+										min="0"
+										max="100"
+										step="5"
+										value="50"
+									/>
+								</fieldset>
+								<p class="demo-formula" id="riskExplanation">
+									Смесь: 65 · по правилам: 40 → итог: 65
+								</p>
+								<p class="risk-thresholds">
+									0–20 низкий · 21–54 средний · 55–100 высокий
+								</p>
+								<p
+									class="sr-only"
+									id="riskAnnouncement"
+									role="status"
+									aria-live="polite"
+								></p>
+								<noscript
+									><p class="small">
+										Для изменения оценок включите JavaScript. Показан пример: 40
+										× 0,5 + 90 × 0,5 = 65.
+									</p></noscript
+								>
+							</div>
 						</div>
 					</details>
 				</article>
@@ -669,36 +676,36 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть OptiTrade"
-								><span class="link-arrow" aria-hidden="true"></span></a
-							>
+								><span class="link-arrow" aria-hidden="true"></span
+							></a>
 						</div>
 						<p class="eyebrow">02 / командный проект · full-stack</p>
 						<h3>OptiTrade</h3>
 						<p class="card-subtitle">
 							Интерфейс торговой платформы и интеграция данных.
 						</p>
-							<p>
-								Подключил dashboard к API и PostgreSQL. Добавил валидацию форм,
-								защищённые маршруты, управление состоянием и компонентные тесты:
-								<a
-									href="https://github.com/FaritSharafutdinov/OptiTrade/commit/65792574f2369dac64b7b0c2afdd6d18dd4e6a82"
-									target="_blank"
-									rel="noopener noreferrer"
-									>PostgreSQL + интерфейс</a
-								>,
-								<a
-									href="https://github.com/FaritSharafutdinov/OptiTrade/commit/ee6e19d8dc1ca3125741a7a36b37f0d6ff3a5aaf"
-									target="_blank"
-									rel="noopener noreferrer"
-									>мемоизация и lazy routes</a
-								>,
-								<a
-									href="https://github.com/FaritSharafutdinov/OptiTrade/commits?author=bluvvis"
-									target="_blank"
-									rel="noopener noreferrer"
-									>все коммиты</a
-								>.
-							</p>
+						<p>
+							Подключил dashboard к API и PostgreSQL. Добавил валидацию форм,
+							защищённые маршруты, управление состоянием и компонентные тесты:
+							<a
+								href="https://github.com/FaritSharafutdinov/OptiTrade/commit/65792574f2369dac64b7b0c2afdd6d18dd4e6a82"
+								target="_blank"
+								rel="noopener noreferrer"
+								>PostgreSQL + интерфейс</a
+							>,
+							<a
+								href="https://github.com/FaritSharafutdinov/OptiTrade/commit/ee6e19d8dc1ca3125741a7a36b37f0d6ff3a5aaf"
+								target="_blank"
+								rel="noopener noreferrer"
+								>мемоизация и lazy routes</a
+							>,
+							<a
+								href="https://github.com/FaritSharafutdinov/OptiTrade/commits?author=bluvvis"
+								target="_blank"
+								rel="noopener noreferrer"
+								>все коммиты</a
+							>.
+						</p>
 						<ul class="chips" aria-label="Стек OptiTrade">
 							<li>React</li>
 							<li>TypeScript</li>
@@ -707,15 +714,20 @@
 							<li>Zod</li>
 							<li>Vitest</li>
 						</ul>
-							<a
-								class="card-link"
+						<a
+							class="card-link"
 							href="https://github.com/FaritSharafutdinov/OptiTrade"
 							target="_blank"
 							rel="noopener noreferrer"
 							>Репозиторий OptiTrade</a
 						>
 						<div class="mobile-project-links">
-							<a href="https://github.com/FaritSharafutdinov/OptiTrade" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+							<a
+								href="https://github.com/FaritSharafutdinov/OptiTrade"
+								target="_blank"
+								rel="noopener noreferrer"
+								>GitHub ↗</a
+							>
 						</div>
 					</article>
 					<article
@@ -733,15 +745,17 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть OCRFix-RU"
-								><span class="link-arrow" aria-hidden="true"></span></a
-							>
+								><span class="link-arrow" aria-hidden="true"></span
+							></a>
 						</div>
 						<p class="eyebrow">03 / личный проект · NLP</p>
 						<h3>OCRFix-RU</h3>
-							<p class="card-subtitle">
-								<span class="desktop-copy">Исправление ошибок распознавания русского текста.</span>
-								<span class="mobile-copy">OCR корректор.</span>
-							</p>
+						<p class="card-subtitle">
+							<span class="desktop-copy"
+								>Исправление ошибок распознавания русского текста.</span
+							>
+							<span class="mobile-copy">OCR корректор.</span>
+						</p>
 						<p>
 							Реализовал символьные и словные n-граммы, генерацию кандидатов и
 							гибридное ранжирование. Добавил генератор шума, CLI, тесты и
@@ -749,8 +763,9 @@
 						</p>
 						<div class="metric">
 							<strong>35,1% <span aria-hidden="true">→</span> 21,4%</strong
-							><span class="desktop-copy">WER в контрольном синтетическом эксперименте</span
-							><span class="mobile-copy">WER на тесте</span>
+							><span class="desktop-copy"
+								>WER в контрольном синтетическом эксперименте</span
+							>
 						</div>
 						<p class="small">
 							80 примеров, шум 30%, seed 42, α = 0,9. На других настройках
@@ -777,7 +792,12 @@
 							>
 						</div>
 						<div class="mobile-project-links">
-							<a href="https://github.com/bluvvis/OCRFix-RU" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+							<a
+								href="https://github.com/bluvvis/OCRFix-RU"
+								target="_blank"
+								rel="noopener noreferrer"
+								>GitHub ↗</a
+							>
 						</div>
 					</article>
 					<article
@@ -795,8 +815,8 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть LLM Evaluation"
-								><span class="link-arrow" aria-hidden="true"></span></a
-							>
+								><span class="link-arrow" aria-hidden="true"></span
+							></a>
 						</div>
 						<p class="eyebrow">04 / командный проект · ML research</p>
 						<h3>LLM Evaluation</h3>
@@ -834,7 +854,12 @@
 							>
 						</div>
 						<div class="mobile-project-links">
-							<a href="https://github.com/FaritSharafutdinov/Recovering-Cyber-Security-Domain-Knowledge" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+							<a
+								href="https://github.com/FaritSharafutdinov/Recovering-Cyber-Security-Domain-Knowledge"
+								target="_blank"
+								rel="noopener noreferrer"
+								>GitHub ↗</a
+							>
 						</div>
 					</article>
 					<article
@@ -852,8 +877,8 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть DariaBrusnika"
-								><span class="link-arrow" aria-hidden="true"></span></a
-							>
+								><span class="link-arrow" aria-hidden="true"></span
+							></a>
 						</div>
 						<p class="eyebrow">05 / веб-проект · реализация интерфейса</p>
 						<h3>DariaBrusnika</h3>
@@ -887,8 +912,18 @@
 							>
 						</div>
 						<div class="mobile-project-links">
-							<a href="https://bluvvis.github.io/DariaBrusnika/" target="_blank" rel="noopener noreferrer">Сайт ↗</a>
-							<a href="https://github.com/bluvvis/DariaBrusnika" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+							<a
+								href="https://bluvvis.github.io/DariaBrusnika/"
+								target="_blank"
+								rel="noopener noreferrer"
+								>Сайт ↗</a
+							>
+							<a
+								href="https://github.com/bluvvis/DariaBrusnika"
+								target="_blank"
+								rel="noopener noreferrer"
+								>GitHub ↗</a
+							>
 						</div>
 					</article>
 					<article
@@ -906,8 +941,8 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть Big Data Search"
-								><span class="link-arrow" aria-hidden="true"></span></a
-							>
+								><span class="link-arrow" aria-hidden="true"></span
+							></a>
 						</div>
 						<p class="eyebrow">06 / учебный проект · data engineering</p>
 						<h3>Big Data Search</h3>
@@ -933,7 +968,12 @@
 							>Репозиторий Big Data Search</a
 						>
 						<div class="mobile-project-links">
-							<a href="https://github.com/bluvvis/BigData_2" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+							<a
+								href="https://github.com/bluvvis/BigData_2"
+								target="_blank"
+								rel="noopener noreferrer"
+								>GitHub ↗</a
+							>
 						</div>
 					</article>
 					<article
@@ -951,8 +991,8 @@
 								target="_blank"
 								rel="noopener noreferrer"
 								aria-label="Открыть Book Discovery"
-								><span class="link-arrow" aria-hidden="true"></span></a
-							>
+								><span class="link-arrow" aria-hidden="true"></span
+							></a>
 						</div>
 						<p class="eyebrow">07 / командный проект · frontend + данные</p>
 						<h3>Book Discovery</h3>
@@ -983,7 +1023,12 @@
 							>
 						</div>
 						<div class="mobile-project-links">
-							<a href="https://github.com/IU-Capstone-Project-2025/Recommendation-System" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+							<a
+								href="https://github.com/IU-Capstone-Project-2025/Recommendation-System"
+								target="_blank"
+								rel="noopener noreferrer"
+								>GitHub ↗</a
+							>
 						</div>
 					</article>
 				</div>
@@ -1039,76 +1084,76 @@
 						<small>Открыть карту</small>
 					</summary>
 					<div class="skills-explorer">
-					<div class="sphere-column">
-						<div class="xp-titlebar">
-							<span class="xp-window-name"
-								><svg class="xp-icon" aria-hidden="true">
-									<use href="#xp-orb" /></svg
-								>skills.3d — Интерактивная карта</span
+						<div class="sphere-column">
+							<div class="xp-titlebar">
+								<span class="xp-window-name"
+									><svg class="xp-icon" aria-hidden="true">
+										<use href="#xp-orb" /></svg
+									>skills.3d — Интерактивная карта</span
+								>
+							</div>
+							<div
+								class="skills-3d-stage"
+								id="skills3d"
+								role="group"
+								aria-label="Сфера технологий. Выберите технологию клавишей Enter; вращайте жестом, мышью или стрелками клавиатуры."
+								tabindex="0"
+							>
+								<p class="sphere-status" id="sphereStatus" role="status">
+									Интерактивная карта загружается при прокрутке. Все навыки
+									доступны в списке ниже.
+								</p>
+							</div>
+							<button
+								class="skills-pause-btn sphere-pause-overlay"
+								id="spherePause"
+								type="button"
+								hidden
+								aria-pressed="false"
+								aria-label="Приостановить вращение сферы"
+								title="Приостановить вращение"
+							>
+								<span class="sphere-pause-icon" aria-hidden="true"></span>
+							</button>
+							<div class="skills-legend" aria-label="Цвета направлений">
+								<span data-category="frontend">Frontend</span
+								><span data-category="backend">Backend</span
+								><span data-category="ml">ML / Data</span
+								><span data-category="delivery">Delivery / Tests</span>
+							</div>
+							<noscript
+								><p class="small">
+									3D-карта доступна с JavaScript. Список навыков и ссылки на
+									проекты работают без него.
+								</p></noscript
 							>
 						</div>
-						<div
-							class="skills-3d-stage"
-							id="skills3d"
-							role="group"
-							aria-label="Сфера технологий. Выберите технологию клавишей Enter; вращайте жестом, мышью или стрелками клавиатуры."
-							tabindex="0"
+						<aside
+							class="skill-detail"
+							id="skillDetail"
+							data-category="none"
+							aria-labelledby="skillDetailTitle"
 						>
-							<p class="sphere-status" id="sphereStatus" role="status">
-								Интерактивная карта загружается при прокрутке. Все навыки
-								доступны в списке ниже.
+							<div class="console-head skill-detail-head">
+								<span>Свойства технологии</span
+								><span class="status-dot" aria-hidden="true"></span>
+							</div>
+							<p class="eyebrow" id="skillDetailCategory">Карта навыков</p>
+							<h3 id="skillDetailTitle">Выберите технологию</h3>
+							<p id="skillDetailDescription">
+								Нажмите на навык, чтобы увидеть описание, связанные технологии и
+								проекты.
 							</p>
-						</div>
-						<button
-							class="skills-pause-btn sphere-pause-overlay"
-							id="spherePause"
-							type="button"
-							hidden
-							aria-pressed="false"
-							aria-label="Приостановить вращение сферы"
-							title="Приостановить вращение"
-						>
-							<span class="sphere-pause-icon" aria-hidden="true"></span>
-						</button>
-						<div class="skills-legend" aria-label="Цвета направлений">
-							<span data-category="frontend">Frontend</span
-							><span data-category="backend">Backend</span
-							><span data-category="ml">ML / Data</span
-							><span data-category="delivery">Delivery / Tests</span>
-						</div>
-						<noscript
-							><p class="small">
-								3D-карта доступна с JavaScript. Список навыков и ссылки на
-								проекты работают без него.
-							</p></noscript
-						>
-					</div>
-					<aside
-						class="skill-detail"
-						id="skillDetail"
-						data-category="none"
-						aria-labelledby="skillDetailTitle"
-					>
-						<div class="console-head skill-detail-head">
-							<span>Свойства технологии</span
-							><span class="status-dot" aria-hidden="true"></span>
-						</div>
-						<p class="eyebrow" id="skillDetailCategory">Карта навыков</p>
-						<h3 id="skillDetailTitle">Выберите технологию</h3>
-						<p id="skillDetailDescription">
-							Нажмите на навык, чтобы увидеть описание, связанные технологии и
-							проекты.
-						</p>
-						<p class="detail-label">Где применял</p>
-						<ul id="skillDetailProjects"></ul>
+							<p class="detail-label">Где применял</p>
+							<ul id="skillDetailProjects"></ul>
 
-						<p
-							class="sr-only"
-							id="skillAnnouncement"
-							role="status"
-							aria-live="polite"
-						></p>
-					</aside>
+							<p
+								class="sr-only"
+								id="skillAnnouncement"
+								role="status"
+								aria-live="polite"
+							></p>
+						</aside>
 					</div>
 				</details>
 				<div class="mobile-strip-label">
@@ -1582,24 +1627,21 @@
 								href="https://t.me/bluvvis"
 								target="_blank"
 								rel="noopener noreferrer"
-								><span><small>01</small> Telegram</span
-								></a
+								><span><small>01</small> Telegram</span></a
 							>
 							<a
 								class="button button-outline"
 								href="https://max.ru/u/f9LHodD0cOLGZX2W9Rs2HWXKSDvlfprzxZHZ1OkwHLi8symO990bMTZiRFs"
 								target="_blank"
 								rel="noopener noreferrer"
-								><span><small>02</small> MAX</span
-								></a
+								><span><small>02</small> MAX</span></a
 							>
 							<a
 								class="button button-outline"
 								href="https://vk.ru/idbelyaev21"
 								target="_blank"
 								rel="noopener noreferrer"
-								><span><small>03</small> ВКонтакте</span
-								></a
+								><span><small>03</small> ВКонтакте</span></a
 							>
 						</nav>
 						<div class="contact-email-block">
@@ -1670,7 +1712,12 @@
 			hidden
 		>
 			<div class="xp-start-user">
-				<img src="assets/grigorii-belyaev-480.webp" alt="" width="44" height="44" />
+				<img
+					src="assets/grigorii-belyaev-480.webp"
+					alt=""
+					width="44"
+					height="44"
+				/>
 				<div>
 					<strong>Григорий Беляев</strong
 					><span>@bluvvis · full-stack + ML</span>
