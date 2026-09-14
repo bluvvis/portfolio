@@ -46,11 +46,12 @@ const skipStartup = async page => {
       assert.equal(await page.locator('#riskControls').isDisabled(), false);
 	  const dependencies = await page.evaluate(() => ({
 		remoteFonts: [...document.querySelectorAll('link')].map(link => link.href).filter(href => /fonts\.googleapis|fonts\.gstatic/.test(href)),
-		versionedAssets: [...document.querySelectorAll('link[href],script[src]')].map(element => element.href || element.src).filter(url => /\?v=/.test(url)),
+		assetVersions: [...document.querySelectorAll('link[rel="stylesheet"],link[rel="modulepreload"],script[src]')].map(element => new URL(element.href || element.src).searchParams.get('v')),
 		fonts: ['400 16px "IBM Plex Sans"','400 16px "JetBrains Mono"','500 16px "Oswald"'].map(font => document.fonts.check(font)),
 	  }));
 	  assert.deepEqual(dependencies.remoteFonts, []);
-	  assert.deepEqual(dependencies.versionedAssets, []);
+	  assert.equal(dependencies.assetVersions.length,9);
+	  assert.equal(dependencies.assetVersions.every(version => version === dependencies.assetVersions[0] && Boolean(version)),true);
 	  assert.deepEqual(dependencies.fonts, [true,true,true]);
     });
     await test('risk boundaries, rule floor, ML weight and Python rounding', async () => {
@@ -328,7 +329,7 @@ const skipStartup = async page => {
     });
 	await test('blocked motion script never leaves sections hidden',async()=>{
 	  const fallback=await browser.newPage({viewport:{width:1200,height:900}});
-	  await fallback.route(/\/motion\.js$/,route=>route.abort());
+	  await fallback.route(/\/motion\.js(?:\?.*)?$/,route=>route.abort());
 	  await fallback.goto(BASE,{waitUntil:'networkidle'});
 	  assert.equal(await fallback.locator('html').evaluate(element=>element.classList.contains('section-loading-enabled')),false);
 	  assert.notEqual(await fallback.locator('#work').evaluate(element=>getComputedStyle(element).visibility),'hidden');

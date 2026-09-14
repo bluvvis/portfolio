@@ -1,5 +1,6 @@
 /* Progressive enhancement: content, project links and skill lists work without JS. */
 (() => {
+  const assetVersion = new URL(document.currentScript?.src || location.href).searchParams.get('v');
   const navigation = performance.getEntriesByType?.('navigation')[0];
   const isReload = navigation?.type === 'reload' || performance.navigation?.type === 1;
   const scrollKey = `portfolio-scroll:${location.pathname}${location.search}`;
@@ -306,7 +307,8 @@
       if (loaded) return;
       loaded = true;
       try {
-		const { initSphere } = await import('./skills-3d.js');
+		const sphereModule = assetVersion ? `./skills-3d.js?v=${encodeURIComponent(assetVersion)}` : './skills-3d.js';
+		const { initSphere } = await import(sphereModule);
         initSphere(stage);
       } catch (error) {
         document.querySelector('#sphereStatus').textContent = '3D-карта недоступна. Все технологии и ссылки на проекты есть в списке ниже.';
