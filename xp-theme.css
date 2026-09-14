@@ -3805,6 +3805,16 @@ main > section.section-rendering > .section-renderer {
 	margin: 24px 0 18px;
 }
 
+@media (min-width: 821px) {
+	.skill-detail {
+		border-color: #a66878 #090707 #090707 #a66878;
+		box-shadow:
+			inset 1px 1px 0 #ffffff16,
+			5px 6px 0 #0003,
+			0 16px 34px #09070755;
+	}
+}
+
 @media (max-width: 1050px) {
 	.top-note {
 		display: block;
