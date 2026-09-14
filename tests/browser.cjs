@@ -377,7 +377,7 @@ const skipStartup = async page => {
       assert.equal(await startup.locator('.profile-window').evaluate(el => getComputedStyle(el).visibility),'visible');
       await startup.waitForFunction(() => document.querySelector('.hero').classList.contains('hero-ready'),null,{timeout:5000});
       assert.deepEqual(await startup.evaluate(() => window.__appStateHistory.filter((value,index,list) => list.indexOf(value) === index)),['inactive','hover','pressed','launching','active']);
-      assert.ok(await startup.locator('.system-notification').evaluate(el => el.classList.contains('is-visible')));
+      assert.equal(await startup.locator('.system-notification').count(),0);
       await startup.evaluate(() => scrollTo({top:430,behavior:'instant'}));
       await wait(100);
       assert.notEqual(await startup.locator('.profile-window').evaluate(el => getComputedStyle(el).scale),'none');

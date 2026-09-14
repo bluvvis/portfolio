@@ -98,9 +98,6 @@
 	const clearDemo = () => {
 		clearTimers(stageTimers)
 		clearCursor()
-		document
-			.querySelector('.system-notification')
-			?.classList.remove('is-visible', 'is-leaving')
 		appTask?.classList.remove('is-app-launching', 'is-demo-pressed')
 	}
 	const animateStage = (
@@ -136,22 +133,13 @@
 		})
 		keepAppInactive()
 	}
-	const markHeroReady = (announce = false) => {
+	const markHeroReady = () => {
 		startupActive = false
 		root.dataset.appState = 'active'
 		hero?.classList.remove('hero-booting')
 		hero?.classList.add('hero-ready')
 		root.classList.add('hero-ready')
 		appTask?.classList.remove('is-app-launching', 'is-demo-pressed')
-		if (announce) {
-			const notification = document.querySelector('.system-notification')
-			notification?.classList.add('is-visible')
-			stageLater(() => notification?.classList.add('is-leaving'), 680)
-			stageLater(
-				() => notification?.classList.remove('is-visible', 'is-leaving'),
-				860,
-			)
-		}
 		scheduleHeroExit()
 	}
 	const launchMainApp = () => {
@@ -324,7 +312,7 @@
 		)
 		heroReadyTimer = setTimeout(() => {
 			root.classList.remove('desktop-starting')
-			markHeroReady(true)
+			markHeroReady()
 		}, slower(2800))
 	}
 	const activateApp = () => {
@@ -509,7 +497,7 @@
 		appStateObserver?.disconnect()
 		root.dataset.appState = 'active'
 		root.classList.remove('desktop-starting')
-		markHeroReady(false)
+		markHeroReady()
 	}
 	const runBoot = () => {
 		const origin = Number(window.__portfolioBootStartedAt) || performance.now()

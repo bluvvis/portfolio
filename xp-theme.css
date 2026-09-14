@@ -427,52 +427,6 @@ body.xp-desktop {
 .demo-cursor.is-clicking {
 	scale: 0.82;
 }
-.system-notification {
-	position: absolute;
-	z-index: 12;
-	right: 0;
-	bottom: 18px;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	width: min(220px, calc(100% - 20px));
-	min-height: 58px;
-	padding: 8px 11px;
-	visibility: hidden;
-	opacity: 0;
-	translate: 0 18px;
-	color: #f3eaed;
-	border: 1px solid #e16b94;
-	border-radius: 4px;
-	background: linear-gradient(135deg, #6b1838f5, #25151cf5);
-	box-shadow:
-		inset 1px 1px #ead7dc55,
-		5px 7px 22px #05040499;
-	font: 11px/1.4 var(--xp-ui);
-	pointer-events: none;
-}
-.system-notification.is-visible {
-	visibility: visible;
-	opacity: 1;
-	translate: 0 0;
-	transition: none;
-}
-.system-notification.is-leaving {
-	opacity: 0;
-	translate: 0 10px;
-}
-.system-notification .xp-icon {
-	width: 31px;
-	height: 31px;
-}
-.system-notification strong,
-.system-notification small {
-	display: block;
-}
-.system-notification small {
-	margin-top: 4px;
-	color: #d5b8c0;
-}
 .button.is-demo-pressed,
 .xp-task-buttons a.is-demo-pressed {
 	translate: 0 2px;
