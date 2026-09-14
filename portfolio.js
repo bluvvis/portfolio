@@ -192,6 +192,26 @@
   compactLayout.addEventListener('change', syncDisclosures);
   syncDisclosures();
 
+  // Skill-to-project links need to align both the page and the horizontal
+  // project strip. Native anchor scrolling is inconsistent inside scroll-snap.
+  document.addEventListener('click', event => {
+    const link = event.target.closest('#skillGroups a[href^="#"], #skillDetailProjects a[href^="#"]');
+    if (!link) return;
+    let target;
+    try { target = document.getElementById(decodeURIComponent(link.hash.slice(1))); }
+    catch { return; }
+    if (!target) return;
+    event.preventDefault();
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    history.pushState(null, '', link.hash);
+    target.focus({ preventScroll: true });
+    requestAnimationFrame(() => target.scrollIntoView({
+      behavior: reducedMotion.matches || motionPaused ? 'auto' : 'smooth',
+      block: 'start',
+      inline: 'center'
+    }));
+  });
+
   const stage = document.querySelector('#skills3d');
   if (stage) {
     let loaded = false;

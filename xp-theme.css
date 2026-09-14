@@ -3844,3 +3844,16 @@ main > section.section-rendering > .section-renderer {
 .mobile-copy {
 	display: none;
 }
+
+/* The secondary hero windows bracket the welcome window on desktop. */
+@media (min-width: 821px) {
+	.desktop-side {
+		padding-top: 0;
+	}
+}
+@media (min-width: 961px) {
+	.hero-portrait img {
+		aspect-ratio: 1 / 0.9;
+		object-position: center 32%;
+	}
+}

@@ -94,7 +94,7 @@
 	.skills-3d-stage { height: 360px; }
 	.skill-node-button { min-height: 44px; padding: 7px 8px; font-size: 10px; }
 	.skills-legend { margin-top: 10px; }
-	.skill-detail { padding: 18px; scroll-margin-top: 12px; }
+	.skill-detail { padding: 18px; scroll-margin-top: 84px; }
 	.skill-detail h3 { font-size: 29px; }
 	#skillDetailDescription { font-size: 13px; line-height: 1.5; }
 	.skill-group { min-height: 250px; }

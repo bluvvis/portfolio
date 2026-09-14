@@ -148,7 +148,11 @@ export function initSphere(stage) {
 		lines.forEach(line => {
 			const active = line.userData.a === index || line.userData.b === index
 			if (active) activeConnections += 1
-			line.material.opacity = active ? 0.52 : 0.018
+			line.material.opacity = active
+				? 0.52
+				: coarsePointer.matches
+					? 0.018
+					: 0.05
 		})
 		stage.dataset.activeConnections = String(activeConnections)
 		stage.dataset.selectedCategory = skill.category
@@ -395,7 +399,7 @@ export function initSphere(stage) {
 				}
 				suppressClick = false
 				select(i, true, true)
-				pauseAfterSelection()
+				if (!compactLayout.matches) pauseAfterSelection()
 			})
 		})
 

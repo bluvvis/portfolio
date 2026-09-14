@@ -131,6 +131,20 @@ const skipStartup = async page => {
       }
     });
     await page.setViewportSize({width:1440,height:1000});
+	await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await wait(900);
+	await test('desktop hero secondary windows bracket the welcome window',async()=>{
+	  const geometry=await page.evaluate(()=>{
+		const rect=selector=>document.querySelector(selector).getBoundingClientRect();
+		const welcome=rect('.profile-window');
+		const portrait=rect('.hero-portrait');
+		const workflow=rect('.workflow-window');
+		return {welcomeTop:welcome.top,welcomeBottom:welcome.bottom,portraitTop:portrait.top,workflowBottom:workflow.bottom};
+	  });
+	  assert.ok(geometry.portraitTop<geometry.welcomeTop,JSON.stringify(geometry));
+	  assert.ok(geometry.workflowBottom>geometry.welcomeBottom && geometry.workflowBottom-geometry.welcomeBottom<35,JSON.stringify(geometry));
+	  assert.equal(await page.locator('.hero-portrait .xp-window-action').count(),0);
+	  assert.equal((await page.locator('.hero-portrait .xp-window-name').textContent()).trim().endsWith('grigorii.jpg'),true);
+	});
     await page.locator('#skills3d').scrollIntoViewIfNeeded();await wait(100);
     await page.screenshot({path:`${screenshotDir}/sphere-desktop.png`});
     await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
@@ -189,7 +203,7 @@ const skipStartup = async page => {
       assert.equal(await mobile.locator('#skills3d').evaluate(el=>el.classList.contains('is-dragging')),false);
 	  assert.equal(await mobile.locator('#sphereLeft, #sphereRight').count(),0);
 	  const first=buttons.first(); const name=await first.textContent();await first.evaluate(element=>element.click());
-	  await mobile.waitForFunction(()=>Math.abs(document.querySelector('#skillDetail').getBoundingClientRect().top)<50);
+	  await mobile.waitForFunction(()=>{const top=document.querySelector('#skillDetail').getBoundingClientRect().top;return top>70&&top<130;});
 	  assert.equal(await mobile.locator('#skillDetailTitle').textContent(),name);
 	  const visibleCount=await mobile.locator('.skill-node-button:visible').count();
 	  const totalCount=await mobile.locator('#skillGroups [data-sphere]').count();
@@ -197,7 +211,23 @@ const skipStartup = async page => {
 	  const panelStyle=await mobile.locator('#skillDetail').evaluate(element=>({shadow:getComputedStyle(element).boxShadow,borders:['Top','Right','Bottom','Left'].map(side=>getComputedStyle(element)[`border${side}Color`])}));
 	  assert.equal(panelStyle.shadow,'none');
 	  assert.equal(new Set(panelStyle.borders).size,1,JSON.stringify(panelStyle));
+	  await mobile.locator('#skills3d').evaluate(element=>element.scrollIntoView({behavior:'instant',block:'center'}));await wait(100);
+	  const nodeState=()=>mobile.locator('.skill-node').evaluateAll(nodes=>nodes.map(node=>node.style.transform).join('|'));
+	  const beforeResume=await nodeState();await wait(420);
+	  assert.notEqual(await nodeState(),beforeResume);
     });
+	await test('skill list links align the correct project card',async()=>{
+	  const link=mobile.locator('#skillGroups [data-skill="NLP / n-grams"] a');
+	  await link.evaluate(element=>element.click());
+	  await mobile.waitForFunction(()=>location.hash==='#ocr'&&Math.abs(document.querySelector('#ocr').getBoundingClientRect().top)<80);
+	  const alignment=await mobile.evaluate(()=>{
+		const grid=document.querySelector('.project-grid').getBoundingClientRect();
+		const card=document.querySelector('#ocr').getBoundingClientRect();
+		return {gridLeft:grid.left,gridRight:grid.right,cardLeft:card.left,cardRight:card.right};
+	  });
+	  assert.ok(alignment.cardLeft>=alignment.gridLeft-2&&alignment.cardRight<=alignment.gridRight+2,JSON.stringify(alignment));
+	  await mobile.locator('#skills3d').evaluate(element=>element.scrollIntoView({behavior:'instant',block:'center'}));
+	});
     await test('mobile accessibility',async()=>{
       const result=await new AxeBuilder({page:mobile}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
       await fs.writeFile(`${screenshotDir}/axe-mobile.json`,JSON.stringify(result.violations,null,2));

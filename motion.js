@@ -476,7 +476,8 @@
 			1,
 			'steps(1,end)',
 		)
-		stageLater(runCursorLaunch, 1900)
+		// Touch layouts skip the 650 ms cursor path and can open that much sooner.
+		stageLater(runCursorLaunch, fine.matches && innerWidth >= 821 ? 1900 : 1250)
 	}
 	const removeBoot = () => {
 		bootPending = false
