@@ -56,7 +56,7 @@
     const update = () => {
       const time = formatter.format(new Date());
       if (clock) clock.textContent = `${time} МСК`;
-      if (taskClock) taskClock.textContent = time;
+      if (taskClock) taskClock.textContent = `${time} МСК`;
     };
     update();
     setInterval(() => { if (!document.hidden) update(); }, 30000);
@@ -222,6 +222,42 @@
     strip.addEventListener('scroll', schedulePosition, { passive: true });
     addEventListener('resize', schedulePosition);
     updatePosition();
+
+    // A single content nudge demonstrates horizontal movement without adding copy.
+    let hintTimer = 0;
+    let hintCancelled = false;
+    let hintAnimations = [];
+    const cancelHint = () => {
+      hintCancelled = true;
+      clearTimeout(hintTimer);
+      hintAnimations.forEach(animation => animation.cancel());
+      hintAnimations = [];
+    };
+    strip.addEventListener('pointerdown', cancelHint, { once: true, passive: true });
+    reducedMotion.addEventListener('change', cancelHint, { once: true });
+    document.addEventListener('portfolio:motion-change', () => {
+      if (root.dataset.motion === 'paused') cancelHint();
+    });
+    if ('IntersectionObserver' in window) {
+      const hintObserver = new IntersectionObserver(entries => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        hintObserver.disconnect();
+        if (hintCancelled || !compactLayout.matches || reducedMotion.matches || motionPaused) return;
+        hintTimer = setTimeout(() => {
+          if (hintCancelled) return;
+          hintAnimations = items.map(item => item.animate(
+            [
+              { transform: 'translateX(0)' },
+              { transform: 'translateX(-20px)', offset: 0.38 },
+              { transform: 'translateX(-20px)', offset: 0.58 },
+              { transform: 'translateX(0)' },
+            ],
+            { duration: 900, easing: 'cubic-bezier(.22,.75,.2,1)' },
+          ));
+        }, 420);
+      }, { threshold: 0.42 });
+      hintObserver.observe(strip);
+    }
   });
 
   // Skill-to-project links need to align both the page and the horizontal
