@@ -240,22 +240,27 @@
     });
     if ('IntersectionObserver' in window) {
       const hintObserver = new IntersectionObserver(entries => {
-        if (!entries.some(entry => entry.isIntersecting)) return;
+        if (!entries.some(entry =>
+          entry.isIntersecting && entry.intersectionRatio >= 0.78,
+        )) return;
         hintObserver.disconnect();
         if (hintCancelled || !compactLayout.matches || reducedMotion.matches || motionPaused) return;
         hintTimer = setTimeout(() => {
           if (hintCancelled) return;
           hintAnimations = items.map(item => item.animate(
             [
-              { transform: 'translateX(0)' },
-              { transform: 'translateX(-20px)', offset: 0.38 },
-              { transform: 'translateX(-20px)', offset: 0.58 },
+              { transform: 'translateX(0)', easing: 'cubic-bezier(.45,0,.55,1)' },
+              {
+                transform: 'translateX(-16px)',
+                offset: 0.5,
+                easing: 'cubic-bezier(.45,0,.55,1)',
+              },
               { transform: 'translateX(0)' },
             ],
-            { duration: 900, easing: 'cubic-bezier(.22,.75,.2,1)' },
+            { duration: 1350 },
           ));
-        }, 420);
-      }, { threshold: 0.42 });
+        }, 850);
+      }, { threshold: 0.78 });
       hintObserver.observe(strip);
     }
   });
