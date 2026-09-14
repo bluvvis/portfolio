@@ -3551,8 +3551,7 @@ footer.section-shell {
 	}
 	.project-grid::after,
 	.skill-groups::after {
-		content: '';
-		width: 2px;
+		content: none;
 	}
 	.project-card,
 	.skill-group {

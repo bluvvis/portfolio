@@ -166,6 +166,7 @@ const skipStartup = async page => {
 		return {
 		  height:document.documentElement.scrollHeight,
 		  overflow:grid.scrollWidth-grid.clientWidth,
+		  trailingSpace:grid.scrollWidth-cards.at(-1).offsetLeft-cards.at(-1).offsetWidth,
 		  firstTop:cards[0].offsetTop,
 		  secondTop:cards[1].offsetTop,
 		  secondLeft:cards[1].offsetLeft,
@@ -175,6 +176,7 @@ const skipStartup = async page => {
       });
       assert.ok(layout.height<10000,JSON.stringify(layout));
       assert.ok(layout.overflow>200,JSON.stringify(layout));
+	  assert.ok(layout.trailingSpace<2,JSON.stringify(layout));
       assert.equal(layout.firstTop,layout.secondTop);
       assert.ok(layout.secondLeft>300,JSON.stringify(layout));
 	  assert.equal(new Set(layout.cardHeights.map(Math.round)).size,1,JSON.stringify(layout));
