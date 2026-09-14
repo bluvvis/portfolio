@@ -46,6 +46,12 @@
 	.work, .skills, .about, .contact { margin-top: 24px; }
 	.section-heading { margin-bottom: 18px; }
 	.feature { padding-bottom: 18px; }
+	.feature-heading .eyebrow {
+		width: 100%;
+		max-width: none;
+		white-space: nowrap;
+		letter-spacing: .04em;
+	}
 	.feature-heading .project-kind { display: none; }
 	.feature-title { margin-bottom: 14px; }
 	.lead { font-size: 20px; }

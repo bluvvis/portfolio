@@ -3639,11 +3639,7 @@ footer.section-shell {
 
 /* 2026-09-14 interface refinements. */
 .topbar {
-	grid-template-columns: minmax(0, 1fr) auto;
-}
-.top-note {
-	justify-self: end;
-	text-align: right;
+	grid-template-columns: minmax(0, 1fr);
 }
 
 .link-arrow {
@@ -3817,25 +3813,7 @@ main > section.section-rendering > .section-renderer {
 	}
 }
 
-@media (max-width: 1050px) {
-	.top-note {
-		display: block;
-	}
-}
-
 @media (max-width: 600px), (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
-	.topbar {
-		grid-template-columns: minmax(0, 1fr) auto;
-	}
-	.top-note {
-		max-width: 150px;
-		font-size: 8px;
-		line-height: 1.35;
-	}
-	.top-note b {
-		margin-right: 4px;
-		font-size: 14px;
-	}
 	.sphere-pause-overlay {
 		top: 46px;
 		right: 9px;

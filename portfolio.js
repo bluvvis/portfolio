@@ -48,14 +48,14 @@
   }
 
   const clock = document.querySelector('#metaClock');
-  if (clock) {
+  const taskClock = document.querySelector('#taskClock');
+  if (clock || taskClock) {
     const formatter = new Intl.DateTimeFormat('ru-RU', {
       timeZone: 'Europe/Moscow', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
     });
     const update = () => {
       const time = formatter.format(new Date());
-      clock.textContent = `${time} МСК`;
-      const taskClock = document.querySelector('#taskClock');
+      if (clock) clock.textContent = `${time} МСК`;
       if (taskClock) taskClock.textContent = time;
     };
     update();

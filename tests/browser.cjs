@@ -249,11 +249,11 @@ const skipStartup = async page => {
 		stack:document.querySelector('.stack-disclosure').open,
 		demo:document.querySelector('#demo').open,
 		sectionLoader:document.documentElement.classList.contains('section-loading-enabled'),
-		topNote:getComputedStyle(document.querySelector('.top-note')).display,
+			topNoteCount:document.querySelectorAll('.top-note').length,
 	  }));
 	  assert.ok(state.overflow<=0,JSON.stringify(state));
 	  assert.equal(state.stack,true);assert.equal(state.demo,false);
-	  assert.equal(state.sectionLoader,false);assert.equal(state.topNote,'none');
+		  assert.equal(state.sectionLoader,false);assert.equal(state.topNoteCount,0);
 	});
 	await landscape.screenshot({path:`${screenshotDir}/mobile-landscape.png`,fullPage:true});
 	await landscapeContext.close();
