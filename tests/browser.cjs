@@ -125,7 +125,7 @@ const skipStartup = async page => {
     await test('responsive layout from 320 through 2560 px', async () => {
       for (const width of [320,390,768,1024,1440,1920,2560]) {
         await page.setViewportSize({width,height:1000});await wait(80);
-        const layout=await page.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth,skipBottom:document.querySelector('.skip-link').getBoundingClientRect().bottom,shellWidth:document.querySelector('.section-shell').offsetWidth,ambientHeight:document.querySelector('.ambient').offsetHeight,projectColumns:getComputedStyle(document.querySelector('.project-grid')).gridTemplateColumns.split(' ').length,projectImageWidth:document.querySelector('.project-image').offsetWidth,sphereHeight:document.querySelector('.skills-3d-stage').offsetHeight,aboutCopyWidth:document.querySelector('.about-copy').offsetWidth}));
+        const layout=await page.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth,skipBottom:document.querySelector('.skip-link').getBoundingClientRect().bottom,shellWidth:document.querySelector('.section-shell').offsetWidth,ambientHeight:document.querySelector('.ambient').offsetHeight,projectColumns:getComputedStyle(document.querySelector('.project-grid')).gridTemplateColumns.split(' ').length,projectImageWidth:document.querySelector('.project-image').offsetWidth,sphereHeight:document.querySelector('.skills-3d-stage').offsetHeight,aboutCopyWidth:document.querySelector('.about-copy').offsetWidth,featureGap:document.querySelector('.feature-grid').offsetHeight-document.querySelector('.feature-copy').offsetHeight}));
         const overflowing=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(el=>{const r=el.getBoundingClientRect();return r.right>innerWidth+1 && r.width>0}).map(el=>({tag:el.tagName,cls:el.className,text:el.textContent.slice(0,70),right:el.getBoundingClientRect().right})));
         assert.ok(layout.scroll<=layout.viewport,`Overflow at ${width}: ${JSON.stringify({layout,overflowing})}`);
         assert.ok(layout.skipBottom<0,`Skip link visible without focus: ${JSON.stringify(layout)}`);
@@ -143,6 +143,7 @@ const skipStartup = async page => {
 		  assert.equal(layout.projectImageWidth,440);
 		  assert.equal(layout.sphereHeight,560);
 		  assert.equal(layout.aboutCopyWidth,640);
+		  assert.ok(layout.featureGap<100,JSON.stringify(layout));
 		}
       }
     });

@@ -3863,6 +3863,15 @@ main > section.section-rendering > .section-renderer {
 	.project-image {
 		max-width: 440px;
 	}
+	.project-image > a {
+		height: 550px;
+		overflow: hidden;
+	}
+	.project-image img {
+		height: 100%;
+		object-fit: cover;
+		object-position: top;
+	}
 	.project-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
