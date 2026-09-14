@@ -229,7 +229,12 @@ body.xp-desktop {
 	gap: 4px;
 	width: 58px;
 	height: 10px;
+	transform: translate3d(-70px, 0, 0);
+	will-change: transform;
 	animation: boot-marquee 0.58s steps(12, end) infinite;
+}
+.boot-enabled .boot-loader-runner {
+	animation-play-state: running !important;
 }
 .boot-loader-runner i {
 	display: block;
@@ -286,10 +291,10 @@ body.xp-desktop {
 }
 @keyframes boot-marquee {
 	from {
-		translate: -70px 0;
+		transform: translate3d(-70px, 0, 0);
 	}
 	to {
-		translate: 250px 0;
+		transform: translate3d(250px, 0, 0);
 	}
 }
 @keyframes boot-screen-pulse {

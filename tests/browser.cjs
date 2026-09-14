@@ -351,7 +351,13 @@ const skipStartup = async page => {
       await startup.mouse.wheel(0,120);
       assert.ok(await startup.locator('html').evaluate(el => el.classList.contains('boot-enabled')));
       await startup.waitForFunction(() => document.documentElement.dataset.bootState === 'xp');
-      assert.equal(await startup.locator('.boot-loader-runner').evaluate(el => getComputedStyle(el).animationIterationCount),'infinite');
+      const bootRunner=startup.locator('.boot-loader-runner');
+      assert.equal(await bootRunner.evaluate(el => getComputedStyle(el).animationIterationCount),'infinite');
+      assert.equal(await bootRunner.evaluate(el => el.getAnimations()[0]?.playState),'running');
+      const runnerBefore=await bootRunner.evaluate(el => getComputedStyle(el).transform);
+      await wait(120);
+      const runnerAfter=await bootRunner.evaluate(el => getComputedStyle(el).transform);
+      assert.notEqual(runnerAfter,runnerBefore);
       await startup.waitForFunction(() => !document.documentElement.classList.contains('boot-enabled'),null,{timeout:10000});
       assert.ok(await startup.locator('.hero').evaluate(el => el.classList.contains('hero-booting')));
       assert.equal(await startup.locator('html').getAttribute('data-app-state'),'inactive');
