@@ -125,10 +125,15 @@ const skipStartup = async page => {
     await test('responsive layout at 320, 390, 768, 1024, 1440 and 1920 px', async () => {
       for (const width of [320,390,768,1024,1440,1920]) {
         await page.setViewportSize({width,height:1000});await wait(80);
-        const layout=await page.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth,skipBottom:document.querySelector('.skip-link').getBoundingClientRect().bottom}));
+        const layout=await page.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth,skipBottom:document.querySelector('.skip-link').getBoundingClientRect().bottom,shellWidth:document.querySelector('.section-shell').getBoundingClientRect().width,ambientHeight:document.querySelector('.ambient').getBoundingClientRect().height}));
         const overflowing=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(el=>{const r=el.getBoundingClientRect();return r.right>innerWidth+1 && r.width>0}).map(el=>({tag:el.tagName,cls:el.className,text:el.textContent.slice(0,70),right:el.getBoundingClientRect().right})));
         assert.ok(layout.scroll<=layout.viewport,`Overflow at ${width}: ${JSON.stringify({layout,overflowing})}`);
         assert.ok(layout.skipBottom<0,`Skip link visible without focus: ${JSON.stringify(layout)}`);
+		if(width===1440) assert.equal(layout.shellWidth,1280);
+		if(width===1920) {
+		  assert.ok(layout.shellWidth>1600,JSON.stringify(layout));
+		  assert.ok(layout.ambientHeight>1200,JSON.stringify(layout));
+		}
       }
     });
     await page.setViewportSize({width:1440,height:1000});
