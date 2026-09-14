@@ -272,6 +272,12 @@ const skipStartup = async page => {
       await boot.evaluate(()=>document.documentElement.dataset.bootState='xp');
       const xp=await centered('.boot-xp');
       assert.ok(xp.x<2 && xp.y<2,JSON.stringify(xp));
+      const mobileRunner=boot.locator('.boot-loader-runner');
+      assert.equal(await mobileRunner.evaluate(el=>el.getAnimations()[0]?.playState),'running');
+      const mobileRunnerBefore=await mobileRunner.evaluate(el=>getComputedStyle(el).left);
+      await wait(120);
+      const mobileRunnerAfter=await mobileRunner.evaluate(el=>getComputedStyle(el).left);
+      assert.notEqual(mobileRunnerAfter,mobileRunnerBefore);
       await boot.locator('.boot-skip').click();
       await boot.close();
     });
@@ -354,9 +360,9 @@ const skipStartup = async page => {
       const bootRunner=startup.locator('.boot-loader-runner');
       assert.equal(await bootRunner.evaluate(el => getComputedStyle(el).animationIterationCount),'infinite');
       assert.equal(await bootRunner.evaluate(el => el.getAnimations()[0]?.playState),'running');
-      const runnerBefore=await bootRunner.evaluate(el => getComputedStyle(el).transform);
+      const runnerBefore=await bootRunner.evaluate(el => getComputedStyle(el).left);
       await wait(120);
-      const runnerAfter=await bootRunner.evaluate(el => getComputedStyle(el).transform);
+      const runnerAfter=await bootRunner.evaluate(el => getComputedStyle(el).left);
       assert.notEqual(runnerAfter,runnerBefore);
       await startup.waitForFunction(() => !document.documentElement.classList.contains('boot-enabled'),null,{timeout:10000});
       assert.ok(await startup.locator('.hero').evaluate(el => el.classList.contains('hero-booting')));

@@ -223,18 +223,16 @@ body.xp-desktop {
 }
 .boot-loader-runner {
 	position: absolute;
-	left: 0;
+	left: 4px;
 	top: 3px;
 	display: flex;
 	gap: 4px;
 	width: 58px;
 	height: 10px;
-	transform: translate3d(-70px, 0, 0);
-	will-change: transform;
-	animation: boot-marquee 0.58s steps(12, end) infinite;
+	will-change: left;
 }
-.boot-enabled .boot-loader-runner {
-	animation-play-state: running !important;
+.boot-enabled[data-boot-state='xp'] .boot-loader-runner {
+	animation: boot-marquee 0.58s steps(12, end) infinite !important;
 }
 .boot-loader-runner i {
 	display: block;
@@ -291,10 +289,10 @@ body.xp-desktop {
 }
 @keyframes boot-marquee {
 	from {
-		transform: translate3d(-70px, 0, 0);
+		left: -58px;
 	}
 	to {
-		transform: translate3d(250px, 0, 0);
+		left: 100%;
 	}
 }
 @keyframes boot-screen-pulse {
