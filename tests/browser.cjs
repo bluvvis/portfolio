@@ -211,6 +211,15 @@ const skipStartup = async page => {
       assert.ok(state.bottom>0 && state.top<state.viewport,JSON.stringify(state));
       assert.match(state.currentSrc,/grigorii-belyaev-(480|800)\.webp$/);
     });
+    await test('experience dates stay explicit and visible on mobile',async()=>{
+      const experience=mobile.locator('.experience-summary');
+      await experience.scrollIntoViewIfNeeded();
+      assert.ok(await experience.isVisible());
+      assert.equal(await experience.locator('dl > div').count(),3);
+      assert.match(await experience.textContent(),/SMM[\s\S]*2024–2025/);
+      assert.match(await experience.textContent(),/сезонная занятость[\s\S]*лето 2024[\s\S]*сентябрь 2026/);
+      assert.match(await experience.textContent(),/Проектная разработка[\s\S]*с января 2025/);
+    });
     await test('mobile taps, pointer cancellation, and readable labels', async()=>{
       await mobile.locator('#skills3d').scrollIntoViewIfNeeded();await mobile.waitForSelector('.skill-node-button');
       const buttons=mobile.locator('.skill-node-button:visible');

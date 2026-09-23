@@ -141,6 +141,9 @@
 	.xp-profile-summary b { min-width: 0; font-size: 12px; overflow-wrap: anywhere; }
 	.about-grid { margin-block: 18px 22px; gap: 14px; }
 	.about-copy p:first-child { font-size: 16px; line-height: 1.55; }
+	.experience-summary { margin-top: 20px; }
+	.experience-summary dl > div { grid-template-columns: minmax(0, 1fr); gap: 5px; padding-block: 12px; }
+	.experience-summary dd { color: var(--text); }
 	.contact-layout { gap: 16px; }
 	.sphere-pause-overlay {
 		width: 44px;
