@@ -81,7 +81,7 @@
 			})()
 		</script>
 		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-		<link rel="modulepreload" href="skills-3d.js?v=20260914-8" />
+		<link rel="modulepreload" href="skills-3d.js?v=20260924-1" />
 		<link
 			rel="preload"
 			href="assets/fonts/ibm-plex-sans-cyrillic.woff2"
@@ -89,15 +89,15 @@
 			type="font/woff2"
 			crossorigin
 		/>
-		<link rel="stylesheet" href="fonts.css?v=20260914-8" />
-		<link rel="stylesheet" href="style.css?v=20260914-8" />
-		<link rel="stylesheet" href="skills-3d.css?v=20260914-8" />
-		<link rel="stylesheet" href="xp-theme.css?v=20260914-8" />
-		<link rel="stylesheet" href="mobile.css?v=20260914-8" />
-		<script src="portfolio.js?v=20260914-8" defer></script>
-		<script src="desktop.js?v=20260914-8" defer></script>
+		<link rel="stylesheet" href="fonts.css?v=20260924-1" />
+		<link rel="stylesheet" href="style.css?v=20260924-1" />
+		<link rel="stylesheet" href="skills-3d.css?v=20260924-1" />
+		<link rel="stylesheet" href="xp-theme.css?v=20260924-1" />
+		<link rel="stylesheet" href="mobile.css?v=20260924-1" />
+		<script src="portfolio.js?v=20260924-1" defer></script>
+		<script src="desktop.js?v=20260924-1" defer></script>
 		<script
-			src="motion.js?v=20260914-8"
+			src="motion.js?v=20260924-1"
 			defer
 			onerror="window.__portfolioRevealSections?.()"
 		></script>
@@ -375,6 +375,7 @@
 			<section
 				class="work section-shell"
 				id="work"
+				data-project-name="Проекты и учебные работы"
 				aria-labelledby="work-title"
 			>
 				<div class="xp-titlebar">
@@ -1060,8 +1061,8 @@
 				<div class="section-heading">
 					<h2 id="skills-title">Мой стек.<br /><em>И где он работает.</em></h2>
 					<p>
-						Сфера с моим опытом и проекты по выбранной технологии. Для быстрого
-						просмотра используйте список ниже.
+						Технологии, которые я применял в проектах и учебных задачах. Сфера
+						показывает основной набор, полный список расположен ниже.
 					</p>
 				</div>
 				<details class="mobile-disclosure stack-disclosure" open>
@@ -1270,26 +1271,40 @@
 								>
 							</li>
 							<li
-								data-skill="PostgreSQL"
+								data-skill="PostgreSQL / SQLAlchemy"
 								data-category="backend"
-								data-description="Хранение событий NEBERI и интеграция базы данных OptiTrade."
+								data-description="SQL-запросы, модели данных и работа с PostgreSQL через SQLAlchemy в NEBERI и OptiTrade."
 								data-projects="neberi optitrade"
 								data-sphere
 							>
-								<a href="#neberi" title="PostgreSQL в NEBERI"
-									>PostgreSQL<span class="sr-only"> — проект NEBERI</span></a
+								<a href="#neberi" title="PostgreSQL / SQLAlchemy в NEBERI"
+									>PostgreSQL / SQLAlchemy<span class="sr-only">
+										— проект NEBERI</span
+									></a
 								>
 							</li>
 							<li
-								data-skill="SQL / SQLAlchemy"
+								data-skill="Java · базово"
 								data-category="backend"
-								data-description="Модели данных, запросы и работа с PostgreSQL через ORM."
-								data-projects="neberi optitrade"
+								data-description="Базовый практический опыт: учебные задачи, объектно-ориентированное программирование и небольшие приложения."
+								data-projects="work"
 								data-sphere
 							>
-								<a href="#neberi" title="SQL / SQLAlchemy в NEBERI"
-									>SQL / SQLAlchemy<span class="sr-only">
-										— проект NEBERI</span
+								<a href="#work" title="Проекты и учебные работы на Java"
+									>Java · базово<span class="sr-only">
+										— проекты и учебные работы</span
+									></a
+								>
+							</li>
+							<li
+								data-skill="C# · базово"
+								data-category="backend"
+								data-description="Базовый практический опыт: учебные задачи, ООП и небольшие приложения."
+								data-projects="work"
+							>
+								<a href="#work" title="Проекты и учебные работы на C#"
+									>C# · базово<span class="sr-only">
+										— проекты и учебные работы</span
 									></a
 								>
 							</li>
@@ -1533,7 +1548,7 @@
 							эксперимента до системы с понятным поведением.
 						</p>
 						<p>
-							Работал в SMM, преподавал и отвечал за людей на образовательных
+							Работал в SMM, преподавал и был старшим куратором на образовательных
 							сменах в университете. Люблю объяснять сложное, обсуждать идеи и
 							делать что-то вместе с людьми.
 						</p>

@@ -77,7 +77,7 @@ const skipStartup = async page => {
       const buttons = page.locator('.skill-node-button');
       assert.equal(await page.locator('.skill-node-button[aria-pressed="true"]').count(),0);
       assert.equal(await page.locator('#skills3d').getAttribute('data-active-connections'),'0');
-      const sql=page.getByRole('button',{name:/^SQL \/ SQLAlchemy/});
+      const sql=page.getByRole('button',{name:/^PostgreSQL \/ SQLAlchemy/});
       await sql.evaluate(element=>element.click());
       assert.equal(await page.locator('#skills3d').getAttribute('data-selected-category'),'backend');
       assert.equal(await page.locator('#skills3d').getAttribute('data-active-connections'),'3');
@@ -328,7 +328,9 @@ const skipStartup = async page => {
     await test('no JavaScript: content, skill links, photo, static demo',async()=>{
       const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto(BASE);
       assert.equal(await nojs.locator('#ruleRange').isDisabled(),true);
-      assert.equal(await nojs.locator('#skillGroups [data-skill]').count(),27);
+      assert.equal(await nojs.locator('#skillGroups [data-skill]').count(),28);
+      assert.equal(await nojs.locator('#skillGroups [data-skill="Java · базово"][data-sphere]').count(),1);
+      assert.equal(await nojs.locator('#skillGroups [data-skill="C# · базово"]:not([data-sphere])').count(),1);
       assert.ok(await nojs.locator('#optitrade').isVisible());
       await nojs.getByRole('link',{name:'Открыть проекты'}).click();assert.equal(new URL(nojs.url()).hash,'#work');
       await nojs.close();
@@ -341,7 +343,7 @@ const skipStartup = async page => {
         await fallback.goto(BASE);await skipStartup(fallback);await fallback.locator('#skills3d').scrollIntoViewIfNeeded();
         await fallback.waitForSelector('#skills3d.is-unavailable');
         assert.ok(await fallback.locator('#sphereStatus').isVisible());
-        assert.equal(await fallback.locator('#skillGroups [data-skill]').count(),27);
+        assert.equal(await fallback.locator('#skillGroups [data-skill]').count(),28);
         await fallback.close();
       }
     });
