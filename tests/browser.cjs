@@ -77,7 +77,7 @@ const skipStartup = async page => {
       const buttons = page.locator('.skill-node-button');
       assert.equal(await page.locator('.skill-node-button[aria-pressed="true"]').count(),0);
       assert.equal(await page.locator('#skills3d').getAttribute('data-active-connections'),'0');
-      const sql=page.getByRole('button',{name:/^PostgreSQL \/ SQLAlchemy/});
+      const sql=page.getByRole('button',{name:/^SQL · PostgreSQL · SQLAlchemy/});
       await sql.evaluate(element=>element.click());
       assert.equal(await page.locator('#skills3d').getAttribute('data-selected-category'),'backend');
       assert.equal(await page.locator('#skills3d').getAttribute('data-active-connections'),'3');
