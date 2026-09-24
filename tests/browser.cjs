@@ -162,6 +162,24 @@ const skipStartup = async page => {
 	  assert.equal(await page.locator('.hero-portrait .xp-window-action').count(),0);
 	  assert.equal((await page.locator('.hero-portrait .xp-window-name').textContent()).trim().endsWith('grigorii.jpg'),true);
 	});
+    await test('about dividers and detail typography share one rhythm',async()=>{
+      const rhythm=await page.evaluate(()=>{
+        const experience=getComputedStyle(document.querySelector('.experience-summary'));
+        const personal=getComputedStyle(document.querySelector('.about-personal'));
+        const heading=getComputedStyle(document.querySelector('.experience-summary h3'));
+        const role=getComputedStyle(document.querySelector('.experience-summary dt'));
+        const meta=getComputedStyle(document.querySelector('.experience-summary dt small'));
+        const date=getComputedStyle(document.querySelector('.experience-summary dd'));
+        return {
+          margins:[experience.marginTop,personal.marginTop],
+          paddings:[experience.paddingTop,personal.paddingTop],
+          detailSizes:[heading.fontSize,role.fontSize,meta.fontSize,date.fontSize,personal.fontSize],
+        };
+      });
+      assert.equal(new Set(rhythm.margins).size,1,JSON.stringify(rhythm));
+      assert.equal(new Set(rhythm.paddings).size,1,JSON.stringify(rhythm));
+      assert.equal(new Set(rhythm.detailSizes).size,1,JSON.stringify(rhythm));
+    });
     await page.locator('#skills3d').scrollIntoViewIfNeeded();await wait(100);
     await page.screenshot({path:`${screenshotDir}/sphere-desktop.png`});
     await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));

@@ -2417,7 +2417,7 @@ h2 em {
 	font-size: 16px;
 }
 .about-copy p:first-child {
-	font-size: 22px;
+	font-size: 20px;
 	line-height: 1.5;
 	color: var(--text);
 }
@@ -3910,7 +3910,7 @@ main > section.section-rendering > .section-renderer {
 		font-size: 17px;
 	}
 	.about-copy p:first-child {
-		font-size: 24px;
+		font-size: 20px;
 	}
 	.contact-intro > p:not(.eyebrow) {
 		max-width: 600px;

@@ -148,15 +148,15 @@ ul { margin: 0; }
 .about-copy { max-width: 500px; }
 .about-copy p { color: var(--muted); font-size: 16px; }
 .about-copy p:first-child { color: var(--text); font-size: 21px; line-height: 1.5; }
-.experience-summary { margin-top: 30px; border-top: 1px solid var(--line); }
-.experience-summary h3 { margin: 0; padding: 15px 0 12px; color: var(--accent-soft); font: 11px/1.5 var(--mono); text-transform: uppercase; letter-spacing: .08em; }
-.experience-summary dl { margin: 0; }
-.experience-summary dl > div { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(145px, .8fr); gap: 18px; padding: 10px 0; }
+.experience-summary { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+.experience-summary h3 { margin: 0 0 16px; color: var(--accent-soft); font: 12px/1.5 var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.experience-summary dl { display: grid; gap: 16px; margin: 0; }
+.experience-summary dl > div { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(145px, .8fr); gap: 18px; }
 .experience-summary dt, .experience-summary dd { margin: 0; font: 12px/1.55 var(--mono); }
 .experience-summary dt { color: var(--text); }
-.experience-summary dt small { display: block; margin-top: 3px; color: var(--muted); font: inherit; font-size: 10px; }
+.experience-summary dt small { display: block; margin-top: 3px; color: var(--muted); font: inherit; }
 .experience-summary dd { color: var(--muted); }
-.about-copy .about-personal { font: 12px/1.8 var(--mono); border-top: 1px solid var(--line); padding-top: 20px; margin-top: 30px; }
+.about-copy .about-personal { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); font: 12px/1.8 var(--mono); }
 .contact-main { margin: 75px 0 65px; }
 .contact h2 { font-size: clamp(54px, 8.2vw, 124px); margin: 25px 0 35px; }
 .contact-cta { margin: 30px 0 20px; }
